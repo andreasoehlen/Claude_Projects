@@ -1,0 +1,316 @@
+{
+  "purpose": "Essential business codes and variable values for Teradata query construction",
+
+  "LIFECYCLE_STATUS": {
+    "AR_LCS_TP_CL": {
+      "description": "Account lifecycle status",
+      "table": "AC_AR",
+      "actv_": {
+        "meaning": "Active account",
+        "sql": "WHERE AR_LCS_TP_CL = 'actv_'"
+      },
+      "sttl_": {
+        "meaning": "Settled/closed account",
+        "sql": "WHERE AR_LCS_TP_CL = 'sttl_'"
+      },
+      "notes": "Use code version (_CL) for filtering, name version (_NM) for display"
+    },
+    "LGL_LCS_TP_CL": {
+      "description": "Legal lifecycle status",
+      "table": "CST",
+      "aliv_": {
+        "meaning": "Alive/active legal entity",
+        "sql": "WHERE LGL_LCS_TP_CL = 'aliv_'"
+      }
+    }
+  },
+
+  "RELATIONSHIP_TYPES": {
+    "AC_AR_X_IP_TP_CL": {
+      "description": "Account to interested party relationship type",
+      "table": "AC_AR_X_IP",
+      "prow_": {
+        "meaning": "Primary owner",
+        "sql": "WHERE AC_AR_X_IP_TP_CL = 'prow_'"
+      },
+      "ownr_": {
+        "meaning": "Owner (co-owner)",
+        "sql": "WHERE AC_AR_X_IP_TP_CL IN ('prow_', 'ownr_')"
+      },
+      "txlb_": {
+        "meaning": "Tax liable party",
+        "sql": "WHERE AC_AR_X_IP_TP_CL = 'txlb_'"
+      },
+      "cnts_": {
+        "meaning": "Consents/authorization",
+        "sql": "WHERE AC_AR_X_IP_TP_CL = 'cnts_'"
+      },
+      "cngr_": {
+        "meaning": "Co-guarantor",
+        "sql": "WHERE AC_AR_X_IP_TP_CL = 'cngr_'"
+      },
+      "common_pattern": "Use IN ('prow_', 'ownr_') to get all owners"
+    }
+  },
+
+  "ENTITY_TYPES": {
+    "IP_TP_CL": {
+      "description": "Interested party type",
+      "table": "CST",
+      "indv_": {
+        "meaning": "Individual person",
+        "sql": "WHERE IP_TP_CL = 'indv_'"
+      },
+      "orgn_": {
+        "meaning": "Organization/corporate",
+        "sql": "WHERE IP_TP_CL = 'orgn_'"
+      },
+      "orun_": {
+        "meaning": "Organizational unit",
+        "sql": "WHERE IP_TP_CL = 'orun_'"
+      }
+    },
+    "LGL_CMPNC_ST_TP_CL": {
+      "description": "Legal competence status (business vs private)",
+      "table": "CST",
+      "empty_string": {
+        "meaning": "Business/corporate customer",
+        "sql": "WHERE LGL_CMPNC_ST_TP_CL = ''"
+      },
+      "lglcm": {
+        "meaning": "Private individual",
+        "sql": "WHERE LGL_CMPNC_ST_TP_CL <> ''"
+      },
+      "trap": "Empty string = business, non-empty = private individual"
+    }
+  },
+
+  "CONTACT_TYPES": {
+    "ELC_ADR_TP_CL": {
+      "description": "Electronic address type",
+      "table": "ELC_ADR",
+      "lgem_": {
+        "meaning": "Legal email address",
+        "sql": "WHERE ELC_ADR_TP_CL = 'lgem_'"
+      },
+      "lgmb_": {
+        "meaning": "Legal mobile phone",
+        "sql": "WHERE ELC_ADR_TP_CL = 'lgmb_'"
+      },
+      "lgph_": {
+        "meaning": "Legal phone number",
+        "sql": "WHERE ELC_ADR_TP_CL = 'lgph_'"
+      },
+      "common_pattern": "WHERE ELC_ADR_TP_CL IN ('lgem_', 'lgmb_', 'lgph_') for all contact types"
+    }
+  },
+
+  "PRODUCT_FLAGS": {
+    "EXT_PD_F": {
+      "description": "External product flag",
+      "table": "AC_PD",
+      "Y": {
+        "meaning": "External product (customer-facing)",
+        "sql": "WHERE EXT_PD_F = 'Y'"
+      },
+      "N": {
+        "meaning": "Internal/system product",
+        "sql": "WHERE EXT_PD_F = 'N'"
+      },
+      "critical": "Almost always filter WHERE EXT_PD_F = 'Y' for customer reports to exclude internal accounts"
+    }
+  },
+
+  "ACCOUNT_TYPES": {
+    "AR_TP_CL": {
+      "description": "Account/arrangement type - primary account type filter",
+      "table": "AC_AR",
+      "dpar_": {
+        "meaning": "Deposit account (indlån)",
+        "sql": "WHERE AR_TP_CL = 'dpar_'"
+      },
+      "cisp_": {
+        "meaning": "Credit account (kredit)",
+        "sql": "WHERE AR_TP_CL = 'cisp_'"
+      },
+      "loan_": {
+        "meaning": "Loan (lån)",
+        "sql": "WHERE AR_TP_CL = 'loan_'"
+      },
+      "grar_": {
+        "meaning": "Guarantee (garanti)",
+        "sql": "WHERE AR_TP_CL = 'grar_'"
+      },
+      "grcr_": {
+        "meaning": "Guarantee certificates (garantbeviser)",
+        "sql": "WHERE AR_TP_CL = 'grcr_'"
+      },
+      "insr_": {
+        "meaning": "Insurance (forsikring)",
+        "sql": "WHERE AR_TP_CL = 'insr_'"
+      },
+      "plia_": {
+        "meaning": "Pooled investment (pulje invest)",
+        "sql": "WHERE AR_TP_CL = 'plia_'"
+      },
+      "gria_": {
+        "meaning": "Investment guarantee account (garantkonto invest)",
+        "sql": "WHERE AR_TP_CL = 'gria_'"
+      },
+      "chda_": {
+        "meaning": "Child savings (børneopsparing)",
+        "sql": "WHERE AR_TP_CL = 'chda_'"
+      },
+      "rtpa_": {
+        "meaning": "Annuity pension (ratepension)",
+        "sql": "WHERE AR_TP_CL = 'rtpa_'"
+      },
+      "mrdd_": {
+        "meaning": "Mortgage deed (pantebrev)",
+        "sql": "WHERE AR_TP_CL = 'mrdd_'"
+      },
+      "otef_": {
+        "meaning": "Other securities (øvrige effekter)",
+        "sql": "WHERE AR_TP_CL = 'otef_'"
+      },
+      "clai_": {
+        "meaning": "Life insurance (livsforsikring)",
+        "sql": "WHERE AR_TP_CL = 'clai_'"
+      },
+      "common_patterns": {
+        "deposits": "WHERE AR_TP_CL = 'dpar_'",
+        "credit_products": "WHERE AR_TP_CL IN ('cisp_', 'loan_')",
+        "investment_products": "WHERE AR_TP_CL IN ('plia_', 'gria_')",
+        "guarantee_products": "WHERE AR_TP_CL IN ('grar_', 'grcr_')"
+      }
+    },
+    "PD_TPL_TP_CL": {
+      "description": "Product template type",
+      "table": "AC_PD",
+      "loan_": {
+        "meaning": "Loan products",
+        "sql": "WHERE PD_TPL_TP_CL = 'loan_'"
+      }
+    }
+  },
+
+  "DEPOT_ACCOUNTS": {
+    "CSTD_AR_TP_CL": {
+      "description": "Custody/depot account types (for securities/investments)",
+      "table": "CSTD_AR",
+      "ffffx": {
+        "meaning": "Almindeligt depot (general depot)",
+        "sql": "WHERE CSTD_AR_TP_CL = 'ffffx'"
+      },
+      "ffffy": {
+        "meaning": "Kapitalpensions depot (capital pension depot)",
+        "sql": "WHERE CSTD_AR_TP_CL = 'ffffy'"
+      },
+      "ffffz": {
+        "meaning": "Ratepensions depot (annuity pension depot)",
+        "sql": "WHERE CSTD_AR_TP_CL = 'ffffz'"
+      },
+      "fffgf": {
+        "meaning": "Børneopsparingsdepot (child savings depot)",
+        "sql": "WHERE CSTD_AR_TP_CL = 'fffgf'"
+      },
+      "fffgc": {
+        "meaning": "Selvpensionsdepot (self-pension depot)",
+        "sql": "WHERE CSTD_AR_TP_CL = 'fffgc'"
+      },
+      "fffgt": {
+        "meaning": "Default depot",
+        "sql": "WHERE CSTD_AR_TP_CL = 'fffgt'"
+      },
+      "fffga": {
+        "meaning": "Egenbeholdnings depot (own holdings depot)",
+        "sql": "WHERE CSTD_AR_TP_CL = 'fffga'"
+      },
+      "ffffv": {
+        "meaning": "Båndlagt depot (restricted depot)",
+        "sql": "WHERE CSTD_AR_TP_CL = 'ffffv'"
+      },
+      "all_depot_accounts": "WHERE CSTD_AR_TP_CL IN ('ffffx', 'ffffy', 'ffffz', 'fffgf', 'fffgc', 'fffgt', 'fffga', 'ffffv')"
+    },
+    "PYMT_TP_CL": {
+      "description": "Payment type classification (includes depot indicator)",
+      "dpst_": {
+        "meaning": "Depot",
+        "sql": "WHERE PYMT_TP_CL = 'dpst_'"
+      }
+    }
+  },
+
+  "PRODUCT_CODES": {
+    "BSN_ID": {
+      "description": "Business ID (specific product codes)",
+      "table": "AC_PD",
+      "gdlr006": "DLR guarantee",
+      "eksung1": "Child savings",
+      "eand002": "Co-op housing",
+      "ikli013": "Investment client product",
+      "sql_example": "WHERE BSN_ID IN ('gdlr006', 'eksung1', 'eand002')"
+    },
+    "SSA_CD": {
+      "description": "Sub-Sub-Account Code (product type)",
+      "table": "EDWACC01600_VP.COA_DIM_AR_FIV / DLY_BAL_DST_DTL",
+      "KERNE": "Core product",
+      "sql_example": "WHERE SSA_CD = 'KERNE'"
+    }
+  },
+
+  "RATING_GROUPS": {
+    "GRP_ID": {
+      "description": "Group ID for rating types",
+      "table": "CST_X_RATING",
+      "1835260": {
+        "meaning": "Risk assessment rating",
+        "sql": "WHERE GRP_ID = '1835260'"
+      },
+      "2707716": {
+        "meaning": "AHV (customer assessment) rating",
+        "sql": "WHERE GRP_ID = '2707716'"
+      },
+      "notes": "Must filter GRP_ID when joining to RATING table to avoid duplicates"
+    }
+  },
+
+  "BALANCE_FIELDS": {
+    "description": "Common balance field names and their meanings",
+    "EOD_BAL_AMT": "End of day balance amount",
+    "CR_EOD_BAL_AMT": "Credit end of day balance amount",
+    "DB_EOD_BAL_AMT": "Debit end of day balance amount",
+    "RISK_AMT": "Risk amount (exposure)",
+    "AGRD_BAL_AMT": "Agreed balance amount",
+    "OD_ORIG_AMT": "Overdraft original amount (use this, not OD_AMT)",
+    "sql_example": "SELECT EOD_BAL_AMT, CR_EOD_BAL_AMT, DB_EOD_BAL_AMT, RISK_AMT FROM AC_AR_BAL"
+  },
+
+  "CUSTOMER_IDENTIFICATION": {
+    "description": "Standard customer ID fields",
+    "IP_ID": "Internal customer identifier (primary key)",
+    "DRVD_CST_IDENTN_NO": "Business customer identification number (display key)",
+    "NM": "Customer name",
+    "sql_example": "SELECT IP_ID, DRVD_CST_IDENTN_NO, NM FROM CST"
+  },
+
+  "ACCOUNT_IDENTIFICATION": {
+    "description": "Standard account ID fields",
+    "AR_ID": "Internal account identifier (primary key)",
+    "AC_AR_NO": "Customer-facing account number (display)",
+    "sql_example": "SELECT AR_ID, AC_AR_NO FROM AC_AR"
+  },
+
+  "NAMING_CONVENTIONS": {
+    "_ID": "Primary or foreign key identifier (integer, used in joins)",
+    "_NO": "Business identifier (not necessarily unique, display purposes)",
+    "_CD": "Code value requiring translation",
+    "_CL": "Classification code (use for filtering)",
+    "_NM": "Name or description (use for display)",
+    "_F": "Flag field (typically Y/N)",
+    "_DT": "Date field",
+    "_AMT": "Amount/monetary value",
+    "_TP": "Type code or classification",
+    "pattern_note": "Code fields (_CL, _CD) for filtering, Name fields (_NM) for display"
+  }
+}
