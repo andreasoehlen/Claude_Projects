@@ -1,0 +1,3725 @@
+{
+  "metadata": {
+    "description": "Code values and column explanations from production queries + systematic column value research",
+    "last_updated": "2025-11-17",
+    "source": "SQL_Examples folder bootstrap analysis + overdraft query learning + EDWBLU01600_VP column value research queries + SQL INFO.xlsx query results (39 sheets) + EDWAML.xlsx (40 sheets) + EDWAcc.xlsx (55 sheets) + EDWFKS.xlsx (23 sheets)",
+    "total_variables": 114
+  },
+  "lifecycle_status_codes": {
+    "AR_LCS_TP_CL": {
+      "description": "Account lifecycle type classification",
+      "column_type": "Status code",
+      "frequency": 50,
+      "table": "AC_AR",
+      "record_counts": {
+        "actv_": 44800,
+        "sttl_": 25707
+      },
+      "values": {
+        "actv_": {
+          "meaning": "Active account (aktiv)",
+          "usage": "Standard filter for current accounts - 63.5% of all accounts",
+          "sql_example": "WHERE AR_LCS_TP_CL = 'actv_'"
+        },
+        "sttl_": {
+          "meaning": "Settled/closed account (opgjort)",
+          "usage": "Historical or closed accounts - 36.5% of all accounts",
+          "sql_example": "WHERE AR_LCS_TP_CL = 'sttl_'"
+        }
+      },
+      "name_variant": "AR_LCS_TP_CL_NM",
+      "name_values": {
+        "aktiv": "Active",
+        "opgjort": "Settled"
+      },
+      "trap": "Use code version (_CL) for filtering, name version (_NM) for display",
+      "research_source": "Query 2 - 2025-11-17"
+    },
+    "LGL_LCS_TP_CL": {
+      "description": "Legal lifecycle type classification",
+      "column_type": "Status code",
+      "frequency": 9,
+      "values": {
+        "aliv_": {
+          "meaning": "Alive/active legal status",
+          "usage": "Filter for currently active legal entities",
+          "sql_example": "WHERE LGL_LCS_TP_CL = 'aliv_'"
+        }
+      },
+      "notes": "Used for customer entity lifecycle"
+    }
+  },
+  "relationship_type_codes": {
+    "AC_AR_X_IP_TP_CL": {
+      "description": "Account to interested party type classification",
+      "column_type": "Relationship code",
+      "frequency": 38,
+      "values": {
+        "prow_": {
+          "meaning": "Primary owner",
+          "usage": "Main account holder",
+          "sql_example": "WHERE AC_AR_X_IP_TP_CL = 'prow_'"
+        },
+        "ownr_": {
+          "meaning": "Owner (co-owner)",
+          "usage": "Joint account holder",
+          "sql_example": "WHERE AC_AR_X_IP_TP_CL IN ('prow_', 'ownr_')"
+        },
+        "txlb_": {
+          "meaning": "Tax liable party",
+          "usage": "Person/entity responsible for tax",
+          "sql_example": "WHERE AC_AR_X_IP_TP_CL = 'txlb_'"
+        },
+        "cnts_": {
+          "meaning": "Consents",
+          "usage": "Party with consent/authorization",
+          "sql_example": "WHERE AC_AR_X_IP_TP_CL = 'cnts_'"
+        },
+        "cngr_": {
+          "meaning": "Co-guarantor",
+          "usage": "Guarantor for the account/loan",
+          "sql_example": "WHERE AC_AR_X_IP_TP_CL = 'cngr_'"
+        }
+      },
+      "common_pattern": "Use IN ('prow_', 'ownr_') to get all owners",
+      "table": "AC_AR_X_IP"
+    },
+    "IP_TP_CL": {
+      "description": "Interested party type classification",
+      "column_type": "Entity type code",
+      "frequency": 25,
+      "values": {
+        "indv_": {
+          "meaning": "Individual person",
+          "usage": "Natural person customer",
+          "sql_example": "WHERE IP_TP_CL = 'indv_'"
+        },
+        "orgn_": {
+          "meaning": "Organization",
+          "usage": "Corporate/business customer",
+          "sql_example": "WHERE IP_TP_CL = 'orgn_'"
+        }
+      },
+      "notes": "Basic customer type distinction. Values: indv_ (individual), orgn_ (organization), orun_ (organizational unit), notfn (not found)",
+      "additional_tables": {
+        "EDWFKS01600_VP.CUSTOMER_DIM": {
+          "indv_": {
+            "record_count": 17594,
+            "percentage": "83.4%"
+          },
+          "orgn_": {
+            "record_count": 3515,
+            "percentage": "16.6%"
+          }
+        },
+        "EDWFKS01600_VP.LOG_ENTRY": {
+          "indv_": {
+            "record_count": 5768745,
+            "percentage": "91.9%"
+          },
+          "orgn_": {
+            "record_count": 503303,
+            "percentage": "8.1%"
+          }
+        },
+        "EDWFKS01600_VP.RESPONSIBLE_EMPLOYEE": {
+          "indv_": {
+            "record_count": 112
+          },
+          "notfn": {
+            "meaning": "Not found/not applicable",
+            "record_count": 1
+          }
+        },
+        "EDWFKS01600_VP.RESPONSIBLE_ORGANIZATION": {
+          "orun_": {
+            "meaning": "Organizational unit",
+            "record_count": 9
+          },
+          "notfn": {
+            "meaning": "Not found/not applicable",
+            "record_count": 1
+          }
+        }
+      },
+      "additional_values": {
+        "orun_": {
+          "meaning": "Organizational unit",
+          "usage": "Internal organizational structure",
+          "sql_example": "WHERE IP_TP_CL = 'orun_'"
+        },
+        "notfn": {
+          "meaning": "Not found/not applicable",
+          "usage": "Special cases where type not determined",
+          "sql_example": "WHERE IP_TP_CL = 'notfn'"
+        }
+      }
+    }
+  },
+  "contact_type_codes": {
+    "ELC_ADR_TP_CL": {
+      "description": "Electronic address type classification",
+      "column_type": "Contact type code",
+      "frequency": 8,
+      "values": {
+        "lgem_": {
+          "meaning": "Legal email address",
+          "usage": "Primary email for official communication",
+          "sql_example": "WHERE ELC_ADR_TP_CL = 'lgem_'"
+        },
+        "lgmb_": {
+          "meaning": "Legal mobile phone",
+          "usage": "Primary mobile number",
+          "sql_example": "WHERE ELC_ADR_TP_CL = 'lgmb_'"
+        },
+        "lgph_": {
+          "meaning": "Legal phone number",
+          "usage": "Primary phone number",
+          "sql_example": "WHERE ELC_ADR_TP_CL IN ('lgem_', 'lgmb_', 'lgph_')"
+        }
+      },
+      "common_pattern": "Use IN clause to get all contact types",
+      "table": "ELC_ADR"
+    }
+  },
+  "product_flags": {
+    "EXT_PD_F": {
+      "description": "External product flag",
+      "column_type": "Boolean flag",
+      "frequency": 36,
+      "values": {
+        "Y": {
+          "meaning": "External product (customer-facing)",
+          "usage": "Customer products visible in reports",
+          "sql_example": "WHERE EXT_PD_F = 'Y'"
+        },
+        "N": {
+          "meaning": "Internal product",
+          "usage": "System/technical products",
+          "sql_example": "WHERE EXT_PD_F = 'N'"
+        }
+      },
+      "why_important": "Critical filter - without it, reports include internal accounts",
+      "default_filter": "Almost always filter WHERE EXT_PD_F = 'Y' for customer reports"
+    }
+  },
+  "customer_classification_codes": {
+    "LGL_CMPNC_ST_TP_CL": {
+      "description": "Legal competence status type classification",
+      "column_type": "Customer type code",
+      "frequency": 14,
+      "values": {
+        "": {
+          "meaning": "Business/corporate customer (empty string)",
+          "usage": "Identify business customers",
+          "sql_example": "WHERE LGL_CMPNC_ST_TP_CL = ''"
+        },
+        "lglcm": {
+          "meaning": "Private individual with legal competence",
+          "usage": "Individual customer",
+          "sql_example": "WHERE LGL_CMPNC_ST_TP_CL <> ''"
+        }
+      },
+      "trap": "Empty string means business, non-empty means private",
+      "common_filter": "= '' for business, <> '' for individuals"
+    }
+  },
+  "account_type_codes": {
+    "AR_TP_CL": {
+      "description": "Account/Arrangement type classification - PRIMARY account type filter",
+      "column_type": "Account type code",
+      "frequency": 24,
+      "table": "AC_AR",
+      "total_records": 70507,
+      "values": {
+        "dpar_": {
+          "meaning": "Deposit account (indl\u00e5n)",
+          "usage": "Standard deposit/savings accounts - most common type (38%)",
+          "record_count": 26814,
+          "sql_example": "WHERE AR_TP_CL = 'dpar_'"
+        },
+        "cisp_": {
+          "meaning": "Credit account (kredit)",
+          "usage": "Credit/overdraft facilities - 18.6% of accounts",
+          "record_count": 13082,
+          "sql_example": "WHERE AR_TP_CL = 'cisp_'"
+        },
+        "grar_": {
+          "meaning": "Guarantee (garanti)",
+          "usage": "Guarantee arrangements - 7.6%",
+          "record_count": 5368,
+          "sql_example": "WHERE AR_TP_CL = 'grar_'"
+        },
+        "grcr_": {
+          "meaning": "Guarantee certificates (garantbeviser)",
+          "usage": "Guarantee certificate products - 6.4%",
+          "record_count": 4509,
+          "sql_example": "WHERE AR_TP_CL = 'grcr_'"
+        },
+        "insr_": {
+          "meaning": "Insurance (forsikring)",
+          "usage": "Insurance products - 4.6%",
+          "record_count": 3228,
+          "sql_example": "WHERE AR_TP_CL = 'insr_'"
+        },
+        "loan_": {
+          "meaning": "Loan (l\u00e5n)",
+          "usage": "Standard loan products - 4.2%",
+          "record_count": 2994,
+          "sql_example": "WHERE AR_TP_CL = 'loan_'"
+        },
+        "plia_": {
+          "meaning": "Pooled investment (pulje invest)",
+          "usage": "Investment pool accounts - 3.2%",
+          "record_count": 2252,
+          "sql_example": "WHERE AR_TP_CL = 'plia_'"
+        },
+        "chda_": {
+          "meaning": "Child savings (b\u00f8rneopsparing)",
+          "usage": "Children's savings accounts - 2.8%",
+          "record_count": 1974,
+          "sql_example": "WHERE AR_TP_CL = 'chda_'"
+        },
+        "rtpa_": {
+          "meaning": "Annuity pension (ratepension)",
+          "usage": "Pension/retirement accounts - 2.5%",
+          "record_count": 1793,
+          "sql_example": "WHERE AR_TP_CL = 'rtpa_'"
+        },
+        "gria_": {
+          "meaning": "Investment guarantee account (garantkonto invest)",
+          "usage": "Guaranteed investment accounts - 2.2%",
+          "record_count": 1565,
+          "sql_example": "WHERE AR_TP_CL = 'gria_'"
+        },
+        "mrdd_": {
+          "meaning": "Mortgage deed (pantebrev)",
+          "usage": "Mortgage deed arrangements - 5.2%",
+          "record_count": 3659,
+          "sql_example": "WHERE AR_TP_CL = 'mrdd_'"
+        },
+        "otef_": {
+          "meaning": "Other securities (\u00f8vrige effekter)",
+          "usage": "Other securities - 4.5%",
+          "record_count": 3147,
+          "sql_example": "WHERE AR_TP_CL = 'otef_'"
+        },
+        "clai_": {
+          "meaning": "Life insurance (livsforsikring)",
+          "usage": "Life insurance products - 3.0%",
+          "record_count": 2128,
+          "sql_example": "WHERE AR_TP_CL = 'clai_'"
+        }
+      },
+      "name_variant": "AR_TP_CL_NM",
+      "common_patterns": {
+        "deposits": "WHERE AR_TP_CL = 'dpar_'",
+        "credit_products": "WHERE AR_TP_CL IN ('cisp_', 'loan_')",
+        "investment_products": "WHERE AR_TP_CL IN ('plia_', 'gria_')",
+        "guarantee_products": "WHERE AR_TP_CL IN ('grar_', 'grcr_')"
+      },
+      "notes": "244 total distinct account types - top 10 shown above represent 93% of all accounts",
+      "research_source": "Query 1 - 2025-11-17",
+      "additional_tables": {
+        "EDWACC01600_VP.MFI_ARRANGEMENT": {
+          "top_types": [
+            {
+              "code": "dpar_",
+              "name": "indl\u00e5n",
+              "record_count": 26814
+            },
+            {
+              "code": "cisp_",
+              "name": "kredit",
+              "record_count": 13082
+            },
+            {
+              "code": "grar_",
+              "name": "garanti",
+              "record_count": 5368
+            },
+            {
+              "code": "grcr_",
+              "name": "garantbeviser",
+              "record_count": 4509
+            },
+            {
+              "code": "mrdd_",
+              "name": "pantebrev",
+              "record_count": 3659
+            },
+            {
+              "code": "insr_",
+              "name": "forsikring",
+              "record_count": 3228
+            },
+            {
+              "code": "otef_",
+              "name": "\u00f8vrige effekter",
+              "record_count": 3147
+            },
+            {
+              "code": "loan_",
+              "name": "l\u00e5n",
+              "record_count": 2994
+            },
+            {
+              "code": "plia_",
+              "name": "pulje invest",
+              "record_count": 2252
+            },
+            {
+              "code": "clai_",
+              "name": "livsforsikring",
+              "record_count": 2128
+            }
+          ]
+        }
+      }
+    },
+    "PD_TPL_TP_CL": {
+      "description": "Product template type classification",
+      "column_type": "Product template code",
+      "frequency": 4,
+      "values": {
+        "loan_": {
+          "meaning": "Loan product type",
+          "usage": "Identify loan products",
+          "sql_example": "WHERE PD_TPL_TP_CL = 'loan_'"
+        }
+      }
+    }
+  },
+  "special_identifiers": {
+    "GRP_ID": {
+      "description": "Group identifier - context-dependent meaning",
+      "column_type": "Special identifier",
+      "frequency": 20,
+      "context_dependent": true,
+      "contexts": {
+        "CST_X_RATING": {
+          "1835260": {
+            "meaning": "Risk assessment rating (DEPRECATED FOR RKI)",
+            "usage": "Credit risk ratings for general population",
+            "sql_example": "WHERE t1.GRP_ID = '1835260'",
+            "WARNING": "Does NOT contain RKI customer credit ratings - use 2112364 for RKI"
+          },
+          "2112364": {
+            "meaning": "RKI customer credit assessment (Bonitet)",
+            "usage": "Credit risk ratings specifically for RKI customers",
+            "business_context": "Customers with external RKI registration",
+            "rating_scale_values": {
+              "'1'": {
+                "meaning": "Kunder med OIV (Customers with value impairment)",
+                "business_context": "Customers where bank has recognized impairment or calculations indicate impairment needed",
+                "count_observed": 111
+              },
+              "'2a'": {
+                "meaning": "Normal credit rating - low probability of non-performance",
+                "count_observed": 9
+              },
+              "'2b'": {
+                "meaning": "Some weakness - doesn't meet 2a criteria but no significant weakness",
+                "count_observed": 9
+              },
+              "'2c'": {
+                "meaning": "Significant weakness - no objective impairment indication",
+                "count_observed": 6
+              }
+            },
+            "data_type": "CHAR (string), not numeric",
+            "common_mistake": "Using numeric value 1 instead of string '1' - will return 0 rows",
+            "sql_example": "WHERE t1.GRP_ID = 2112364 AND t2.RATING_SCL_VAL = '1'",
+            "join_pattern": "JOIN RATING t2 ON t1.GRP_ID = t2.GRP_ID AND t1.RATING_ID = t2.RATING_ID"
+          },
+          "2707716": {
+            "meaning": "AHV-Customer assessment",
+            "usage": "Alternative customer rating system",
+            "sql_example": "WHERE t1.GRP_ID = '2707716'"
+          }
+        },
+        "CST_X_CST_GRP": {
+          "NULL": {
+            "meaning": "Customer not in any group",
+            "usage": "Exclude test/internal groups",
+            "sql_example": "WHERE GRP_ID IS NULL"
+          },
+          "1": {
+            "meaning": "Standard customer group",
+            "usage": "Normal customers",
+            "sql_example": "WHERE GRP_ID = 1"
+          }
+        }
+      },
+      "trap": "Same column name, completely different meanings in different tables AND different GRP_ID values mean different rating scales"
+    }
+  },
+  "key_columns": {
+    "SNPST_DT": {
+      "description": "Snapshot date - temporal dimension key",
+      "column_type": "Date key",
+      "frequency": 119,
+      "critical_importance": "ALWAYS include in join conditions",
+      "typical_values": {
+        "MAX(SNPST_DT)": "Most current data",
+        "MAX(PREV_BNK_DT)": "Previous bank date (T-1)",
+        "MAX(PREV_BNK_MNTH_END_DT)": "Previous month end"
+      },
+      "trap": "Forgetting this in joins causes Cartesian product of all snapshots",
+      "sql_example": "WHERE t1.SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWBLU01600_VP.DT)"
+    },
+    "DRVD_CST_IDENTN_NO": {
+      "description": "Derived customer identification number",
+      "column_type": "Business key",
+      "frequency": 97,
+      "usage": "Primary business identifier for customers",
+      "notes": "Use this for customer joins, not IP_ID (which is internal)",
+      "sql_example": "GROUP BY t1.DRVD_CST_IDENTN_NO"
+    },
+    "IP_ID": {
+      "description": "Interested party ID (internal key)",
+      "column_type": "Technical key",
+      "frequency": 120,
+      "usage": "Internal surrogate key for joins",
+      "notes": "Use for table joins, but display DRVD_CST_IDENTN_NO in results",
+      "sql_example": "JOIN CST t2 ON t1.IP_ID = t2.IP_ID"
+    },
+    "AR_ID": {
+      "description": "Account/Arrangement ID (internal key)",
+      "column_type": "Technical key",
+      "frequency": 128,
+      "usage": "Internal account identifier",
+      "notes": "Use for joins; AC_AR_NO is customer-facing account number",
+      "sql_example": "JOIN AC_AR_BAL t3 ON t1.AR_ID = t3.AR_ID"
+    },
+    "PRIM_OWN_ID": {
+      "description": "Primary owner ID",
+      "column_type": "Foreign key",
+      "frequency": 68,
+      "usage": "Link account to primary owner (references CST.IP_ID)",
+      "sql_example": "WHERE t1.IP_ID = t2.PRIM_OWN_ID",
+      "notes": "For multi-party accounts, use AC_AR_X_IP instead",
+      "critical_overdraft_usage": {
+        "description": "Primary owner's IP_ID for the account - prevents double-counting in group aggregations",
+        "table": "AC_AR_OD_INF_DLY",
+        "business_logic": [
+          "Each account has one PRIM_OWN_ID even if multiple co-owners exist",
+          "Use this to link accounts to customers instead of AC_AR_X_IP for overdraft calculations",
+          "Ensures each account's overdraft is counted exactly once per day"
+        ],
+        "critical_rules": [
+          "ALWAYS join via PRIM_OWN_ID for risk group overdraft aggregations",
+          "Do NOT use AC_AR_X_IP join for overdraft summation (causes duplicates)",
+          "Some customers in a risk group may be co-owners but not primary owners - their overdrafts are correctly attributed to the PRIM_OWN_ID"
+        ],
+        "example": "JOIN AC_AR_OD_INF_DLY od ON c.IP_ID = od.PRIM_OWN_ID AND c.LDB_ID = od.LDB_ID"
+      }
+    },
+    "LDB_ID": {
+      "description": "Legal database identifier",
+      "column_type": "Foreign key / Filter key",
+      "frequency": "NEW",
+      "table": "CST and operational tables",
+      "data_type": "INTEGER",
+      "meaning": "Identifies which legal database entity the record belongs to",
+      "CRITICAL_BUG_WARNING": "Using QUALIFY ROW_NUMBER() OVER (PARTITION BY IP_ID ORDER BY LDB_ID DESC) without filtering to LDB_ID = 1600 will select LDB_ID = 1 for some customers, causing join failures downstream",
+      "critical_filtering_rule": [
+        "ALWAYS add 'AND c.LDB_ID = 1600' to WHERE clause BEFORE the QUALIFY statement",
+        "Some customers may have records in LDB_ID = 1 AND LDB_ID = 1600",
+        "ORDER BY LDB_ID DESC will pick LDB_ID = 1 (wrong), not 1600 (correct)",
+        "All operational data (AC_AR_OD_INF_DLY, AC_AR_BAL) exists in LDB_ID = 1600",
+        "Without explicit LDB_ID = 1600 filter, entire risk groups will silently disappear from results"
+      ],
+      "usage": "Required filter and join key for cross-table operations",
+      "bug_symptom": "Risk groups with valid overdraft data missing from final output because CST selected LDB_ID = 1 but overdraft data has LDB_ID = 1600, causing join condition 'rep.LDB_ID = m.LDB_ID' to fail (1 \u2260 1600)",
+      "correct_pattern": "WHERE c.SNPST_DT = max_date AND c.LDB_ID = 1600 QUALIFY ROW_NUMBER() OVER (PARTITION BY c.IP_ID ORDER BY c.LDB_ID DESC) = 1",
+      "wrong_pattern": "WHERE c.SNPST_DT = max_date QUALIFY ROW_NUMBER() OVER (PARTITION BY c.IP_ID ORDER BY c.LDB_ID DESC) = 1  -- BUG: Will select LDB_ID = 1 for some customers",
+      "sql_example": "WHERE c.LDB_ID = 1600",
+      "join_example": "JOIN AC_AR_OD_INF_DLY od ON c.IP_ID = od.PRIM_OWN_ID AND c.LDB_ID = od.LDB_ID",
+      "trap": "Forgetting to filter on LDB_ID = 1600 before joining can cause join failures or incorrect results"
+    }
+  },
+  "balance_fields": {
+    "RISK_AMT": {
+      "description": "Risk amount (exposure)",
+      "column_type": "Monetary amount",
+      "frequency": 31,
+      "meaning": "Credit risk exposure amount",
+      "usage": "Sum for customer risk position",
+      "sql_example": "SUM(RISK_AMT) AS TOTAL_RISK"
+    },
+    "CR_EOD_BAL_AMT": {
+      "description": "Credit end-of-day balance amount",
+      "column_type": "Monetary amount",
+      "frequency": 31,
+      "meaning": "Deposit/credit balance (positive = bank owes customer)",
+      "usage": "Sum for total deposits",
+      "sql_example": "SUM(CR_EOD_BAL_AMT) AS TOTAL_DEPOSITS"
+    },
+    "DB_EOD_BAL_AMT": {
+      "description": "Debit end-of-day balance amount",
+      "column_type": "Monetary amount",
+      "frequency": 31,
+      "meaning": "Loan/debit balance (positive = customer owes bank)",
+      "usage": "Sum for total loans",
+      "sql_example": "SUM(DB_EOD_BAL_AMT) AS TOTAL_LOANS"
+    },
+    "EOD_BAL_AMT": {
+      "description": "End-of-day balance amount",
+      "column_type": "Monetary amount",
+      "frequency": 49,
+      "meaning": "Net balance (can be positive or negative)",
+      "usage": "Account balance",
+      "sql_example": "SELECT EOD_BAL_AMT"
+    },
+    "AGRD_BAL_AMT": {
+      "description": "Agreed balance amount",
+      "column_type": "Monetary amount",
+      "frequency": 31,
+      "meaning": "Contractually agreed balance/limit",
+      "usage": "Credit limit or agreed overdraft",
+      "sql_example": "SELECT AGRD_BAL_AMT"
+    },
+    "OD_ORIG_AMT": {
+      "description": "Original overdraft amount in original currency - AUTHORITATIVE source for overdraft calculations",
+      "table": "AC_AR_OD_INF_DLY",
+      "column_type": "Monetary amount",
+      "frequency": "NEW",
+      "data_type": "DECIMAL",
+      "business_logic": [
+        "This is the correct column for overdraft summation and aggregation",
+        "Always negative when account is in overdraft, zero when no overdraft",
+        "Preferred over AC_AR_BAL.OD_AMT for accurate overdraft reporting"
+      ],
+      "critical_usage_rules": [
+        "ALWAYS use this for overdraft calculations instead of AC_AR_BAL.OD_AMT",
+        "Filter with WHERE OD_ORIG_AMT < 0 to get only overdraft records",
+        "Sum defensively using: SUM(CASE WHEN OD_ORIG_AMT < 0 THEN OD_ORIG_AMT ELSE 0 END)"
+      ],
+      "related_columns": [
+        "OD_MSR_AMT: Measured overdraft amount",
+        "PRIM_OWN_ID: Primary owner IP_ID - use for customer linkage to prevent double-counting"
+      ],
+      "sql_example": "SUM(CASE WHEN OD_ORIG_AMT < 0 THEN OD_ORIG_AMT ELSE 0 END) AS TOTAL_OVERDRAFT"
+    }
+  },
+  "product_codes": {
+    "BSN_ID": {
+      "description": "Business ID (product code)",
+      "column_type": "Product identifier",
+      "frequency": 45,
+      "common_values": {
+        "boksleje": "Safe deposit box service",
+        "gdlr006": "DLR guarantee product",
+        "eksung1": "Child savings product",
+        "eand002": "Co-op housing loan",
+        "kbyg001": "Construction credit type 1",
+        "kbyg002": "Construction credit type 2",
+        "kbyg003": "Construction credit type 3",
+        "finv3xx": "Investment products (series)",
+        "fir61xx": "Pension products (series)",
+        "gtot001": "Totalkredit guarantee",
+        "igab001": "Investment guarantee",
+        "ikli013": "Investment client product"
+      },
+      "usage": "Filter for specific product types",
+      "sql_example": "WHERE BSN_ID IN ('gdlr006', 'eksung1')"
+    },
+    "SSA_CD": {
+      "description": "Sub-Sub-Account Code (Product Type)",
+      "column_type": "Product code",
+      "table": "EDWACC01600_VP.COA_DIM_AR_FIV / DLY_BAL_DST_DTL",
+      "frequency": "NEW",
+      "common_value": "KERNE",
+      "top_products": {
+        "Anfordring": {
+          "record_count": 55175,
+          "usage": "Demand deposit/on-call account - most common product",
+          "sql_example": "WHERE SSA_CD = 'KERNE' AND SSA_PD_NM = 'Anfordring'"
+        },
+        "Lokal L\u00f8nkonto": {
+          "record_count": 27411,
+          "usage": "Local salary account"
+        },
+        "Lokal Konto": {
+          "record_count": 16303,
+          "usage": "Local account"
+        },
+        "Lokal Opsparing": {
+          "record_count": 15270,
+          "usage": "Local savings account"
+        },
+        "garant": {
+          "record_count": 13909,
+          "usage": "Guarantee"
+        },
+        "Boligl\u00e5n 2. prioritet": {
+          "record_count": 12492,
+          "usage": "Housing loan 2nd priority"
+        },
+        "Privatkredit": {
+          "record_count": 12211,
+          "usage": "Personal credit"
+        },
+        "Svirpkonto": {
+          "record_count": 10584,
+          "usage": "Svirp account"
+        },
+        "b\u00f8rneopsparing": {
+          "record_count": 1369,
+          "usage": "Children's savings"
+        },
+        "Ratepension": {
+          "record_count": 1375,
+          "usage": "Annuity pension"
+        },
+        "Livsforsikringspolice": {
+          "record_count": 1786,
+          "usage": "Life insurance policy"
+        },
+        "pant i fast ejendom": {
+          "record_count": 1645,
+          "usage": "Mortgage on real estate"
+        }
+      },
+      "name_variant": "SSA_PD_NM",
+      "notes": "SSA_CD is typically 'KERNE' (core), actual product type is in SSA_PD_NM",
+      "critical_usage": "Use SSA_PD_NM for filtering by product type, not SSA_CD",
+      "research_source": "EDWAcc Queries 5, 11, 12 - 2025-11-17"
+    }
+  },
+  "date_columns": {
+    "PREV_BNK_DT": {
+      "description": "Previous bank date",
+      "column_type": "Date",
+      "frequency": 21,
+      "usage": "T-1 business day",
+      "sql_example": "WHERE SNPST_DT = (SELECT MAX(PREV_BNK_DT) FROM DT)"
+    },
+    "PREV_BNK_MNTH_END_DT": {
+      "description": "Previous bank month end date",
+      "column_type": "Date",
+      "frequency": 15,
+      "usage": "Last day of previous month",
+      "sql_example": "WHERE SNPST_DT = (SELECT MAX(PREV_BNK_MNTH_END_DT) FROM DT)"
+    },
+    "EFF_DT": {
+      "description": "Effective date",
+      "column_type": "Date",
+      "frequency": 32,
+      "usage": "Start of validity period",
+      "common_pattern": "WHERE CURRENT_DATE BETWEEN EFF_DT AND END_DT"
+    },
+    "END_DT": {
+      "description": "End date",
+      "column_type": "Date",
+      "frequency": 32,
+      "usage": "End of validity period",
+      "common_pattern": "WHERE CURRENT_DATE BETWEEN EFF_DT AND END_DT"
+    }
+  },
+  "naming_conventions": {
+    "_CL suffix": {
+      "meaning": "Classification code",
+      "usage": "Short code value (4-5 chars, often ends with underscore)",
+      "examples": [
+        "AR_LCS_TP_CL",
+        "AC_AR_X_IP_TP_CL",
+        "IP_TP_CL"
+      ]
+    },
+    "_NM suffix": {
+      "meaning": "Name (descriptive text)",
+      "usage": "Human-readable description",
+      "examples": [
+        "AR_LCS_TP_CL_NM",
+        "AR_TP_CL_NM"
+      ]
+    },
+    "_F suffix": {
+      "meaning": "Flag (boolean)",
+      "usage": "Y/N indicator",
+      "examples": [
+        "EXT_PD_F"
+      ]
+    },
+    "_ID suffix": {
+      "meaning": "Identifier (key)",
+      "usage": "Surrogate or business key",
+      "examples": [
+        "IP_ID",
+        "AR_ID",
+        "PD_ID"
+      ]
+    },
+    "_TP suffix": {
+      "meaning": "Type",
+      "usage": "Type classification",
+      "examples": [
+        "IP_TP_CL",
+        "AR_TP_CL"
+      ]
+    },
+    "_AMT suffix": {
+      "meaning": "Amount (monetary)",
+      "usage": "Currency value",
+      "examples": [
+        "RISK_AMT",
+        "EOD_BAL_AMT",
+        "CR_EOD_BAL_AMT"
+      ]
+    },
+    "_DT suffix": {
+      "meaning": "Date",
+      "usage": "Date column",
+      "examples": [
+        "SNPST_DT",
+        "EFF_DT",
+        "END_DT",
+        "PREV_BNK_DT"
+      ]
+    }
+  },
+  "rki_customer_architecture": {
+    "CST_EXT_RKI_INF": {
+      "description": "RKI customer external information - INDEPENDENT table, not a child of CST",
+      "record_count": "611M total records, 65K active RKI customers",
+      "critical_architecture_note": "This is a SEPARATE table with its own 9-column primary key, NOT hierarchically related to CST",
+      "common_mistake": "Joining CST \u2192 CST_EXT_RKI_INF will fail because they are independent tables",
+      "correct_approach": "Start FROM CST_EXT_RKI_INF directly, then join to AC_AR and other tables",
+      "key_filter": {
+        "EXT_RKI_DEL_DT": {
+          "meaning": "External RKI deletion date",
+          "usage": "Filter with IS NULL to get active RKI registrations",
+          "sql_example": "WHERE t1.EXT_RKI_DEL_DT IS NULL"
+        }
+      },
+      "correct_join_path_for_rki_queries": [
+        "FROM CST_EXT_RKI_INF (RKI customer data)",
+        "JOIN AC_AR ON IP_ID + SNPST_DT (to get loans)",
+        "JOIN CST_X_RATING + RATING (to get bonitet)",
+        "No CST table needed - RKI table already contains customer info"
+      ],
+      "sql_example": "SELECT * FROM EDWBLU01600_VP.CST_EXT_RKI_INF t1 WHERE t1.EXT_RKI_DEL_DT IS NULL AND t1.SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWBLU01600_VP.DT)"
+    },
+    "CST_RKI_ST": {
+      "description": "Alternative RKI status table",
+      "record_count": "11K records",
+      "usage": "Alternative source for RKI status information"
+    }
+  },
+  "balance_and_loan_classification": {
+    "BAL_USG_TP_CL": {
+      "description": "Balance usage type classification",
+      "column_type": "Balance usage code",
+      "table": "AC_AR",
+      "total_records": 70507,
+      "values": {
+        "": {
+          "meaning": "No specific usage classification (default/standard)",
+          "usage": "89.8% of accounts - standard balance usage",
+          "record_count": 63303,
+          "sql_example": "WHERE BAL_USG_TP_CL IS NULL OR BAL_USG_TP_CL = ''"
+        },
+        "cnsm_": {
+          "meaning": "Consumer balance usage",
+          "usage": "Consumer-classified accounts - 10.2%",
+          "record_count": 7200,
+          "sql_example": "WHERE BAL_USG_TP_CL = 'cnsm_'"
+        },
+        "bsns_": {
+          "meaning": "Business balance usage",
+          "usage": "Business-classified accounts - very rare (0.006%)",
+          "record_count": 4,
+          "sql_example": "WHERE BAL_USG_TP_CL = 'bsns_'"
+        }
+      },
+      "notes": "Most accounts don't have specific balance usage classification. When present, primarily distinguishes consumer vs business",
+      "research_source": "Query 3 - 2025-11-17",
+      "no_name_variant": true
+    },
+    "LOAN_TP_CL": {
+      "description": "Loan type classification",
+      "column_type": "Loan type code",
+      "table": "AC_AR",
+      "total_records": 70507,
+      "values": {
+        "": {
+          "meaning": "Not a loan / No loan classification",
+          "usage": "95.8% of accounts - non-loan accounts",
+          "record_count": 67513,
+          "sql_example": "WHERE LOAN_TP_CL IS NULL OR LOAN_TP_CL = ''"
+        },
+        "lntp1": {
+          "meaning": "Loan type 1",
+          "usage": "Primary loan classification - 4.2% of accounts",
+          "record_count": 2985,
+          "sql_example": "WHERE LOAN_TP_CL = 'lntp1'"
+        },
+        "lntp3": {
+          "meaning": "Loan type 3",
+          "usage": "Tertiary loan classification - very rare",
+          "record_count": 8,
+          "sql_example": "WHERE LOAN_TP_CL = 'lntp3'"
+        },
+        "lntp2": {
+          "meaning": "Loan type 2",
+          "usage": "Secondary loan classification - extremely rare",
+          "record_count": 1,
+          "sql_example": "WHERE LOAN_TP_CL = 'lntp2'"
+        }
+      },
+      "notes": "Only populated for loan accounts. Most accounts have AR_TP_CL = 'loan_' but LOAN_TP_CL may still be null",
+      "research_source": "Query 4 - 2025-11-17",
+      "no_name_variant": true,
+      "trap": "Don't rely on LOAN_TP_CL alone to identify loans - use AR_TP_CL = 'loan_' instead"
+    }
+  },
+  "customer_demographics": {
+    "GND_CL": {
+      "description": "Gender classification for individual customers",
+      "column_type": "Gender code",
+      "table": "CST",
+      "total_records": 17517,
+      "applies_to": "IP_TP_CL = 'indv_' only",
+      "values": {
+        "male_": {
+          "meaning": "Male",
+          "usage": "Male customers - 51.2% of individuals",
+          "record_count": 8968,
+          "sql_example": "WHERE GND_CL = 'male_' AND IP_TP_CL = 'indv_'"
+        },
+        "fmal_": {
+          "meaning": "Female",
+          "usage": "Female customers - 48.4% of individuals",
+          "record_count": 8480,
+          "sql_example": "WHERE GND_CL = 'fmal_' AND IP_TP_CL = 'indv_'"
+        },
+        "ingu_": {
+          "meaning": "Indeterminate/unknown gender",
+          "usage": "Gender not specified or non-binary - 0.09%",
+          "record_count": 15,
+          "sql_example": "WHERE GND_CL = 'ingu_'"
+        },
+        "": {
+          "meaning": "Gender not recorded",
+          "usage": "0.31% of individual customers",
+          "record_count": 54,
+          "sql_example": "WHERE (GND_CL IS NULL OR GND_CL = '') AND IP_TP_CL = 'indv_'"
+        }
+      },
+      "research_source": "Query 6 - 2025-11-17",
+      "no_name_variant": true
+    },
+    "ORG_TP_CL": {
+      "description": "Organization type classification for business customers",
+      "column_type": "Organization type code",
+      "table": "CST",
+      "total_records": 3477,
+      "applies_to": "IP_TP_CL = 'orgn_' only",
+      "values": {
+        "none_": {
+          "meaning": "No specific organization type / general organization",
+          "usage": "83% of organizations - default classification",
+          "record_count": 2887,
+          "sql_example": "WHERE ORG_TP_CL = 'none_' AND IP_TP_CL = 'orgn_'"
+        },
+        "ovsb_": {
+          "meaning": "Organization type SB (possibly: Sm\u00e5virksomhed / Small business)",
+          "usage": "13.5% of organizations",
+          "record_count": 471,
+          "sql_example": "WHERE ORG_TP_CL = 'ovsb_'"
+        },
+        "ovob_": {
+          "meaning": "Organization type OB",
+          "usage": "1.1% of organizations",
+          "record_count": 37,
+          "sql_example": "WHERE ORG_TP_CL = 'ovob_'"
+        },
+        "": {
+          "meaning": "Organization type not specified",
+          "usage": "1% of organizations",
+          "record_count": 36,
+          "sql_example": "WHERE (ORG_TP_CL IS NULL OR ORG_TP_CL = '') AND IP_TP_CL = 'orgn_'"
+        },
+        "ovpn_": {
+          "meaning": "Organization type PN",
+          "usage": "0.5% of organizations",
+          "record_count": 18,
+          "sql_example": "WHERE ORG_TP_CL = 'ovpn_'"
+        }
+      },
+      "notes": "24 distinct organization types in total - top 5 shown represent 98% of organizations",
+      "research_source": "Query 5 - 2025-11-17",
+      "no_name_variant": true
+    },
+    "EMP_TP_CL": {
+      "description": "Employment type classification for individual customers",
+      "column_type": "Employment status code",
+      "table": "CST",
+      "total_records": 17498,
+      "applies_to": "IP_TP_CL = 'indv_' only",
+      "values": {
+        "unkn_": {
+          "meaning": "Unknown employment status",
+          "usage": "54.6% of individuals - employment status not captured",
+          "record_count": 9548,
+          "sql_example": "WHERE EMP_TP_CL = 'unkn_' AND IP_TP_CL = 'indv_'"
+        },
+        "": {
+          "meaning": "Employment type not recorded",
+          "usage": "35.3% of individuals",
+          "record_count": 6175,
+          "sql_example": "WHERE (EMP_TP_CL IS NULL OR EMP_TP_CL = '') AND IP_TP_CL = 'indv_'"
+        },
+        "funk_": {
+          "meaning": "Funktion\u00e6r (salaried employee)",
+          "usage": "Salaried/office workers - 5.3%",
+          "record_count": 920,
+          "sql_example": "WHERE EMP_TP_CL = 'funk_'"
+        },
+        "reti_": {
+          "meaning": "Retired (pensioner)",
+          "usage": "Retired customers - 2.3%",
+          "record_count": 396,
+          "sql_example": "WHERE EMP_TP_CL = 'reti_'"
+        },
+        "hopa_": {
+          "meaning": "Homemaker (housewife/househusband)",
+          "usage": "Homemakers - 1.0%",
+          "record_count": 168,
+          "sql_example": "WHERE EMP_TP_CL = 'hopa_'"
+        },
+        "seem_": {
+          "meaning": "Self-employed",
+          "usage": "Self-employed individuals - 0.8%",
+          "record_count": 133,
+          "sql_example": "WHERE EMP_TP_CL = 'seem_'"
+        },
+        "stud_": {
+          "meaning": "Student",
+          "usage": "Students - 0.5%",
+          "record_count": 84,
+          "sql_example": "WHERE EMP_TP_CL = 'stud_'"
+        },
+        "unme_": {
+          "meaning": "Unemployed",
+          "usage": "Unemployed - 0.2%",
+          "record_count": 39,
+          "sql_example": "WHERE EMP_TP_CL = 'unme_'"
+        },
+        "elev_": {
+          "meaning": "Apprentice (elev)",
+          "usage": "Apprentices - 0.1%",
+          "record_count": 20,
+          "sql_example": "WHERE EMP_TP_CL = 'elev_'"
+        },
+        "dire_": {
+          "meaning": "Director",
+          "usage": "Company directors - 0.09%",
+          "record_count": 15,
+          "sql_example": "WHERE EMP_TP_CL = 'dire_'"
+        }
+      },
+      "notes": "12 total employment types. 90% of customers have unkn_ or null - suggests field not consistently populated",
+      "research_source": "Query 18 - 2025-11-17",
+      "no_name_variant": true,
+      "data_quality_note": "High percentage of unknown/null values suggests limited reliability for credit decisioning"
+    },
+    "IDV_MAR_ST_TP_CL": {
+      "description": "Individual marital status type classification",
+      "column_type": "Marital status code",
+      "table": "CST",
+      "total_records": 17517,
+      "applies_to": "IP_TP_CL = 'indv_' only",
+      "values": {
+        "unkn_": {
+          "meaning": "Unknown marital status",
+          "usage": "75.4% of individuals - status not captured",
+          "record_count": 13201,
+          "sql_example": "WHERE IDV_MAR_ST_TP_CL = 'unkn_' AND IP_TP_CL = 'indv_'"
+        },
+        "mrrd_": {
+          "meaning": "Married",
+          "usage": "Married individuals - 14.3%",
+          "record_count": 2497,
+          "sql_example": "WHERE IDV_MAR_ST_TP_CL = 'mrrd_'"
+        },
+        "sngl_": {
+          "meaning": "Single",
+          "usage": "Single/unmarried - 5.4%",
+          "record_count": 939,
+          "sql_example": "WHERE IDV_MAR_ST_TP_CL = 'sngl_'"
+        },
+        "unch_": {
+          "meaning": "Unchanged/registered partnership",
+          "usage": "Registered partnerships or unchanged status - 4.3%",
+          "record_count": 761,
+          "sql_example": "WHERE IDV_MAR_ST_TP_CL = 'unch_'"
+        },
+        "divo_": {
+          "meaning": "Divorced",
+          "usage": "Divorced - 0.3%",
+          "record_count": 60,
+          "sql_example": "WHERE IDV_MAR_ST_TP_CL = 'divo_'"
+        },
+        "wido_": {
+          "meaning": "Widow/widower",
+          "usage": "Widowed - 0.3%",
+          "record_count": 50,
+          "sql_example": "WHERE IDV_MAR_ST_TP_CL = 'wido_'"
+        },
+        "sepa_": {
+          "meaning": "Separated",
+          "usage": "Legally separated - 0.05%",
+          "record_count": 9,
+          "sql_example": "WHERE IDV_MAR_ST_TP_CL = 'sepa_'"
+        }
+      },
+      "notes": "7 distinct marital statuses. 75% unknown suggests optional/incomplete data capture",
+      "research_source": "Query 19 - 2025-11-17",
+      "no_name_variant": true,
+      "data_quality_note": "High percentage of unknown values - use with caution"
+    },
+    "EMRGTN_STATUS_TP_CL": {
+      "description": "Emigration status type classification",
+      "column_type": "Emigration status code",
+      "table": "CST",
+      "total_records": 21024,
+      "values": {
+        "": {
+          "meaning": "Not emigrated / Active resident",
+          "usage": "98.6% of customers - standard resident status",
+          "record_count": 20735,
+          "sql_example": "WHERE EMRGTN_STATUS_TP_CL IS NULL OR EMRGTN_STATUS_TP_CL = ''"
+        },
+        "emgr_": {
+          "meaning": "Emigrated",
+          "usage": "Customers who have emigrated - 1.4%",
+          "record_count": 289,
+          "sql_example": "WHERE EMRGTN_STATUS_TP_CL = 'emgr_'"
+        }
+      },
+      "notes": "Binary classification - most customers are residents. Important for compliance and tax purposes",
+      "research_source": "Query 20 - 2025-11-17",
+      "no_name_variant": true,
+      "business_context": "Emigrated status may affect account servicing, taxation, and regulatory reporting"
+    }
+  },
+  "repayment_patterns": {
+    "REPYMT_TP_CL": {
+      "description": "Repayment type classification",
+      "column_type": "Repayment method code",
+      "table": "AC_AR_REPYMT_INF",
+      "total_records": 6182,
+      "values": {
+        "dprc_": {
+          "meaning": "Nedskrivning (write-down/amortization)",
+          "usage": "Write-down repayment method - 51.8% of repayment arrangements",
+          "record_count": 3204,
+          "sql_example": "WHERE REPYMT_TP_CL = 'dprc_'"
+        },
+        "dbsr_": {
+          "meaning": "Ydelse (installment/annuity payment)",
+          "usage": "Regular installment payments - 48.1%",
+          "record_count": 2973,
+          "sql_example": "WHERE REPYMT_TP_CL = 'dbsr_'"
+        },
+        "dbin_": {
+          "meaning": "Afdrag (principal payment)",
+          "usage": "Principal-only payments - 0.08%",
+          "record_count": 5,
+          "sql_example": "WHERE REPYMT_TP_CL = 'dbin_'"
+        }
+      },
+      "name_variant": "REPYMT_TP_CL_NM",
+      "notes": "Nearly even split between write-down and installment methods. Principal-only is very rare",
+      "research_source": "Query 10 - 2025-11-17"
+    },
+    "REPYMT_FRQ_CL": {
+      "description": "Repayment frequency classification",
+      "column_type": "Payment frequency code",
+      "table": "AC_AR_REPYMT_INF",
+      "total_records": 6180,
+      "values": {
+        "eo1m_": {
+          "meaning": "Hver m\u00e5nedsultimo (every month end)",
+          "usage": "Monthly end-of-month payments - 50.4%",
+          "record_count": 3116,
+          "sql_example": "WHERE REPYMT_FRQ_CL = 'eo1m_'"
+        },
+        "onon_": {
+          "meaning": "En gang (one time)",
+          "usage": "Single/one-time payment - 45.6%",
+          "record_count": 2817,
+          "sql_example": "WHERE REPYMT_FRQ_CL = 'onon_'"
+        },
+        "ev1m_": {
+          "meaning": "Hver m\u00e5ned (every month)",
+          "usage": "Monthly payments (non-end-of-month) - 2.6%",
+          "record_count": 159,
+          "sql_example": "WHERE REPYMT_FRQ_CL = 'ev1m_'"
+        },
+        "ev1n_": {
+          "meaning": "Hver 12. m\u00e5ned (every 12 months)",
+          "usage": "Annual payments - 0.6%",
+          "record_count": 39,
+          "sql_example": "WHERE REPYMT_FRQ_CL = 'ev1n_'"
+        },
+        "eo3m_": {
+          "meaning": "Hvert kvartalsultimo (every quarter end)",
+          "usage": "Quarterly end-of-quarter payments - 0.4%",
+          "record_count": 23,
+          "sql_example": "WHERE REPYMT_FRQ_CL = 'eo3m_'"
+        },
+        "mnbt_": {
+          "meaning": "M\u00e5neder imellem (months between)",
+          "usage": "Custom monthly intervals - 0.1%",
+          "record_count": 8,
+          "sql_example": "WHERE REPYMT_FRQ_CL = 'mnbt_'"
+        },
+        "eo1n_": {
+          "meaning": "Hver \u00e5rsultimo (every year end)",
+          "usage": "Annual end-of-year payments - 0.1%",
+          "record_count": 7,
+          "sql_example": "WHERE REPYMT_FRQ_CL = 'eo1n_'"
+        },
+        "ev3m_": {
+          "meaning": "Hver 3. m\u00e5ned (every 3 months)",
+          "usage": "Quarterly payments (non-end-of-quarter) - 0.06%",
+          "record_count": 4,
+          "sql_example": "WHERE REPYMT_FRQ_CL = 'ev3m_'"
+        },
+        "wkbt_": {
+          "meaning": "Uger imellem (weeks between)",
+          "usage": "Custom weekly intervals - 0.06%",
+          "record_count": 4,
+          "sql_example": "WHERE REPYMT_FRQ_CL = 'wkbt_'"
+        },
+        "ev6m_": {
+          "meaning": "Hver 6. m\u00e5ned (every 6 months)",
+          "usage": "Semi-annual payments - 0.05%",
+          "record_count": 3,
+          "sql_example": "WHERE REPYMT_FRQ_CL = 'ev6m_'"
+        }
+      },
+      "name_variant": "REPYMT_FRQ_CL_NM",
+      "common_patterns": {
+        "regular_payments": "WHERE REPYMT_FRQ_CL IN ('eo1m_', 'ev1m_')",
+        "quarterly": "WHERE REPYMT_FRQ_CL IN ('eo3m_', 'ev3m_')",
+        "annual": "WHERE REPYMT_FRQ_CL IN ('ev1n_', 'eo1n_')"
+      },
+      "notes": "11 total frequencies. 96% are either monthly or one-time. eo_ prefix = 'end of' period, ev_ prefix = 'every' period",
+      "research_source": "Query 11 - 2025-11-17",
+      "pattern_explanation": "eo_ = end-of-period (ultimo), ev_ = every period, onon_ = one-time only"
+    }
+  },
+  "account_flags": {
+    "CST_MRK_F": {
+      "description": "Customer marketing flag - indicates if account is eligible for marketing",
+      "column_type": "Boolean flag",
+      "table": "AC_AR",
+      "total_records": 70507,
+      "values": {
+        "N": {
+          "meaning": "Not eligible for marketing",
+          "usage": "99.8% of accounts - standard setting",
+          "record_count": 70334,
+          "percentage": 99.8,
+          "sql_example": "WHERE CST_MRK_F = 'N'"
+        },
+        "Y": {
+          "meaning": "Eligible for marketing",
+          "usage": "Marketing-eligible accounts - 0.2%",
+          "record_count": 173,
+          "percentage": 0.2,
+          "sql_example": "WHERE CST_MRK_F = 'Y'"
+        }
+      },
+      "notes": "Very few accounts flagged for marketing - likely opt-in only. Filter WHERE CST_MRK_F = 'Y' for marketing campaigns",
+      "research_source": "Query 14 - 2025-11-17",
+      "business_context": "GDPR compliance - only accounts with explicit marketing consent should have Y"
+    },
+    "INT_CLNG_F": {
+      "description": "Interest ceiling flag - indicates if account has interest rate cap/ceiling",
+      "column_type": "Boolean flag",
+      "table": "AC_AR",
+      "total_records": 70507,
+      "values": {
+        "": {
+          "meaning": "No interest ceiling / Not applicable",
+          "usage": "77.4% of accounts",
+          "record_count": 54545,
+          "percentage": 77.4,
+          "sql_example": "WHERE INT_CLNG_F IS NULL OR INT_CLNG_F = ''"
+        },
+        "N": {
+          "meaning": "No interest ceiling",
+          "usage": "Explicitly no ceiling - 22.6%",
+          "record_count": 15962,
+          "percentage": 22.6,
+          "sql_example": "WHERE INT_CLNG_F = 'N'"
+        }
+      },
+      "notes": "No accounts have Y value. Either null or explicitly N. Likely legacy field or prepared for future use",
+      "research_source": "Query 15 - 2025-11-17",
+      "trap": "No positive (ceiling exists) cases found in data - field may not be actively used"
+    },
+    "FIX_CR_INT_F": {
+      "description": "Fixed credit interest flag - indicates fixed rate for credit interest",
+      "column_type": "Boolean flag",
+      "table": "AC_AR",
+      "total_records": 70507,
+      "values": {
+        "": {
+          "meaning": "Not applicable / No fixed credit interest",
+          "usage": "100% of accounts (excluding 4 exceptions)",
+          "record_count": 70503,
+          "percentage": 100.0,
+          "sql_example": "WHERE FIX_CR_INT_F IS NULL OR FIX_CR_INT_F = ''"
+        },
+        "X": {
+          "meaning": "Unknown/Exception value",
+          "usage": "4 accounts with X value - investigate further",
+          "record_count": 4,
+          "percentage": 0.0,
+          "sql_example": "WHERE FIX_CR_INT_F = 'X'"
+        }
+      },
+      "notes": "Nearly all null. 4 accounts have X (not Y/N). Likely inactive field or special edge cases",
+      "research_source": "Query 16 - 2025-11-17",
+      "trap": "Unusual to have 'X' instead of 'Y' - may indicate data quality issue or special status",
+      "data_quality_note": "Consider investigating the 4 X-valued accounts - unexpected value"
+    }
+  },
+  "legacy_entries": {
+    "TP_NM_DK": {
+      "desc": "Arrangement type name in Danish",
+      "values": {
+        "selvbetjening": "self-service",
+        "Netbank": "online banking (self-service)"
+      },
+      "note": "Use for mapping DK types to logic"
+    },
+    "SPD_AR_X_IP.SPD_AR_ID": {
+      "desc": "Bridge FK to SPD_AR table",
+      "gotcha": "Joins to SPD_AR.AR_ID (column names differ)"
+    }
+  },
+  "interest_and_rate_codes": {
+    "INT_PRD_TP_CL": {
+      "description": "Interest product type classification - defines the product type for interest calculations",
+      "column_type": "Classification code",
+      "table": "AR_X_INT_PRFL",
+      "business_context": "Used to categorize accounts by their interest calculation product type",
+      "values": {
+        "nntx_": {
+          "meaning": "ingen",
+          "record_count": 167479,
+          "sql_example": "WHERE INT_PRD_TP_CL = 'nntx_'"
+        },
+        "debi_": {
+          "meaning": "debet",
+          "record_count": 73653,
+          "sql_example": "WHERE INT_PRD_TP_CL = 'debi_'"
+        },
+        "cisp_": {
+          "meaning": "kredit",
+          "record_count": 35358,
+          "sql_example": "WHERE INT_PRD_TP_CL = 'cisp_'"
+        },
+        "crpl_": {
+          "meaning": "kredit/pulje",
+          "record_count": 10098,
+          "sql_example": "WHERE INT_PRD_TP_CL = 'crpl_'"
+        },
+        "gucr_": {
+          "meaning": "garantudbytte",
+          "record_count": 4737,
+          "sql_example": "WHERE INT_PRD_TP_CL = 'gucr_'"
+        },
+        "cmsp_": {
+          "meaning": "provision",
+          "record_count": 1439,
+          "sql_example": "WHERE INT_PRD_TP_CL = 'cmsp_'"
+        }
+      },
+      "name_variant": "INT_PRD_TP_NM",
+      "total_records": 292764,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "INT_TP_CL": {
+      "description": "Interest type classification - specific interest calculation types (e.g., debit, credit, overdraft rates)",
+      "column_type": "Classification code",
+      "table": "AC_PD_X_INT_PRFL",
+      "business_context": "Defines the specific type of interest calculation applied to accounts",
+      "values": {
+        "cirr_": {
+          "meaning": "kreditkalkulationsrente",
+          "record_count": 597,
+          "sql_example": "WHERE INT_TP_CL = 'cirr_'"
+        },
+        "crai_": {
+          "meaning": "kreditmellemregningsrente",
+          "record_count": 597,
+          "sql_example": "WHERE INT_TP_CL = 'crai_'"
+        },
+        "dirr_": {
+          "meaning": "debetkalkulationsrente",
+          "record_count": 597,
+          "sql_example": "WHERE INT_TP_CL = 'dirr_'"
+        },
+        "drai_": {
+          "meaning": "debetmellemregningsrente",
+          "record_count": 597,
+          "sql_example": "WHERE INT_TP_CL = 'drai_'"
+        },
+        "dfin_": {
+          "meaning": "overtr\u00e6ksrente",
+          "record_count": 169,
+          "sql_example": "WHERE INT_TP_CL = 'dfin_'"
+        },
+        "crin_": {
+          "meaning": "kreditrente",
+          "record_count": 168,
+          "sql_example": "WHERE INT_TP_CL = 'crin_'"
+        },
+        "dbip_": {
+          "meaning": "debetrente",
+          "record_count": 80,
+          "sql_example": "WHERE INT_TP_CL = 'dbip_'"
+        },
+        "todr_": {
+          "meaning": "indl\u00e5nsumrente",
+          "record_count": 56,
+          "sql_example": "WHERE INT_TP_CL = 'todr_'"
+        },
+        "ingo_": {
+          "meaning": "bevilget overtr\u00e6ksrente",
+          "record_count": 42,
+          "sql_example": "WHERE INT_TP_CL = 'ingo_'"
+        },
+        "cogg_": {
+          "meaning": "provision garantibel\u00f8b forud",
+          "record_count": 18,
+          "sql_example": "WHERE INT_TP_CL = 'cogg_'"
+        }
+      },
+      "name_variant": "INT_TP_NM",
+      "total_records": 2921,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    }
+  },
+  "campaign_and_signal_codes": {
+    "CMPN_TP_CL": {
+      "description": "Campaign type classification - business activities and customer interactions",
+      "column_type": "Classification code",
+      "table": "CST_BSN_CMPN",
+      "business_context": "Tracks different types of business campaigns and customer contact activities",
+      "values": {
+        "bpof_": {
+          "meaning": "Tilbud",
+          "record_count": 854,
+          "sql_example": "WHERE CMPN_TP_CL = 'bpof_'"
+        },
+        "ccnt_": {
+          "meaning": "Kasse/skranke kontakt",
+          "record_count": 445,
+          "sql_example": "WHERE CMPN_TP_CL = 'ccnt_'"
+        },
+        "roks_": {
+          "meaning": "Rap./opf\u00f8lgn. kreditstrategi",
+          "record_count": 367,
+          "sql_example": "WHERE CMPN_TP_CL = 'roks_'"
+        },
+        "ssgl_": {
+          "meaning": "Salgssignal",
+          "record_count": 202,
+          "sql_example": "WHERE CMPN_TP_CL = 'ssgl_'"
+        },
+        "afov_": {
+          "meaning": "Afskrivning",
+          "record_count": 6,
+          "sql_example": "WHERE CMPN_TP_CL = 'afov_'"
+        },
+        "bpph_": {
+          "meaning": "Telefonkontakt",
+          "record_count": 2,
+          "sql_example": "WHERE CMPN_TP_CL = 'bpph_'"
+        },
+        "brev_": {
+          "meaning": "Brev",
+          "record_count": 2,
+          "sql_example": "WHERE CMPN_TP_CL = 'brev_'"
+        },
+        "inbu_": {
+          "meaning": "Overdragelse til inkassobureau",
+          "record_count": 1,
+          "sql_example": "WHERE CMPN_TP_CL = 'inbu_'"
+        }
+      },
+      "name_variant": "CMPN_TP_NM",
+      "total_records": 1879,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "SGNL_TP_CL": {
+      "description": "Signal type classification - alerts and notifications",
+      "column_type": "Classification code",
+      "table": "CST_BSN_CMPN",
+      "business_context": "Categorizes signals/alerts associated with campaigns (warnings, messages)",
+      "values": {
+        "": {
+          "meaning": "",
+          "record_count": 946,
+          "sql_example": "WHERE SGNL_TP_CL = ''"
+        },
+        "bpwar": {
+          "meaning": "Advarsel",
+          "record_count": 480,
+          "sql_example": "WHERE SGNL_TP_CL = 'bpwar'"
+        },
+        "bpsal": {
+          "meaning": "Meddelelse",
+          "record_count": 453,
+          "sql_example": "WHERE SGNL_TP_CL = 'bpsal'"
+        }
+      },
+      "name_variant": "SGNL_TP_NM",
+      "total_records": 1879,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "RSP_TP_CL": {
+      "description": "Response type classification - campaign response tracking",
+      "column_type": "Classification code",
+      "table": "CST_BSN_CMPN",
+      "business_context": "Tracks customer responses to campaigns and business activities",
+      "values": {
+        "none_": {
+          "meaning": "ingen",
+          "record_count": 1868,
+          "sql_example": "WHERE RSP_TP_CL = 'none_'"
+        },
+        "": {
+          "meaning": "",
+          "record_count": 11,
+          "sql_example": "WHERE RSP_TP_CL = ''"
+        }
+      },
+      "name_variant": "RSP_TP_NM",
+      "total_records": 1879,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "CMPN_LCS_TP_CL": {
+      "description": "Campaign lifecycle status type classification - campaign progress tracking",
+      "column_type": "Classification code",
+      "table": "CST_BSN_CMPN",
+      "business_context": "Tracks the lifecycle status of campaigns (in progress, completed, waiting)",
+      "values": {
+        "bpip_": {
+          "meaning": "Igang",
+          "record_count": 1666,
+          "sql_example": "WHERE CMPN_LCS_TP_CL = 'bpip_'"
+        },
+        "nntx_": {
+          "meaning": "ingen",
+          "record_count": 195,
+          "sql_example": "WHERE CMPN_LCS_TP_CL = 'nntx_'"
+        },
+        "bpcm_": {
+          "meaning": "Afsluttet",
+          "record_count": 9,
+          "sql_example": "WHERE CMPN_LCS_TP_CL = 'bpcm_'"
+        },
+        "bwfc_": {
+          "meaning": "Afventer kundereaktion",
+          "record_count": 4,
+          "sql_example": "WHERE CMPN_LCS_TP_CL = 'bwfc_'"
+        },
+        "hvil_": {
+          "meaning": "Hvilende",
+          "record_count": 3,
+          "sql_example": "WHERE CMPN_LCS_TP_CL = 'hvil_'"
+        },
+        "bwff_": {
+          "meaning": "Afventer vores reaktion",
+          "record_count": 2,
+          "sql_example": "WHERE CMPN_LCS_TP_CL = 'bwff_'"
+        }
+      },
+      "name_variant": "CMPN_LCS_TP_NM",
+      "total_records": 1879,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    }
+  },
+  "transaction_codes": {
+    "AC_TXN_TP_CL": {
+      "description": "Account transaction type classification - types of account transactions",
+      "column_type": "Classification code",
+      "table": "AC_TXN_TP",
+      "business_context": "Categorizes transaction types such as card transactions, transfers, fees",
+      "values": {
+        "trmn_": {
+          "meaning": "terminalsystem",
+          "record_count": 36,
+          "sql_example": "WHERE AC_TXN_TP_CL = 'trmn_'"
+        },
+        "visa_": {
+          "meaning": "visa",
+          "record_count": 20,
+          "sql_example": "WHERE AC_TXN_TP_CL = 'visa_'"
+        },
+        "dnmn_": {
+          "meaning": "Danm\u00f8nt",
+          "record_count": 12,
+          "sql_example": "WHERE AC_TXN_TP_CL = 'dnmn_'"
+        },
+        "ercs_": {
+          "meaning": "eurochequekort",
+          "record_count": 12,
+          "sql_example": "WHERE AC_TXN_TP_CL = 'ercs_'"
+        },
+        "dtln_": {
+          "meaning": "datal\u00f8n",
+          "record_count": 4,
+          "sql_example": "WHERE AC_TXN_TP_CL = 'dtln_'"
+        },
+        "udnl_": {
+          "meaning": "Udenlandske kort i pengeaut.",
+          "record_count": 4,
+          "sql_example": "WHERE AC_TXN_TP_CL = 'udnl_'"
+        },
+        "gbuc_": {
+          "meaning": "Gebyr p\u00e5 udst. af udl. check",
+          "record_count": 3,
+          "sql_example": "WHERE AC_TXN_TP_CL = 'gbuc_'"
+        },
+        "aafe_": {
+          "meaning": "gebyr, forsikringsadministration",
+          "record_count": 2,
+          "sql_example": "WHERE AC_TXN_TP_CL = 'aafe_'"
+        },
+        "acqs_": {
+          "meaning": "tilgang",
+          "record_count": 2,
+          "sql_example": "WHERE AC_TXN_TP_CL = 'acqs_'"
+        },
+        "afgn_": {
+          "meaning": "afgang, goodwill",
+          "record_count": 2,
+          "sql_example": "WHERE AC_TXN_TP_CL = 'afgn_'"
+        }
+      },
+      "name_variant": "AC_TXN_TP_TX",
+      "total_records": 97,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "PYMT_TP_CL": {
+      "description": "Payment type classification - payment direction (deposit/withdrawal)",
+      "column_type": "Classification code",
+      "table": "AC_TXN_TP",
+      "business_context": "Indicates whether a transaction is a deposit (indbetaling) or withdrawal (udbetaling)",
+      "values": {
+        "wthf_": {
+          "meaning": "udbetaling",
+          "record_count": 1164,
+          "sql_example": "WHERE PYMT_TP_CL = 'wthf_'"
+        },
+        "dpsv_": {
+          "meaning": "indbetaling",
+          "record_count": 809,
+          "sql_example": "WHERE PYMT_TP_CL = 'dpsv_'"
+        },
+        "dpst_": {
+          "meaning": "depot",
+          "record_count": 1,
+          "sql_example": "WHERE PYMT_TP_CL = 'dpst_'"
+        }
+      },
+      "name_variant": "PYMT_TP_TX",
+      "total_records": 1974,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "TXN_TP_CL": {
+      "description": "Transaction type classification - accounting transaction types",
+      "column_type": "Classification code",
+      "table": "ACG_AR_PSTG",
+      "business_context": "Categorizes general ledger transaction types (journal entries, creditor transactions)",
+      "values": {
+        "adfv_": {
+          "meaning": "afregning forvaltningsl\u00e5n",
+          "record_count": 1,
+          "sql_example": "WHERE TXN_TP_CL = 'adfv_'"
+        },
+        "anbi_": {
+          "meaning": "BBS-AnsatbankID",
+          "record_count": 1,
+          "sql_example": "WHERE TXN_TP_CL = 'anbi_'"
+        },
+        "aof__": {
+          "meaning": "aof",
+          "record_count": 1,
+          "sql_example": "WHERE TXN_TP_CL = 'aof__'"
+        },
+        "atm": {
+          "meaning": "atm",
+          "record_count": 1,
+          "sql_example": "WHERE TXN_TP_CL = 'atm'"
+        },
+        "axap_": {
+          "meaning": "axapta",
+          "record_count": 1,
+          "sql_example": "WHERE TXN_TP_CL = 'axap_'"
+        },
+        "bbs": {
+          "meaning": "bbs",
+          "record_count": 1,
+          "sql_example": "WHERE TXN_TP_CL = 'bbs'"
+        },
+        "beb2_": {
+          "meaning": "BBS-eFaktura B2B",
+          "record_count": 1,
+          "sql_example": "WHERE TXN_TP_CL = 'beb2_'"
+        },
+        "bgax_": {
+          "meaning": "bg_axapta",
+          "record_count": 1,
+          "sql_example": "WHERE TXN_TP_CL = 'bgax_'"
+        },
+        "bggt_": {
+          "meaning": "bg_girooverf\u00f8rs",
+          "record_count": 1,
+          "sql_example": "WHERE TXN_TP_CL = 'bggt_'"
+        },
+        "bint": {
+          "meaning": "BBS - indbetaling total",
+          "record_count": 1,
+          "sql_example": "WHERE TXN_TP_CL = 'bint'"
+        }
+      },
+      "name_variant": "TXN_TP_TX",
+      "total_records": 10,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "PSTG_TP_CL": {
+      "description": "Posting type classification - GL posting categories",
+      "column_type": "Classification code",
+      "table": "ACG_AR_PSTG",
+      "business_context": "Defines the type of posting to the general ledger (financial journal, creditor balance)",
+      "values": {
+        "axada": {
+          "meaning": "Finanskladde",
+          "record_count": 155203,
+          "sql_example": "WHERE PSTG_TP_CL = 'axada'"
+        },
+        "axabm": {
+          "meaning": "",
+          "record_count": 60345,
+          "sql_example": "WHERE PSTG_TP_CL = 'axabm'"
+        },
+        "axadu": {
+          "meaning": "Kreditorsaldo",
+          "record_count": 23194,
+          "sql_example": "WHERE PSTG_TP_CL = 'axadu'"
+        },
+        "axaeb": {
+          "meaning": "Kreditorudligning",
+          "record_count": 4,
+          "sql_example": "WHERE PSTG_TP_CL = 'axaeb'"
+        }
+      },
+      "name_variant": "PSTG_TP_NM",
+      "total_records": 238746,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    }
+  },
+  "product_relationship_codes": {
+    "PRFL_RQM_TP_CL": {
+      "description": "Profile requirement type classification - interest profile requirements",
+      "column_type": "Classification code",
+      "table": "AC_PD_X_INT_PRFL",
+      "business_context": "Defines whether interest profiles are mandatory, suggested, locked, or optional",
+      "values": {
+        "mndt_": {
+          "meaning": "obligatorisk",
+          "record_count": 1910,
+          "sql_example": "WHERE PRFL_RQM_TP_CL = 'mndt_'"
+        },
+        "prps_": {
+          "meaning": "foresl\u00e5et",
+          "record_count": 1023,
+          "sql_example": "WHERE PRFL_RQM_TP_CL = 'prps_'"
+        },
+        "lckd_": {
+          "meaning": "fastl\u00e5st",
+          "record_count": 75,
+          "sql_example": "WHERE PRFL_RQM_TP_CL = 'lckd_'"
+        },
+        "optn_": {
+          "meaning": "valgfri",
+          "record_count": 13,
+          "sql_example": "WHERE PRFL_RQM_TP_CL = 'optn_'"
+        }
+      },
+      "name_variant": "PRFL_RQM_TP_NM",
+      "total_records": 3021,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "PD_X_PD_TP_CL": {
+      "description": "Product cross-product type classification - product relationships and rules",
+      "column_type": "Classification code",
+      "table": "AC_PD_X_PD",
+      "business_context": "Defines relationships between products (exclusions, requirements, investments allowed)",
+      "values": {
+        "excl_": {
+          "meaning": "udelukker",
+          "record_count": 242,
+          "sql_example": "WHERE PD_X_PD_TP_CL = 'excl_'"
+        },
+        "cpfr_": {
+          "meaning": "kopieret fra",
+          "record_count": 222,
+          "sql_example": "WHERE PD_X_PD_TP_CL = 'cpfr_'"
+        },
+        "inat_": {
+          "meaning": "kan investere i",
+          "record_count": 72,
+          "sql_example": "WHERE PD_X_PD_TP_CL = 'inat_'"
+        },
+        "cnia_": {
+          "meaning": "kan investere l\u00f8bende i",
+          "record_count": 63,
+          "sql_example": "WHERE PD_X_PD_TP_CL = 'cnia_'"
+        },
+        "tllf_": {
+          "meaning": "tillader ikke debitering af",
+          "record_count": 52,
+          "sql_example": "WHERE PD_X_PD_TP_CL = 'tllf_'"
+        },
+        "alpr_": {
+          "meaning": "tillader",
+          "record_count": 27,
+          "sql_example": "WHERE PD_X_PD_TP_CL = 'alpr_'"
+        },
+        "rqrs_": {
+          "meaning": "kr\u00e6ver",
+          "record_count": 26,
+          "sql_example": "WHERE PD_X_PD_TP_CL = 'rqrs_'"
+        },
+        "tlld_": {
+          "meaning": "tillader ikke annoncering af",
+          "record_count": 20,
+          "sql_example": "WHERE PD_X_PD_TP_CL = 'tlld_'"
+        },
+        "pcfx_": {
+          "meaning": "produktskifte v/fastrenteudl\u00f8b",
+          "record_count": 3,
+          "sql_example": "WHERE PD_X_PD_TP_CL = 'pcfx_'"
+        },
+        "tllg_": {
+          "meaning": "tillader ikke kreditering af",
+          "record_count": 3,
+          "sql_example": "WHERE PD_X_PD_TP_CL = 'tllg_'"
+        }
+      },
+      "name_variant": "PD_X_PD_TP_NM",
+      "total_records": 730,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "AR_X_AR_TP_CL": {
+      "description": "Arrangement cross-arrangement type classification - account relationships",
+      "column_type": "Classification code",
+      "table": "CSTD_AR_X_AC_AR",
+      "business_context": "Defines relationships between custody and account arrangements (e.g., where returns are posted)",
+      "values": {
+        "fffib": {
+          "meaning": "bogf\u00f8r afkast p\u00e5",
+          "record_count": 2624,
+          "sql_example": "WHERE AR_X_AR_TP_CL = 'fffib'"
+        }
+      },
+      "name_variant": "AR_X_AR_TP_NM",
+      "total_records": 2624,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    }
+  },
+  "service_element_codes": {
+    "SVC_ELMT_TP_CL": {
+      "description": "Service element type classification - account service features and add-ons",
+      "column_type": "Classification code",
+      "table": "AC_PD_X_SVC_ELMT",
+      "business_context": "Defines optional/mandatory services linked to accounts (statements, overdrafts, payment methods)",
+      "values": {
+        "sttm_": {
+          "meaning": "udskrift",
+          "record_count": 258,
+          "sql_example": "WHERE SVC_ELMT_TP_CL = 'sttm_'"
+        },
+        "fuoa_": {
+          "meaning": "bevilget overtr\u00e6k",
+          "record_count": 44,
+          "sql_example": "WHERE SVC_ELMT_TP_CL = 'fuoa_'"
+        },
+        "tiel_": {
+          "meaning": "till\u00e6gselement",
+          "record_count": 24,
+          "sql_example": "WHERE SVC_ELMT_TP_CL = 'tiel_'"
+        },
+        "bkel_": {
+          "meaning": "bog",
+          "record_count": 22,
+          "sql_example": "WHERE SVC_ELMT_TP_CL = 'bkel_'"
+        },
+        "pcch_": {
+          "meaning": "lommecheck",
+          "record_count": 15,
+          "sql_example": "WHERE SVC_ELMT_TP_CL = 'pcch_'"
+        },
+        "swpp_": {
+          "meaning": "swipp",
+          "record_count": 12,
+          "sql_example": "WHERE SVC_ELMT_TP_CL = 'swpp_'"
+        },
+        "vcch_": {
+          "meaning": "brevcheck",
+          "record_count": 10,
+          "sql_example": "WHERE SVC_ELMT_TP_CL = 'vcch_'"
+        },
+        "advs_": {
+          "meaning": "advisering",
+          "record_count": 7,
+          "sql_example": "WHERE SVC_ELMT_TP_CL = 'advs_'"
+        },
+        "coba_": {
+          "meaning": "opkr.type: hele saldoen",
+          "record_count": 7,
+          "sql_example": "WHERE SVC_ELMT_TP_CL = 'coba_'"
+        },
+        "pymf_": {
+          "meaning": "betalingsform",
+          "record_count": 7,
+          "sql_example": "WHERE SVC_ELMT_TP_CL = 'pymf_'"
+        }
+      },
+      "name_variant": "SVC_ELMT_TP_NM",
+      "total_records": 406,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "SVC_ELMT_RQM_TP_CL": {
+      "description": "Service element requirement type classification - service optionality",
+      "column_type": "Classification code",
+      "table": "AC_PD_X_SVC_ELMT",
+      "business_context": "Defines whether service elements are mandatory, optional, suggested, or locked",
+      "values": {
+        "mndt_": {
+          "meaning": "obligatorisk",
+          "record_count": 266,
+          "sql_example": "WHERE SVC_ELMT_RQM_TP_CL = 'mndt_'"
+        },
+        "optn_": {
+          "meaning": "valgfri",
+          "record_count": 67,
+          "sql_example": "WHERE SVC_ELMT_RQM_TP_CL = 'optn_'"
+        },
+        "prps_": {
+          "meaning": "foresl\u00e5et",
+          "record_count": 47,
+          "sql_example": "WHERE SVC_ELMT_RQM_TP_CL = 'prps_'"
+        },
+        "lckd_": {
+          "meaning": "fastl\u00e5st",
+          "record_count": 39,
+          "sql_example": "WHERE SVC_ELMT_RQM_TP_CL = 'lckd_'"
+        }
+      },
+      "name_variant": "SVC_ELMT_RQM_TP_NM",
+      "total_records": 419,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "ARG_VAL_CL": {
+      "description": "Argument value classification - service element parameters",
+      "column_type": "Classification code",
+      "table": "AC_PD_X_SVC_ELMT_X_CDN",
+      "business_context": "Parameter codes for service element conditions (print medium, frequency, card usage)",
+      "values": {
+        "prmd_": {
+          "meaning": "udskr_medie",
+          "record_count": 1721,
+          "sql_example": "WHERE ARG_VAL_CL = 'prmd_'"
+        },
+        "rndr_": {
+          "meaning": "opg\u00f8relse",
+          "record_count": 265,
+          "sql_example": "WHERE ARG_VAL_CL = 'rndr_'"
+        },
+        "nmoe_": {
+          "meaning": "antal_pstg",
+          "record_count": 237,
+          "sql_example": "WHERE ARG_VAL_CL = 'nmoe_'"
+        },
+        "vsus_": {
+          "meaning": "visadk_brug",
+          "record_count": 193,
+          "sql_example": "WHERE ARG_VAL_CL = 'vsus_'"
+        },
+        "erus_": {
+          "meaning": "eurochck_brug",
+          "record_count": 191,
+          "sql_example": "WHERE ARG_VAL_CL = 'erus_'"
+        },
+        "prmy_": {
+          "meaning": "udskr_min_\u00e5rlg",
+          "record_count": 151,
+          "sql_example": "WHERE ARG_VAL_CL = 'prmy_'"
+        },
+        "bkla_": {
+          "meaning": "minimum alder",
+          "record_count": 58,
+          "sql_example": "WHERE ARG_VAL_CL = 'bkla_'"
+        },
+        "veus_": {
+          "meaning": "visa_electron_brug",
+          "record_count": 56,
+          "sql_example": "WHERE ARG_VAL_CL = 'veus_'"
+        },
+        "crdt_": {
+          "meaning": "udskrivning ved tilskrivning",
+          "record_count": 40,
+          "sql_example": "WHERE ARG_VAL_CL = 'crdt_'"
+        },
+        "intw_": {
+          "meaning": "interval",
+          "record_count": 34,
+          "sql_example": "WHERE ARG_VAL_CL = 'intw_'"
+        }
+      },
+      "name_variant": "ARG_VAL_NM",
+      "total_records": 2946,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "USED_NOTF_UOM_CL": {
+      "description": "Used notification unit of measure classification - notification measurement units",
+      "column_type": "Classification code",
+      "table": "Unknown",
+      "business_context": "Defines units for notification/alert thresholds",
+      "values": {
+        "ntapp": {
+          "meaning": "Ikke defineret",
+          "record_count": 125300,
+          "sql_example": "WHERE USED_NOTF_UOM_CL = 'ntapp'"
+        }
+      },
+      "name_variant": "USED_NOTF_UOM_NM",
+      "total_records": 125300,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    }
+  },
+  "calculation_codes": {
+    "CLC_BASIS_TP_CL": {
+      "description": "Calculation basis type classification - basis for interest/fee calculations",
+      "column_type": "Classification code",
+      "table": "AR_X_INT_PRFL",
+      "business_context": "Defines what balance or amount is used as the basis for calculations",
+      "values": {
+        "vlrs_": {
+          "meaning": "val\u00f8rsaldo",
+          "record_count": 268101,
+          "sql_example": "WHERE CLC_BASIS_TP_CL = 'vlrs_'"
+        },
+        "fuoa_": {
+          "meaning": "bevilget overtr\u00e6k",
+          "record_count": 23209,
+          "sql_example": "WHERE CLC_BASIS_TP_CL = 'fuoa_'"
+        },
+        "grn2_": {
+          "meaning": "garantibel\u00f8b",
+          "record_count": 836,
+          "sql_example": "WHERE CLC_BASIS_TP_CL = 'grn2_'"
+        },
+        "faam_": {
+          "meaning": "maximum",
+          "record_count": 603,
+          "sql_example": "WHERE CLC_BASIS_TP_CL = 'faam_'"
+        },
+        "udbt_": {
+          "meaning": "udbetalingsbel\u00f8b",
+          "record_count": 15,
+          "sql_example": "WHERE CLC_BASIS_TP_CL = 'udbt_'"
+        }
+      },
+      "name_variant": "CLC_BASIS_TP_NM",
+      "total_records": 292764,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "ARS_ADV_TP_CL": {
+      "description": "Arrears/advance type classification - timing of interest/fee accrual",
+      "column_type": "Classification code",
+      "table": "AR_X_INT_PRFL",
+      "business_context": "Indicates whether interest is calculated in arrears (bagud) or in advance (forud)",
+      "values": {
+        "arrr_": {
+          "meaning": "bagud",
+          "record_count": 291928,
+          "sql_example": "WHERE ARS_ADV_TP_CL = 'arrr_'"
+        },
+        "advp_": {
+          "meaning": "forud",
+          "record_count": 836,
+          "sql_example": "WHERE ARS_ADV_TP_CL = 'advp_'"
+        }
+      },
+      "name_variant": "ARS_ADV_TP_NM",
+      "total_records": 292764,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "USED_CLC_MTH_TP_CL": {
+      "description": "Used calculation method type classification - method for interest rate changes",
+      "column_type": "Classification code",
+      "table": "AR_X_INT_PRFL_EXT",
+      "business_context": "Defines how interest rate changes are applied: stepped (trappe) or broken/immediate (kn\u00e6k)",
+      "values": {
+        "brnm_": {
+          "meaning": "kn\u00e6k",
+          "record_count": 124919,
+          "sql_example": "WHERE USED_CLC_MTH_TP_CL = 'brnm_'"
+        },
+        "stnm_": {
+          "meaning": "trappe",
+          "record_count": 381,
+          "sql_example": "WHERE USED_CLC_MTH_TP_CL = 'stnm_'"
+        }
+      },
+      "name_variant": "USED_CLC_MTH_TP_NM",
+      "total_records": 125300,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "RATE_RNWL_FRQ_TP_CL": {
+      "description": "Rate renewal frequency type classification - frequency of interest rate reviews",
+      "column_type": "Classification code",
+      "table": "AR_X_INT_PRFL_EXT",
+      "business_context": "Defines how often fixed/agreed interest rates are renewed or reviewed",
+      "values": {
+        "ntapp": {
+          "meaning": "Ikke defineret",
+          "record_count": 125296,
+          "sql_example": "WHERE RATE_RNWL_FRQ_TP_CL = 'ntapp'"
+        },
+        "mnth_": {
+          "meaning": "m\u00e5neder",
+          "record_count": 4,
+          "sql_example": "WHERE RATE_RNWL_FRQ_TP_CL = 'mnth_'"
+        }
+      },
+      "name_variant": "RATE_RNWL_FRQ_NM",
+      "total_records": 125300,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    }
+  },
+  "custody_codes": {
+    "CSTD_AR_TP_CL": {
+      "description": "Custody arrangement type classification - custody/depot account types",
+      "column_type": "Classification code",
+      "table": "CSTD_AR",
+      "business_context": "Categorizes custody accounts by purpose (pension, child savings, general depot)",
+      "values": {
+        "ffffx": {
+          "meaning": "Almindeligt depot",
+          "record_count": 2404,
+          "sql_example": "WHERE CSTD_AR_TP_CL = 'ffffx'"
+        },
+        "ffffy": {
+          "meaning": "Kapitalpensions depot",
+          "record_count": 960,
+          "sql_example": "WHERE CSTD_AR_TP_CL = 'ffffy'"
+        },
+        "ffffz": {
+          "meaning": "Ratepensions depot",
+          "record_count": 751,
+          "sql_example": "WHERE CSTD_AR_TP_CL = 'ffffz'"
+        },
+        "fffgf": {
+          "meaning": "B\u00f8rneopsparingsdepot",
+          "record_count": 187,
+          "sql_example": "WHERE CSTD_AR_TP_CL = 'fffgf'"
+        },
+        "fffgc": {
+          "meaning": "Selvpensionsdepot",
+          "record_count": 69,
+          "sql_example": "WHERE CSTD_AR_TP_CL = 'fffgc'"
+        },
+        "fffgo": {
+          "meaning": "Handelsbeholdning",
+          "record_count": 35,
+          "sql_example": "WHERE CSTD_AR_TP_CL = 'fffgo'"
+        },
+        "fffgs": {
+          "meaning": "Default emission",
+          "record_count": 4,
+          "sql_example": "WHERE CSTD_AR_TP_CL = 'fffgs'"
+        },
+        "fffgt": {
+          "meaning": "Default depot",
+          "record_count": 4,
+          "sql_example": "WHERE CSTD_AR_TP_CL = 'fffgt'"
+        },
+        "fffga": {
+          "meaning": "Egenbeholdnings depot",
+          "record_count": 4,
+          "sql_example": "WHERE CSTD_AR_TP_CL = 'fffga'"
+        },
+        "ffffv": {
+          "meaning": "B\u00e5ndlagt depot",
+          "record_count": 2,
+          "sql_example": "WHERE CSTD_AR_TP_CL = 'ffffv'"
+        }
+      },
+      "name_variant": "CSTD_AR_TP_NM",
+      "total_records": 4420,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "CSTD_AR_LCS_TP_CL": {
+      "description": "Custody arrangement lifecycle status type classification - custody account status",
+      "column_type": "Classification code",
+      "table": "CSTD_AR",
+      "business_context": "Tracks lifecycle status of custody accounts (not established, established, settled in VP)",
+      "values": {
+        "ffxxe": {
+          "meaning": "Ikke etableret i VP",
+          "record_count": 2723,
+          "sql_example": "WHERE CSTD_AR_LCS_TP_CL = 'ffxxe'"
+        },
+        "ffxxf": {
+          "meaning": "Etableret i VP",
+          "record_count": 1638,
+          "sql_example": "WHERE CSTD_AR_LCS_TP_CL = 'ffxxf'"
+        },
+        "fffig": {
+          "meaning": "Opgjort i VP",
+          "record_count": 61,
+          "sql_example": "WHERE CSTD_AR_LCS_TP_CL = 'fffig'"
+        }
+      },
+      "name_variant": "CSTD_AR_LCS_TP_NM",
+      "total_records": 4422,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "CSTD_AR_ST_TP_CL": {
+      "description": "Custody arrangement status type classification - active/blocked/deleted status",
+      "column_type": "Classification code",
+      "table": "CSTD_AR",
+      "business_context": "Indicates operational status of custody accounts (active, blocked, deleted)",
+      "values": {
+        "cstd2": {
+          "meaning": "Slettet",
+          "record_count": 2730,
+          "sql_example": "WHERE CSTD_AR_ST_TP_CL = 'cstd2'"
+        },
+        "cstd0": {
+          "meaning": "Aktiv",
+          "record_count": 1646,
+          "sql_example": "WHERE CSTD_AR_ST_TP_CL = 'cstd0'"
+        },
+        "misre": {
+          "meaning": "",
+          "record_count": 45,
+          "sql_example": "WHERE CSTD_AR_ST_TP_CL = 'misre'"
+        },
+        "cstd1": {
+          "meaning": "Sp\u00e6rret",
+          "record_count": 1,
+          "sql_example": "WHERE CSTD_AR_ST_TP_CL = 'cstd1'"
+        }
+      },
+      "name_variant": "CSTD_AR_ST_TP_NM",
+      "total_records": 4422,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "IVNT_TP_CL": {
+      "description": "Inventory type classification - types of investment holdings",
+      "column_type": "Classification code",
+      "table": "CSTD_IVNT_AR_ACG",
+      "business_context": "Categorizes investment inventory positions (accounting holdings, spot transactions, drawn positions)",
+      "values": {
+        "fffjd": {
+          "meaning": "Regnskabsbeholdningen incl. udtrukne",
+          "record_count": 2789,
+          "sql_example": "WHERE IVNT_TP_CL = 'fffjd'"
+        },
+        "fffje": {
+          "meaning": "Regnskabsbeholdningen, udtrukne - d.v.s. den udtrukne del af beholdning 01.",
+          "record_count": 290,
+          "sql_example": "WHERE IVNT_TP_CL = 'fffje'"
+        },
+        "fffjf": {
+          "meaning": "Spot k\u00f8b",
+          "record_count": 253,
+          "sql_example": "WHERE IVNT_TP_CL = 'fffjf'"
+        },
+        "fffjg": {
+          "meaning": "Spot salg",
+          "record_count": 233,
+          "sql_example": "WHERE IVNT_TP_CL = 'fffjg'"
+        }
+      },
+      "name_variant": "IVNT_TP_NM",
+      "total_records": 3565,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "BAL_TP_CL": {
+      "description": "Balance type classification - custody balance measure types",
+      "column_type": "Classification code",
+      "table": "CSTD_IVNT_AR_ACG",
+      "business_context": "Defines different balance/value measures for investments (market value, book value, nominal)",
+      "values": {
+        "fffta": {
+          "meaning": "Likv.v\u00e6rdi (gns)",
+          "record_count": 661,
+          "sql_example": "WHERE BAL_TP_CL = 'fffta'"
+        },
+        "fffsv": {
+          "meaning": "Bogf\u00f8rt v\u00e6rdi (gns)",
+          "record_count": 180,
+          "sql_example": "WHERE BAL_TP_CL = 'fffsv'"
+        },
+        "fffsz": {
+          "meaning": "Sporv\u00e6rdi (gns)",
+          "record_count": 180,
+          "sql_example": "WHERE BAL_TP_CL = 'fffsz'"
+        },
+        "fffsl": {
+          "meaning": "Nom/Stk (gns)",
+          "record_count": 139,
+          "sql_example": "WHERE BAL_TP_CL = 'fffsl'"
+        },
+        "fffsm": {
+          "meaning": "M\u00e6ngde nominel (gns)",
+          "record_count": 139,
+          "sql_example": "WHERE BAL_TP_CL = 'fffsm'"
+        },
+        "fffsu": {
+          "meaning": "Dagsv\u00e6rdi (gns)",
+          "record_count": 139,
+          "sql_example": "WHERE BAL_TP_CL = 'fffsu'"
+        },
+        "fffuc": {
+          "meaning": "Markedsv\u00e6rdi (gns)",
+          "record_count": 139,
+          "sql_example": "WHERE BAL_TP_CL = 'fffuc'"
+        },
+        "ffftr": {
+          "meaning": "Rente tilgode (sum)",
+          "record_count": 137,
+          "sql_example": "WHERE BAL_TP_CL = 'ffftr'"
+        },
+        "fffss": {
+          "meaning": "Anskaffelses v\u00e6rdi (gns)",
+          "record_count": 137,
+          "sql_example": "WHERE BAL_TP_CL = 'fffss'"
+        },
+        "fffvb": {
+          "meaning": "Rente tilgode primo (sum)",
+          "record_count": 136,
+          "sql_example": "WHERE BAL_TP_CL = 'fffvb'"
+        }
+      },
+      "name_variant": "BAL_TP_NM",
+      "total_records": 1987,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    }
+  },
+  "accounting_codes": {
+    "ACG_AR_SRC_TP_CL": {
+      "description": "Accounting arrangement source type classification - account origin",
+      "column_type": "Classification code",
+      "table": "ACG_AR",
+      "business_context": "Indicates whether GL accounts are system-generated or manually created",
+      "values": {
+        "axack": {
+          "meaning": "System",
+          "record_count": 2067,
+          "sql_example": "WHERE ACG_AR_SRC_TP_CL = 'axack'"
+        },
+        "axacl": {
+          "meaning": "Manual",
+          "record_count": 460,
+          "sql_example": "WHERE ACG_AR_SRC_TP_CL = 'axacl'"
+        }
+      },
+      "name_variant": "ACG_AR_SRC_TP_NM",
+      "total_records": 2527,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "ACG_AR_TP_CL": {
+      "description": "Accounting arrangement type classification - GL account types",
+      "column_type": "Classification code",
+      "table": "ACG_AR",
+      "business_context": "Categorizes general ledger accounts by type (balance sheet, P&L, heading, sum)",
+      "values": {
+        "axaad": {
+          "meaning": "Saldo",
+          "record_count": 1447,
+          "sql_example": "WHERE ACG_AR_TP_CL = 'axaad'"
+        },
+        "axaaa": {
+          "meaning": "Drift",
+          "record_count": 631,
+          "sql_example": "WHERE ACG_AR_TP_CL = 'axaaa'"
+        },
+        "axaag": {
+          "meaning": "Overskrift",
+          "record_count": 368,
+          "sql_example": "WHERE ACG_AR_TP_CL = 'axaag'"
+        },
+        "axaaj": {
+          "meaning": "Sum",
+          "record_count": 79,
+          "sql_example": "WHERE ACG_AR_TP_CL = 'axaaj'"
+        },
+        "axaae": {
+          "meaning": "Aktiv",
+          "record_count": 1,
+          "sql_example": "WHERE ACG_AR_TP_CL = 'axaae'"
+        },
+        "axaaf": {
+          "meaning": "Passiv",
+          "record_count": 1,
+          "sql_example": "WHERE ACG_AR_TP_CL = 'axaaf'"
+        }
+      },
+      "name_variant": "ACG_AR_TP_NM",
+      "total_records": 2527,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "ACG_AR_BLC_TP_CL": {
+      "description": "Accounting arrangement balance type classification - balance sheet classification",
+      "column_type": "Classification code",
+      "table": "ACG_AR",
+      "business_context": "Indicates balance sheet treatment of GL accounts",
+      "values": {
+        "axaal": {
+          "meaning": "Nej",
+          "record_count": 2497,
+          "sql_example": "WHERE ACG_AR_BLC_TP_CL = 'axaal'"
+        },
+        "axaam": {
+          "meaning": "Nej",
+          "record_count": 30,
+          "sql_example": "WHERE ACG_AR_BLC_TP_CL = 'axaam'"
+        }
+      },
+      "name_variant": "ACG_AR_BLC_TP_NM",
+      "total_records": 2527,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "CR_TP_CL": {
+      "description": "Correction type classification - posting correction indicator",
+      "column_type": "Classification code",
+      "table": "ACG_AR_PSTG",
+      "business_context": "Flags whether posting is a correction/reversal entry",
+      "values": {
+        "axaal": {
+          "meaning": "Nej",
+          "record_count": 125693,
+          "sql_example": "WHERE CR_TP_CL = 'axaal'"
+        },
+        "axaam": {
+          "meaning": "Nej",
+          "record_count": 113053,
+          "sql_example": "WHERE CR_TP_CL = 'axaam'"
+        }
+      },
+      "name_variant": "CR_TP_NM",
+      "total_records": 238746,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "PRD_CODE_TP_CL": {
+      "description": "Period code type classification - accounting period types",
+      "column_type": "Classification code",
+      "table": "ACG_AR_PSTG",
+      "business_context": "Indicates timing of posting (normal, opening/primo, closing/ultimo)",
+      "values": {
+        "axahm": {
+          "meaning": "Normal",
+          "record_count": 178392,
+          "sql_example": "WHERE PRD_CODE_TP_CL = 'axahm'"
+        },
+        "axahn": {
+          "meaning": "Ultimo",
+          "record_count": 45987,
+          "sql_example": "WHERE PRD_CODE_TP_CL = 'axahn'"
+        },
+        "axahl": {
+          "meaning": "Primo",
+          "record_count": 14367,
+          "sql_example": "WHERE PRD_CODE_TP_CL = 'axahl'"
+        }
+      },
+      "name_variant": "PRD_CODE_TP_NM",
+      "total_records": 238746,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "OPRL_TAX_TP_CL": {
+      "description": "Operational tax type classification - operational vs special taxation",
+      "column_type": "Classification code",
+      "table": "ACG_AR_PSTG",
+      "business_context": "Distinguishes regular operational taxation entries",
+      "values": {
+        "axahj": {
+          "meaning": "L\u00f8bende",
+          "record_count": 238746,
+          "sql_example": "WHERE OPRL_TAX_TP_CL = 'axahj'"
+        }
+      },
+      "name_variant": "OPRL_TAX_TP_NM",
+      "total_records": 238746,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "PST_ENTR_TP_CL": {
+      "description": "Post entry type classification - posting entry characteristics",
+      "column_type": "Classification code",
+      "table": "ACG_AR_PSTG",
+      "business_context": "Flags special characteristics of GL postings",
+      "values": {
+        "axaal": {
+          "meaning": "Nej",
+          "record_count": 215676,
+          "sql_example": "WHERE PST_ENTR_TP_CL = 'axaal'"
+        },
+        "axaam": {
+          "meaning": "Nej",
+          "record_count": 23070,
+          "sql_example": "WHERE PST_ENTR_TP_CL = 'axaam'"
+        }
+      },
+      "name_variant": "PST_ENTR_TP_NM",
+      "total_records": 238746,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    }
+  },
+  "financial_information_codes": {
+    "FI_CL_TP_CL": {
+      "description": "Financial information classification type - customer financial activity categories",
+      "column_type": "Classification code",
+      "table": "CST_BSN_VOL_NEW",
+      "business_context": "Categorizes customer financial information (mobile payments, cash transactions, income types)",
+      "values": {
+        "bv22_": {
+          "meaning": "Mobile udbetalinger",
+          "record_count": 17172,
+          "sql_example": "WHERE FI_CL_TP_CL = 'bv22_'"
+        },
+        "bv11_": {
+          "meaning": "Mobile indbetalinger",
+          "record_count": 16974,
+          "sql_example": "WHERE FI_CL_TP_CL = 'bv11_'"
+        },
+        "bv25_": {
+          "meaning": "Kontante udbetalinger pr. \u00e5r",
+          "record_count": 13723,
+          "sql_example": "WHERE FI_CL_TP_CL = 'bv25_'"
+        },
+        "bv20_": {
+          "meaning": "Antal kontantudbetaling pr.\u00e5r",
+          "record_count": 11215,
+          "sql_example": "WHERE FI_CL_TP_CL = 'bv20_'"
+        },
+        "bv12_": {
+          "meaning": "Kontante indbetalinger",
+          "record_count": 11110,
+          "sql_example": "WHERE FI_CL_TP_CL = 'bv12_'"
+        },
+        "bv21_": {
+          "meaning": "St\u00f8rste enkeltudbetaling",
+          "record_count": 11011,
+          "sql_example": "WHERE FI_CL_TP_CL = 'bv21_'"
+        },
+        "slry_": {
+          "meaning": "l\u00f8n",
+          "record_count": 7847,
+          "sql_example": "WHERE FI_CL_TP_CL = 'slry_'"
+        },
+        "otsl_": {
+          "meaning": "andet",
+          "record_count": 5285,
+          "sql_example": "WHERE FI_CL_TP_CL = 'otsl_'"
+        },
+        "pnsn_": {
+          "meaning": "Pension",
+          "record_count": 4516,
+          "sql_example": "WHERE FI_CL_TP_CL = 'pnsn_'"
+        },
+        "bv03_": {
+          "meaning": "Sociale ydelser",
+          "record_count": 3756,
+          "sql_example": "WHERE FI_CL_TP_CL = 'bv03_'"
+        }
+      },
+      "name_variant": "FI_TP_CL_NM",
+      "total_records": 102609,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "ECN_IND_TP_RSN_TP_CL": {
+      "description": "Economic indicator type reason type classification - transaction purpose/reason codes",
+      "column_type": "Classification code",
+      "table": "CST_BSN_VOL_NEW",
+      "business_context": "Captures reasons for transactions (gifts, family transfers, daily consumption, savings)",
+      "values": {
+        "": {
+          "meaning": "",
+          "record_count": 85843,
+          "sql_example": "WHERE ECN_IND_TP_RSN_TP_CL = ''"
+        },
+        "rt53_": {
+          "meaning": "Venner/familie",
+          "record_count": 11023,
+          "sql_example": "WHERE ECN_IND_TP_RSN_TP_CL = 'rt53_'"
+        },
+        "rt52_": {
+          "meaning": "K\u00f8b/salg af private varer",
+          "record_count": 9800,
+          "sql_example": "WHERE ECN_IND_TP_RSN_TP_CL = 'rt52_'"
+        },
+        "rt50_": {
+          "meaning": "Gaver",
+          "record_count": 9165,
+          "sql_example": "WHERE ECN_IND_TP_RSN_TP_CL = 'rt50_'"
+        },
+        "rt54_": {
+          "meaning": "Anden \u00e5rsag",
+          "record_count": 5074,
+          "sql_example": "WHERE ECN_IND_TP_RSN_TP_CL = 'rt54_'"
+        },
+        "rt58_": {
+          "meaning": "Dagligt forbrug",
+          "record_count": 2465,
+          "sql_example": "WHERE ECN_IND_TP_RSN_TP_CL = 'rt58_'"
+        },
+        "rt51_": {
+          "meaning": "Loppemarked",
+          "record_count": 1139,
+          "sql_example": "WHERE ECN_IND_TP_RSN_TP_CL = 'rt51_'"
+        },
+        "rt59_": {
+          "meaning": "Overf\u00f8rsel til familie",
+          "record_count": 382,
+          "sql_example": "WHERE ECN_IND_TP_RSN_TP_CL = 'rt59_'"
+        },
+        "rt56_": {
+          "meaning": "Opsparing",
+          "record_count": 350,
+          "sql_example": "WHERE ECN_IND_TP_RSN_TP_CL = 'rt56_'"
+        },
+        "rt77_": {
+          "meaning": "Overf\u00f8rsel fra familie",
+          "record_count": 290,
+          "sql_example": "WHERE ECN_IND_TP_RSN_TP_CL = 'rt77_'"
+        }
+      },
+      "name_variant": "ECN_IND_TP_RSN_NM",
+      "total_records": 125531,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    }
+  },
+  "delivery_and_clearing_codes": {
+    "DLV_DVC_TP_CL": {
+      "description": "Delivery device type classification - delivery channels",
+      "column_type": "Classification code",
+      "table": "Unknown",
+      "business_context": "Defines channels for delivering banking services or documents",
+      "values": {
+        "": {
+          "meaning": "kasseekspedition",
+          "record_count": 1306520,
+          "sql_example": "WHERE DLV_DVC_TP_CL = ''"
+        },
+        "atm": {
+          "meaning": "atm",
+          "record_count": 1038579,
+          "sql_example": "WHERE DLV_DVC_TP_CL = 'atm'"
+        }
+      },
+      "name_variant": "DLV_DVC_TP_NM",
+      "total_records": 64827435,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    },
+    "CLRG_TP_CL": {
+      "description": "Clearing type classification - payment clearing methods",
+      "column_type": "Classification code",
+      "table": "Unknown",
+      "business_context": "Categorizes clearing/settlement methods for payments",
+      "values": {
+        "acae_": {
+          "meaning": "straks overf\u00f8rsel",
+          "record_count": 3148097,
+          "sql_example": "WHERE CLRG_TP_CL = 'acae_'"
+        },
+        "acpc_": {
+          "meaning": "ACCTG_CLRG_PYMNT_C",
+          "record_count": 1051513,
+          "sql_example": "WHERE CLRG_TP_CL = 'acpc_'"
+        },
+        "accx_": {
+          "meaning": "standard overf\u00f8rsel",
+          "record_count": 759400,
+          "sql_example": "WHERE CLRG_TP_CL = 'accx_'"
+        },
+        "acnx_": {
+          "meaning": "nordisk straks overf\u00f8rsel",
+          "record_count": 330610,
+          "sql_example": "WHERE CLRG_TP_CL = 'acnx_'"
+        },
+        "accs_": {
+          "meaning": "sammedags-overf\u00f8rsel",
+          "record_count": 17372,
+          "sql_example": "WHERE CLRG_TP_CL = 'accs_'"
+        },
+        "misre": {
+          "meaning": "",
+          "record_count": 2012,
+          "sql_example": "WHERE CLRG_TP_CL = 'misre'"
+        },
+        "accd_": {
+          "meaning": "ACCTG_CLRG_CHEQ_T",
+          "record_count": 1539,
+          "sql_example": "WHERE CLRG_TP_CL = 'accd_'"
+        }
+      },
+      "name_variant": "CLRG_TP_NM",
+      "total_records": 5310543,
+      "research_source": "Excel file: SQL INFO.xlsx - 2025-11-17"
+    }
+  },
+  "aml_codes": {
+    "AML_ALRT_PD_TP_CL": {
+      "description": "AML Alert Period Type Classification",
+      "column_type": "AML alert period code",
+      "table": "EDWAML01600_VP.AML_ALRT",
+      "frequency": "NEW",
+      "values": {
+        "al197": {
+          "meaning": "Anti-Money Laundering",
+          "name": "Anti-Money Laundering",
+          "record_count": 61886,
+          "usage": "Standard AML alert period type"
+        }
+      },
+      "name_variant": "AML_ALRT_PD_TP_NM",
+      "research_source": "EDWAML Query 1 - 2025-11-17"
+    },
+    "AML_ALRT_LCS_CL": {
+      "description": "AML Alert Lifecycle Classification",
+      "column_type": "AML alert lifecycle status",
+      "table": "EDWAML01600_VP.AML_ALRT",
+      "frequency": "NEW",
+      "values": {
+        "al004": {
+          "meaning": "Closed",
+          "name": "Closed",
+          "record_count": 56594,
+          "usage": "Alert has been closed - most common status (91.5%)",
+          "sql_example": "WHERE AML_ALRT_LCS_CL = 'al004'"
+        },
+        "al007": {
+          "meaning": "Suppressed (UI)",
+          "name": "Suppressed (UI)",
+          "record_count": 3472,
+          "usage": "Alert suppressed via user interface (5.6%)"
+        },
+        "al002": {
+          "meaning": "Added to a case",
+          "name": "Added to a case",
+          "record_count": 1648,
+          "usage": "Alert added to investigation case (2.7%)"
+        },
+        "al195": {
+          "meaning": "Active",
+          "name": "Active",
+          "record_count": 159,
+          "usage": "Alert is currently active (0.3%)"
+        },
+        "al006": {
+          "meaning": "Suppressed (Batch)",
+          "name": "Suppressed (Batch)",
+          "record_count": 8
+        },
+        "al159": {
+          "meaning": "DELETED",
+          "name": "DELETED",
+          "record_count": 5
+        }
+      },
+      "name_variant": "AML_ALRT_LCS_NM",
+      "common_patterns": {
+        "active_alerts": "WHERE AML_ALRT_LCS_CL IN ('al195', 'al002')",
+        "closed_alerts": "WHERE AML_ALRT_LCS_CL = 'al004'"
+      },
+      "research_source": "EDWAML Query 2 - 2025-11-17"
+    },
+    "ALRT_LVL_TP_CL": {
+      "description": "Alert Level Type Classification",
+      "column_type": "Alert level indicator",
+      "table": "EDWAML01600_VP.AML_ALRT",
+      "frequency": "NEW",
+      "values": {
+        "al193": {
+          "meaning": "Customer",
+          "name": "Customer",
+          "record_count": 40742,
+          "usage": "Customer-level alert (65.9%)",
+          "sql_example": "WHERE ALRT_LVL_TP_CL = 'al193'"
+        },
+        "al188": {
+          "meaning": "Account",
+          "name": "Account",
+          "record_count": 21144,
+          "usage": "Account-level alert (34.1%)",
+          "sql_example": "WHERE ALRT_LVL_TP_CL = 'al188'"
+        }
+      },
+      "name_variant": "AML_LVL_TP_NM",
+      "notes": "Indicates whether alert is at customer or account level",
+      "research_source": "EDWAML Query 3 - 2025-11-17"
+    },
+    "ALRT_TP_CL": {
+      "description": "Alert Type Classification",
+      "column_type": "Alert type code",
+      "table": "EDWAML01600_VP.AML_ALRT",
+      "frequency": "NEW",
+      "values": {
+        "al008": {
+          "meaning": "AMLALT",
+          "name": "AMLALT",
+          "record_count": 61730,
+          "usage": "Standard AML alert type (99.7%)",
+          "sql_example": "WHERE ALRT_TP_CL = 'al008'"
+        },
+        "misre": {
+          "meaning": "Unknown/miscellaneous",
+          "name": null,
+          "record_count": 156,
+          "usage": "Miscellaneous or unclassified alerts (0.3%)"
+        }
+      },
+      "name_variant": "ALRT_TP_NM",
+      "research_source": "EDWAML Query 4 - 2025-11-17"
+    },
+    "ALRT_CGY_CL": {
+      "description": "Alert Category Classification",
+      "column_type": "Alert category code",
+      "table": "EDWAML01600_VP.AML_ALRT",
+      "frequency": "NEW",
+      "top_values_note": "12 total categories",
+      "values": {
+        "al230": {
+          "meaning": "SDC scenarios - Actual transactions vs. expected customer behavior",
+          "name": "SDC scenarier - Faktiske transaktioner vs. forventet adf\u00e6rd for kunde",
+          "record_count": 26896,
+          "usage": "Customer behavior deviation scenarios (43.5%)"
+        },
+        "al229": {
+          "meaning": "SDC scenarios - Actual transactions vs. account statistics",
+          "name": "SDC scenarier - Faktiske transaktioner vs. statistik for konto",
+          "record_count": 10495,
+          "usage": "Account statistics deviation scenarios (17.0%)"
+        },
+        "al228": {
+          "meaning": "SDC scenarios - Actual account transactions (simple scenarios)",
+          "name": "SDC scenarier - Faktiske transaktioner for konto (simple scenarier)",
+          "record_count": 10427,
+          "usage": "Simple account transaction scenarios (16.9%)"
+        },
+        "al216": {
+          "meaning": "SDC Debit card Transactions",
+          "name": "SDC Debitcard Transactions",
+          "record_count": 5638,
+          "usage": "Debit card transaction monitoring (9.1%)"
+        },
+        "al212": {
+          "meaning": "SDC Counterparty Tax havens",
+          "name": "SDC Counterparty Skattelylande",
+          "record_count": 5287,
+          "usage": "Transactions with tax haven counterparties (8.6%)"
+        },
+        "al213": {
+          "meaning": "SDC Counterparty Drug-related",
+          "name": "SDC Counterparty Narkorelaterede",
+          "record_count": 1595
+        },
+        "al224": {
+          "meaning": "Other",
+          "name": "Other",
+          "record_count": 618
+        },
+        "al237": {
+          "meaning": "Watch List Entities",
+          "name": "Watch List Entities",
+          "record_count": 355
+        },
+        "al221": {
+          "meaning": "Manual",
+          "name": "Manual",
+          "record_count": 156
+        },
+        "al214": {
+          "meaning": "SDC Counterparty Embargo",
+          "name": "SDC Counterparty Embargo",
+          "record_count": 148
+        },
+        "al211": {
+          "meaning": "SDC Counterparty Terror",
+          "name": "SDC Counterparty Terror",
+          "record_count": 147
+        },
+        "al210": {
+          "meaning": "Cash Activity",
+          "name": "Cash Activity",
+          "record_count": 124
+        }
+      },
+      "name_variant": "ALRT_CGY_NM",
+      "common_patterns": {
+        "sdc_scenarios": "WHERE ALRT_CGY_CL IN ('al228', 'al229', 'al230')",
+        "counterparty_risks": "WHERE ALRT_CGY_CL IN ('al211', 'al212', 'al213', 'al214')"
+      },
+      "research_source": "EDWAML Query 5 - 2025-11-17"
+    },
+    "EV_TP_CL_AML": {
+      "description": "Event Type Classification (AML context)",
+      "column_type": "Event type code",
+      "table": "EDWAML01600_VP.AML_ALRT_EV / AML_CASE_EV",
+      "frequency": "NEW",
+      "top_values_note": "10+ event types",
+      "values": {
+        "al167": {
+          "meaning": "CRE - Created",
+          "name": "CRE",
+          "usage": "Alert/case created event"
+        },
+        "al004": {
+          "meaning": "Closed",
+          "name": "Closed",
+          "usage": "Alert/case closed event"
+        },
+        "al173": {
+          "meaning": "IRT - Investigation Result",
+          "name": "IRT"
+        },
+        "al007": {
+          "meaning": "Suppressed (UI)",
+          "name": "Suppressed (UI)"
+        },
+        "al162": {
+          "meaning": "ADD - Added",
+          "name": "ADD"
+        },
+        "al166": {
+          "meaning": "CMT - Comment",
+          "name": "CMT"
+        },
+        "al181": {
+          "meaning": "UPD - Updated",
+          "name": "UPD"
+        },
+        "al171": {
+          "meaning": "ECM - External Comment",
+          "name": "ECM"
+        },
+        "al170": {
+          "meaning": "DOC - Document",
+          "name": "DOC"
+        },
+        "al175": {
+          "meaning": "OPE - Opened",
+          "name": "OPE"
+        }
+      },
+      "name_variant": "EV_TP_NM",
+      "common_patterns": {
+        "lifecycle_events": "WHERE EV_TP_CL IN ('al167', 'al004', 'al175')",
+        "investigation_events": "WHERE EV_TP_CL IN ('al173', 'al162')"
+      },
+      "research_source": "EDWAML Queries 8, 18 - 2025-11-17"
+    },
+    "CASE_PRTY_CL": {
+      "description": "AML Case Priority Classification",
+      "column_type": "Case priority code",
+      "table": "EDWAML01600_VP.AML_CASE",
+      "frequency": "NEW",
+      "values": {
+        "al055": {
+          "meaning": "Medium priority",
+          "name": "Medium",
+          "record_count": 867,
+          "usage": "Medium priority cases (93.7%)",
+          "sql_example": "WHERE CASE_PRTY_CL = 'al055'"
+        },
+        "al054": {
+          "meaning": "High priority",
+          "name": "High",
+          "record_count": 48,
+          "usage": "High priority cases (5.2%)",
+          "sql_example": "WHERE CASE_PRTY_CL = 'al054'"
+        },
+        "al053": {
+          "meaning": "Low priority",
+          "name": "Low",
+          "record_count": 10,
+          "usage": "Low priority cases (1.1%)"
+        }
+      },
+      "name_variant": "CASE_PRTY_NM",
+      "common_patterns": {
+        "urgent_cases": "WHERE CASE_PRTY_CL = 'al054'"
+      },
+      "research_source": "EDWAML Query 14 - 2025-11-17"
+    },
+    "CASE_ST_TP_CL": {
+      "description": "AML Case Status Type Classification",
+      "column_type": "Case status code",
+      "table": "EDWAML01600_VP.AML_CASE",
+      "frequency": "NEW",
+      "values": {
+        "al057": {
+          "meaning": "Closed - Report Filed",
+          "name": "Closed - Report Filed",
+          "record_count": 787,
+          "usage": "Case closed with SAR/STR filed (85.1%)",
+          "sql_example": "WHERE CASE_ST_TP_CL = 'al057'"
+        },
+        "al060": {
+          "meaning": "Closed - No Report Filed",
+          "name": "Closed - No Report Filed",
+          "record_count": 74,
+          "usage": "Case closed without filing report (8.0%)"
+        },
+        "al058": {
+          "meaning": "Report Initiated",
+          "name": "Report Initiated",
+          "record_count": 53,
+          "usage": "Report being prepared (5.7%)"
+        },
+        "al061": {
+          "meaning": "Open",
+          "name": "Open",
+          "record_count": 9,
+          "usage": "Case is open (1.0%)"
+        },
+        "al056": {
+          "meaning": "Case Review",
+          "name": "Case Review",
+          "record_count": 2
+        }
+      },
+      "name_variant": "CASE_ST_TP_NM",
+      "common_patterns": {
+        "active_cases": "WHERE CASE_ST_TP_CL IN ('al058', 'al061', 'al056')",
+        "closed_cases": "WHERE CASE_ST_TP_CL IN ('al057', 'al060')"
+      },
+      "research_source": "EDWAML Query 16 - 2025-11-17"
+    },
+    "TRGR_LCS_TP_CL": {
+      "description": "AML KYC Trigger Lifecycle Type Classification",
+      "column_type": "KYC trigger lifecycle status",
+      "table": "EDWAML01600_VP.AML_KYC_TRGR",
+      "frequency": "NEW",
+      "values": {
+        "al158": {
+          "meaning": "APPROVED",
+          "name": "APPROVED",
+          "record_count": 19634,
+          "usage": "KYC trigger approved (82.9%)",
+          "sql_example": "WHERE TRGR_LCS_TP_CL = 'al158'"
+        },
+        "al161": {
+          "meaning": "PENDING CUSTOMER",
+          "name": "PENDING CUSTOMER",
+          "record_count": 3722,
+          "usage": "Pending customer action (15.7%)"
+        },
+        "al160": {
+          "meaning": "PENDING ADVISOR",
+          "name": "PENDING ADVISOR",
+          "record_count": 107
+        },
+        "al159": {
+          "meaning": "DELETED",
+          "name": "DELETED",
+          "record_count": 16
+        },
+        "REJ": {
+          "meaning": "REJECTED",
+          "name": null,
+          "record_count": 14
+        }
+      },
+      "name_variant": "TRGR_LCS_TP_NM",
+      "research_source": "EDWAML Query 19 - 2025-11-17"
+    },
+    "RPT_LC_TP_CL": {
+      "description": "AML Report Lifecycle Type Classification",
+      "column_type": "Report lifecycle status",
+      "table": "EDWAML01600_VP.AML_REG_RPT",
+      "frequency": "NEW",
+      "values": {
+        "al202": {
+          "meaning": "Closed",
+          "name": "Closed",
+          "record_count": 827,
+          "usage": "Report closed (92.8%)",
+          "sql_example": "WHERE RPT_LC_TP_CL = 'al202'"
+        },
+        "al207": {
+          "meaning": "Rejected",
+          "name": "Rejected",
+          "record_count": 47,
+          "usage": "Report rejected (5.3%)"
+        },
+        "D": {
+          "meaning": "Draft/other status",
+          "name": null,
+          "record_count": 16
+        },
+        "misre": {
+          "meaning": "Unknown",
+          "name": null,
+          "record_count": 1
+        }
+      },
+      "name_variant": "RPT_LC_TP_NM",
+      "research_source": "EDWAML Query 21 - 2025-11-17"
+    },
+    "RPT_ST_TP_CL": {
+      "description": "AML Report Status Type Classification",
+      "column_type": "Report status code",
+      "table": "EDWAML01600_VP.AML_REG_RPT",
+      "frequency": "NEW",
+      "values": {
+        "al247": {
+          "meaning": "Draft",
+          "name": "Draft",
+          "record_count": 871,
+          "usage": "Report in draft status (97.8%)",
+          "sql_example": "WHERE RPT_ST_TP_CL = 'al247'"
+        },
+        "al249": {
+          "meaning": "Ready for submission",
+          "name": "Ready for submission",
+          "record_count": 20,
+          "usage": "Report ready to submit (2.2%)"
+        }
+      },
+      "name_variant": "RPT_ST_TP_NM",
+      "research_source": "EDWAML Query 22 - 2025-11-17"
+    }
+  },
+  "identity_codes": {
+    "NAT_ID_TP": {
+      "description": "National ID Type",
+      "column_type": "ID type code",
+      "table": "EDWACC01600_VP.ACD_DST_DTL_01_IP / ACD_DST_DTL_01_IP_ALL / ACD_RECON_SMY_01",
+      "frequency": "NEW",
+      "values": {
+        "1": {
+          "meaning": "CPR number (Danish personal ID)",
+          "name": null,
+          "record_count": 17491,
+          "usage": "Individual person ID (CPR) - most common (77.3%)",
+          "sql_example": "WHERE NAT_ID_TP = '1'"
+        },
+        "DK_CVR_CD": {
+          "meaning": "CVR number (Danish company registration)",
+          "name": null,
+          "record_count": 4261,
+          "usage": "Company CVR number (18.8%)",
+          "sql_example": "WHERE NAT_ID_TP = 'DK_CVR_CD'"
+        },
+        "DK_NOTAP_CD": {
+          "meaning": "No TAP code (not applicable)",
+          "name": null,
+          "record_count": 971,
+          "usage": "ID not applicable (4.3%)"
+        },
+        "DK_FT_CD": {
+          "meaning": "FT code (Danish tax code)",
+          "name": null,
+          "record_count": 1,
+          "usage": "Special tax code (rare)"
+        }
+      },
+      "name_variant": "NAT_ID_DSC",
+      "notes": "Danish national identification types for persons and organizations",
+      "common_patterns": {
+        "individuals": "WHERE NAT_ID_TP = '1'",
+        "companies": "WHERE NAT_ID_TP = 'DK_CVR_CD'",
+        "all_valid_ids": "WHERE NAT_ID_TP IN ('1', 'DK_CVR_CD', 'DK_FT_CD')"
+      },
+      "research_source": "EDWAcc Queries 1-3 - 2025-11-17"
+    }
+  },
+  "organizational_codes": {
+    "OU_TP": {
+      "description": "Organizational Unit Type",
+      "column_type": "Organization unit code",
+      "table": "EDWACC01600_VP.COA_DIM_ACG_OU_FIV",
+      "frequency": "NEW",
+      "values": {
+        "orun_": {
+          "meaning": "Organizational unit (branch/department)",
+          "sample_names": [
+            "Svendborg",
+            "Rise",
+            "Faaborg",
+            "Haarby",
+            "\u00d8konomi og administration",
+            "Produktionsgruppen"
+          ],
+          "record_count": 7,
+          "usage": "Branch or department identifier"
+        },
+        "orgn_": {
+          "meaning": "Organization (main entity)",
+          "sample_names": [
+            "Rise Sparekasse"
+          ],
+          "record_count": 1,
+          "usage": "Main organization identifier"
+        }
+      },
+      "name_variant": "OU_NM",
+      "notes": "Organizational hierarchy - orgn_ for main entity, orun_ for sub-units",
+      "research_source": "EDWAcc Query 4 - 2025-11-17"
+    }
+  },
+  "case_management_codes": {
+    "FI_CL_SCM_CL": {
+      "description": "FI Classification Scheme Classification (Case Activity Type)",
+      "column_type": "Case activity classification",
+      "table": "EDWFKS01600_VP.CASEACTIVITYTYPE_DIM",
+      "frequency": "NEW",
+      "sample_values": {
+        "ewaaj": {
+          "sample_names": [
+            "Opret garantbevis",
+            "Valg af produkter",
+            "Afvent indberetning til Skat"
+          ],
+          "usage": "Activity type ewaaj"
+        },
+        "ewaai": {
+          "sample_names": [
+            "Autoaktiver aftaler",
+            "Luk undersag",
+            "UF udskriv dokumenter",
+            "Robotics - Opf\u00f8lgningsh\u00e6ndelse lukket"
+          ],
+          "usage": "Activity type ewaai"
+        },
+        "ewaah": {
+          "sample_names": [
+            "Start r\u00e5dgiversag - SignOne",
+            "ApeOddUnions"
+          ],
+          "usage": "Activity type ewaah"
+        }
+      },
+      "name_variant": "NM",
+      "notes": "Danish case activity names - specific to FKS case management system",
+      "research_source": "EDWFKS Query 1 - 2025-11-17"
+    },
+    "WF_TP_ID": {
+      "description": "Workflow Type ID",
+      "column_type": "Workflow type identifier",
+      "table": "EDWFKS01600_VP.CASE_BUSINESS_PROCESS_ACTIVITY",
+      "frequency": "NEW",
+      "name_variant": "WF_TP_NM",
+      "notes": "No data found in current snapshot - likely populated conditionally",
+      "research_source": "EDWFKS Query 4 - 2025-11-17"
+    },
+    "AVY_TP_ID": {
+      "description": "Activity Type ID",
+      "column_type": "Activity type identifier",
+      "table": "EDWFKS01600_VP.CASE_BUSINESS_PROCESS_ACTIVITY",
+      "frequency": "NEW",
+      "top_activities": {
+        "800113": {
+          "name": "Indtast memo",
+          "record_count": 273415,
+          "usage": "Enter memo activity - most common (12.3%)"
+        },
+        "525500008": {
+          "name": "Followupdate",
+          "record_count": 110864,
+          "usage": "Follow-up date activity (5.0%)"
+        },
+        "19200918": {
+          "name": "Beregn",
+          "record_count": 110314,
+          "usage": "Calculate activity (5.0%)"
+        },
+        "17600765": {
+          "name": "Slut undersag",
+          "record_count": 100157,
+          "usage": "Close sub-case (4.5%)"
+        },
+        "400689": {
+          "name": "V\u00e6lg dokumenter",
+          "record_count": 90084,
+          "usage": "Select documents (4.1%)"
+        },
+        "40800001": {
+          "name": "Afslut sag",
+          "record_count": 66925,
+          "usage": "Close case (3.0%)"
+        },
+        "400669": {
+          "name": "Opgaven navngivet",
+          "record_count": 64670,
+          "usage": "Task named (2.9%)"
+        },
+        "400680": {
+          "name": "Underskrifter modtaget",
+          "record_count": 60568,
+          "usage": "Signatures received (2.7%)"
+        },
+        "495100015": {
+          "name": "AutoProdEstab_Function",
+          "record_count": 59427,
+          "usage": "Auto product establishment (2.7%)"
+        },
+        "400660": {
+          "name": "Aktiv\u00e9r aftaler",
+          "record_count": 58055,
+          "usage": "Activate agreements (2.6%)"
+        }
+      },
+      "name_variant": "AVY_TP_NM",
+      "notes": "Numeric IDs for specific workflow activities in Danish",
+      "research_source": "EDWFKS Query 5 - 2025-11-17"
+    },
+    "AVY_DCSN_TP_CL": {
+      "description": "Activity Decision Type Classification",
+      "column_type": "Decision type code",
+      "table": "EDWFKS01600_VP.CASE_BUSINESS_PROCESS_ACTIVITY",
+      "frequency": "NEW",
+      "values": {
+        "": {
+          "meaning": "No decision/blank",
+          "record_count": 2216514,
+          "usage": "Most activities don't have a decision type (100%)"
+        }
+      },
+      "notes": "Currently populated with blank values - decision type may be conditional",
+      "research_source": "EDWFKS Query 6 - 2025-11-17"
+    },
+    "SGNL_LCS_TP_CL": {
+      "description": "Signal Lifecycle Type Classification",
+      "column_type": "Signal lifecycle status",
+      "table": "EDWFKS01600_VP.IP_SIGNAL",
+      "frequency": "NEW",
+      "values": {
+        "bpip_": {
+          "meaning": "Business process in progress",
+          "record_count": 1668,
+          "usage": "Signal for in-progress business process (47.1%)"
+        },
+        "bpcm_": {
+          "meaning": "Business process completed",
+          "record_count": 1667,
+          "usage": "Signal for completed business process (47.1%)"
+        },
+        "nntx_": {
+          "meaning": "Non-taxable",
+          "record_count": 195,
+          "usage": "Non-taxable signal (5.5%)"
+        },
+        "bwfc_": {
+          "meaning": "Business workflow",
+          "record_count": 4,
+          "usage": "Business workflow signal"
+        },
+        "hvil_": {
+          "meaning": "Dormant/resting",
+          "record_count": 3,
+          "usage": "Dormant signal"
+        },
+        "bwff_": {
+          "meaning": "Business workflow finished",
+          "record_count": 2,
+          "usage": "Finished business workflow"
+        }
+      },
+      "notes": "Lifecycle states for customer signals in FKS system",
+      "common_patterns": {
+        "active_signals": "WHERE SGNL_LCS_TP_CL IN ('bpip_', 'bwfc_')",
+        "completed_signals": "WHERE SGNL_LCS_TP_CL IN ('bpcm_', 'bwff_')"
+      },
+      "research_source": "EDWFKS Query 16 - 2025-11-17"
+    },
+    "RSP_TP_CL": {
+      "description": "Response Type Classification",
+      "column_type": "Response type code",
+      "table": "EDWFKS01600_VP.IP_SIGNAL",
+      "frequency": "NEW",
+      "values": {
+        "none_": {
+          "meaning": "No response",
+          "record_count": 3527,
+          "usage": "No response type specified (99.6%)"
+        },
+        "": {
+          "meaning": "Blank/empty",
+          "record_count": 11,
+          "usage": "Empty response type"
+        },
+        "cucn_": {
+          "meaning": "Customer confirmed",
+          "record_count": 1,
+          "usage": "Customer confirmation response"
+        }
+      },
+      "notes": "Response type for customer signals - mostly unused",
+      "research_source": "EDWFKS Query 15 - 2025-11-17"
+    },
+    "OBJTYPEID": {
+      "description": "Object Type ID (Case Type)",
+      "column_type": "Case object type identifier",
+      "table": "EDWFKS01600_VP.CASESTAT",
+      "frequency": "NEW",
+      "top_types": {
+        "25": {
+          "name": "Memo",
+          "record_count": 162458,
+          "usage": "Memo case type - most common (31.5%)"
+        },
+        "127": {
+          "name": "Underskrivning undersag",
+          "record_count": 51961,
+          "usage": "Signature sub-case (10.1%)"
+        },
+        "126": {
+          "name": "Underskrivning",
+          "record_count": 47271,
+          "usage": "Signature case (9.2%)"
+        },
+        "137": {
+          "name": "Underskriftssag - digital",
+          "record_count": 22059,
+          "usage": "Digital signature case (4.3%)"
+        },
+        "217": {
+          "name": "Underskriftssag - SignOne",
+          "record_count": 21823,
+          "usage": "SignOne signature case (4.2%)"
+        },
+        "215": {
+          "name": "Start r\u00e5dgiversag - SignOne",
+          "record_count": 20615,
+          "usage": "Start advisor case - SignOne (4.0%)"
+        },
+        "218": {
+          "name": "Underskrivning - SignOne",
+          "record_count": 15723,
+          "usage": "Signature - SignOne (3.0%)"
+        },
+        "171": {
+          "name": "Start r\u00e5dgiversag",
+          "record_count": 15503,
+          "usage": "Start advisor case (3.0%)"
+        },
+        "167": {
+          "name": "Huskeliste",
+          "record_count": 11992,
+          "usage": "Reminder list (2.3%)"
+        },
+        "173": {
+          "name": "MOPI Engagementsoverf\u00f8rsel",
+          "record_count": 10037,
+          "usage": "MOPI engagement transfer (1.9%)"
+        }
+      },
+      "name_variant": "OBJTYPENAME",
+      "notes": "Case object types for FKS workflow system - numeric IDs",
+      "research_source": "EDWFKS Query 24 - 2025-11-17"
+    },
+    "CASEGROUPNAME": {
+      "description": "Case Group Name",
+      "column_type": "Case group classification",
+      "table": "EDWFKS01600_VP.CASESTAT",
+      "frequency": "NEW",
+      "top_groups": {
+        "": {
+          "meaning": "No group/blank",
+          "record_count": 254288,
+          "usage": "Ungrouped cases (49.3%)"
+        },
+        "Diverse": {
+          "meaning": "Miscellaneous",
+          "record_count": 162642,
+          "usage": "Miscellaneous cases (31.5%)"
+        },
+        "Ekp": {
+          "meaning": "Ekp",
+          "record_count": 36339,
+          "usage": "Ekp cases (7.0%)"
+        },
+        "Kredit": {
+          "meaning": "Credit",
+          "record_count": 21480,
+          "usage": "Credit cases (4.2%)"
+        },
+        "Indl\u00e5n": {
+          "meaning": "Deposits",
+          "record_count": 15276,
+          "usage": "Deposit cases (3.0%)"
+        },
+        "Innl\u00e5n": {
+          "meaning": "Deposits (Norwegian)",
+          "record_count": 7862,
+          "usage": "Deposit cases (1.5%)"
+        },
+        "Kreditt": {
+          "meaning": "Credit (Norwegian)",
+          "record_count": 6375,
+          "usage": "Credit cases (1.2%)"
+        },
+        "Serviceaftale": {
+          "meaning": "Service agreement",
+          "record_count": 3853,
+          "usage": "Service agreement cases (0.7%)"
+        },
+        "Kunde": {
+          "meaning": "Customer",
+          "record_count": 3238,
+          "usage": "Customer cases (0.6%)"
+        },
+        "Sikkerhedsaftale": {
+          "meaning": "Security agreement",
+          "record_count": 2307,
+          "usage": "Security agreement cases (0.4%)"
+        }
+      },
+      "notes": "Case groupings for workflow management - mix of Danish and Norwegian terms",
+      "research_source": "EDWFKS Query 25 - 2025-11-17"
+    },
+    "STATE": {
+      "description": "Case State",
+      "column_type": "Case lifecycle state",
+      "table": "EDWFKS01600_VP.CASESTAT",
+      "frequency": "NEW",
+      "values": {
+        "Running": {
+          "meaning": "Case is running/active",
+          "record_count": 318287,
+          "usage": "Active cases (61.7%)",
+          "sql_example": "WHERE STATE = 'Running'"
+        },
+        "Finished": {
+          "meaning": "Case is finished/completed",
+          "record_count": 191331,
+          "usage": "Completed cases (37.1%)",
+          "sql_example": "WHERE STATE = 'Finished'"
+        },
+        "Stopped": {
+          "meaning": "Case is stopped",
+          "record_count": 4668,
+          "usage": "Stopped cases (0.9%)"
+        },
+        "": {
+          "meaning": "No state/blank",
+          "record_count": 1422,
+          "usage": "Cases with no state (0.3%)"
+        }
+      },
+      "common_patterns": {
+        "active_cases": "WHERE STATE = 'Running'",
+        "completed_cases": "WHERE STATE IN ('Finished', 'Stopped')"
+      },
+      "notes": "Some STATE values appear to be dates (2019-10-, 2019-07-, etc.) which may be data quality issues",
+      "research_source": "EDWFKS Query 26 - 2025-11-17"
+    },
+    "ACTION_ROLENAME": {
+      "description": "Case Action and Role Name combination",
+      "column_type": "Action-Role pair",
+      "table": "EDWFKS01600_VP.CASESTAT_ACTION",
+      "frequency": "NEW",
+      "top_actions": {
+        "Indtast memo | Medarbejder": {
+          "action": "Indtast memo",
+          "role": "Medarbejder",
+          "record_count": 264273,
+          "usage": "Enter memo by employee - most common action (17.8%)"
+        },
+        "Followupdate | SigningOne": {
+          "action": "Followupdate",
+          "role": "SigningOne",
+          "record_count": 112677,
+          "usage": "Follow-up date via SigningOne (7.6%)"
+        },
+        "Beregn | Digital Pri": {
+          "action": "Beregn",
+          "role": "Digital Pri",
+          "record_count": 90285,
+          "usage": "Calculate via digital primary (6.1%)"
+        },
+        "AutoProdEstab_Function | RulesEngine": {
+          "action": "AutoProdEstab_Function",
+          "role": "RulesEngine",
+          "record_count": 59453,
+          "usage": "Auto product establishment via rules engine (4.0%)"
+        },
+        "Valg papir/digital | DigitalOrPa": {
+          "action": "Valg papir/digital",
+          "role": "DigitalOrPa",
+          "record_count": 56818,
+          "usage": "Choose paper/digital option (3.8%)"
+        }
+      },
+      "name_variants": {
+        "ACTION": "Action name",
+        "ROLENAME": "Role name"
+      },
+      "notes": "Actions are paired with roles that perform them - Danish action names",
+      "research_source": "EDWFKS Query 27-28 - 2025-11-17"
+    },
+    "OUTCOME": {
+      "description": "Case Action Outcome",
+      "column_type": "Action outcome/result",
+      "table": "EDWFKS01600_VP.CASESTAT_ACTION",
+      "frequency": "NEW",
+      "top_outcomes": {
+        "OK": {
+          "meaning": "Success",
+          "record_count": 1169467,
+          "usage": "Successful outcome - most common (62.5%)"
+        },
+        "Gem": {
+          "meaning": "Save",
+          "record_count": 295133,
+          "usage": "Save outcome (15.8%)"
+        },
+        "Afslut": {
+          "meaning": "Close/finish",
+          "record_count": 60617,
+          "usage": "Close outcome (3.2%)"
+        },
+        "F\u00e6rdig": {
+          "meaning": "Done/finished",
+          "record_count": 53745,
+          "usage": "Done outcome (2.9%)"
+        },
+        "Ingen sag": {
+          "meaning": "No case",
+          "record_count": 32394,
+          "usage": "No case created (1.7%)"
+        },
+        "SIGNED": {
+          "meaning": "Signed",
+          "record_count": 30304,
+          "usage": "Document signed (1.6%)"
+        },
+        "NoURL": {
+          "meaning": "No URL",
+          "record_count": 30098,
+          "usage": "No URL provided (1.6%)"
+        },
+        "Digital": {
+          "meaning": "Digital",
+          "record_count": 25937,
+          "usage": "Digital outcome (1.4%)"
+        },
+        "Til manuel": {
+          "meaning": "To manual",
+          "record_count": 24732,
+          "usage": "Sent to manual processing (1.3%)"
+        },
+        "Composite": {
+          "meaning": "Composite",
+          "record_count": 22086,
+          "usage": "Composite outcome (1.2%)"
+        }
+      },
+      "notes": "Case action outcomes - mix of status codes and Danish terms",
+      "common_patterns": {
+        "success_outcomes": "WHERE OUTCOME IN ('OK', 'F\u00e6rdig', 'SIGNED')",
+        "pending_outcomes": "WHERE OUTCOME IN ('Gem', 'Til manuel')"
+      },
+      "research_source": "EDWFKS Query 28 - 2025-11-17"
+    }
+  },
+  "encumbrance_codes": {
+    "ENCB_TP_CL": {
+      "description": "Encumbrance Type Classification",
+      "column_type": "Encumbrance/mortgage type code",
+      "table": "EDWFKS01600_VP.PT_MORTGAGE_ON_REAL_PROPERTY_F",
+      "frequency": "NEW",
+      "values": {
+        "prbl_": {
+          "meaning": "Primary building loan",
+          "record_count": 914,
+          "usage": "Primary building loan mortgage (53.6%)",
+          "sql_example": "WHERE ENCB_TP_CL = 'prbl_'"
+        },
+        "rnln_": {
+          "meaning": "Renovation loan",
+          "record_count": 398,
+          "usage": "Renovation loan mortgage (23.4%)"
+        },
+        "prcl_": {
+          "meaning": "Primary credit loan",
+          "record_count": 301,
+          "usage": "Primary credit loan (17.7%)"
+        },
+        "prfl_": {
+          "meaning": "Primary flexible loan",
+          "record_count": 37,
+          "usage": "Primary flexible loan (2.2%)"
+        },
+        "prom_": {
+          "meaning": "Promissory note",
+          "record_count": 18,
+          "usage": "Promissory note (1.1%)"
+        },
+        "prpm_": {
+          "meaning": "Primary payment mortgage",
+          "record_count": 10
+        },
+        "enrc_": {
+          "meaning": "Energy credit",
+          "record_count": 9
+        },
+        "lorf_": {
+          "meaning": "Low-rate flexible",
+          "record_count": 4
+        },
+        "????_": {
+          "meaning": "Unknown type",
+          "record_count": 4
+        },
+        "ixln_": {
+          "meaning": "Index loan",
+          "record_count": 2
+        }
+      },
+      "notes": "Types of mortgages and encumbrances on real property",
+      "common_patterns": {
+        "primary_mortgages": "WHERE ENCB_TP_CL IN ('prbl_', 'prcl_', 'prfl_')"
+      },
+      "research_source": "EDWFKS Query 20 - 2025-11-17"
+    },
+    "RI_X_TP_TP_CL": {
+      "description": "Real property cross-reference type classification",
+      "column_type": "Real property type code",
+      "table": "EDWFKS01600_VP.PT_MORTGAGE_ON_REAL_PROPERTY_F",
+      "frequency": "NEW",
+      "values": {
+        "prow_": {
+          "meaning": "Property owner",
+          "record_count": 1703,
+          "usage": "Property owner relationship (100%)",
+          "sql_example": "WHERE RI_X_TP_TP_CL = 'prow_'"
+        }
+      },
+      "notes": "Currently only property owner type is used",
+      "research_source": "EDWFKS Query 21 - 2025-11-17"
+    }
+  }
+}

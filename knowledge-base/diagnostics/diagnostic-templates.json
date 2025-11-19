@@ -1,0 +1,214 @@
+{
+  "metadata": {
+    "description": "Diagnostic query templates for systematic database exploration",
+    "source": "Based on diagnostics_workflow from instructions",
+    "version": "1.0",
+    "last_updated": "2025-11-17",
+    "usage": "When SQL Developer needs to verify data patterns before writing main query"
+  },
+  "exploration_templates": {
+    "verify_table_exists": {
+      "purpose": "Confirm table exists and explore structure",
+      "when_to_use": "Table name uncertain or want to see sample data",
+      "template": "SELECT TOP 5 * FROM {database}.{table} WHERE SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWBLU01600_VP.DT)",
+      "parameters": {
+        "database": "Database name (e.g., EDWBLU01600_VP)",
+        "table": "Table name to verify"
+      },
+      "expected_result": "Sample rows showing all columns and data types",
+      "fallback": "If fails, table doesn't exist - search Databases/*.json for similar names"
+    },
+    "check_code_values": {
+      "purpose": "Explore possible values in code columns (_CD, _CL, _TP)",
+      "when_to_use": "Need to understand what codes are valid for filtering",
+      "template": "SELECT {column}, COUNT(*) AS cnt FROM {database}.{table} WHERE SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWBLU01600_VP.DT) GROUP BY {column} ORDER BY cnt DESC",
+      "parameters": {
+        "database": "Database name",
+        "table": "Table containing code column",
+        "column": "Code column to explore (e.g., IP_TP_CD, AC_STS_CD)"
+      },
+      "expected_result": "List of all code values with frequency counts",
+      "analysis": "Check variable_explanations.json to see if codes are documented"
+    },
+    "check_join_cardinality": {
+      "purpose": "Verify if join is 1:1, 1:many, or many:many",
+      "when_to_use": "Uncertain about join multiplying rows",
+      "template": "SELECT {left_key}, COUNT(*) AS match_count FROM {left_table} t1 LEFT JOIN {right_table} t2 ON t1.{left_key} = t2.{right_key} AND t1.SNPST_DT = t2.SNPST_DT WHERE t1.SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWBLU01600_VP.DT) GROUP BY {left_key} HAVING COUNT(*) > 1 SAMPLE 100",
+      "parameters": {
+        "left_table": "Primary table in join",
+        "right_table": "Secondary table in join",
+        "left_key": "Join column from left table",
+        "right_key": "Join column from right table"
+      },
+      "expected_result": "Rows where join produces multiple matches",
+      "analysis": "If no rows returned: 1:1 relationship. If rows returned: 1:many or many:many"
+    },
+    "check_temporal_coverage": {
+      "purpose": "Check date ranges and snapshot availability",
+      "when_to_use": "Need to know what snapshots are available",
+      "template": "SELECT MIN(SNPST_DT) AS earliest, MAX(SNPST_DT) AS latest, COUNT(DISTINCT SNPST_DT) AS snapshot_count FROM {database}.{table}",
+      "parameters": {
+        "database": "Database name",
+        "table": "Temporal table to check"
+      },
+      "expected_result": "Date range and number of snapshots available"
+    },
+    "check_data_completeness": {
+      "purpose": "Check for NULLs and data quality in columns",
+      "when_to_use": "Need to understand data completeness before filtering",
+      "template": "SELECT COUNT(*) AS total_rows, COUNT({column}) AS non_null_count, COUNT(*) - COUNT({column}) AS null_count, COUNT(DISTINCT {column}) AS distinct_values FROM {database}.{table} WHERE SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWBLU01600_VP.DT)",
+      "parameters": {
+        "database": "Database name",
+        "table": "Table to check",
+        "column": "Column to analyze"
+      },
+      "expected_result": "Statistics on NULLs and distinct values"
+    },
+    "find_relationship_between_tables": {
+      "purpose": "Discover how two tables are related",
+      "when_to_use": "Join relationship not documented",
+      "note": "Only works if user has access to DBC.Columns system table",
+      "template": "SELECT t1_cols.column_name AS t1_column, t2_cols.column_name AS t2_column FROM (SELECT DISTINCT column_name FROM DBC.Columns WHERE DatabaseName = '{db1}' AND TableName = '{table1}') t1_cols INNER JOIN (SELECT DISTINCT column_name FROM DBC.Columns WHERE DatabaseName = '{db2}' AND TableName = '{table2}') t2_cols ON t1_cols.column_name = t2_cols.column_name",
+      "parameters": {
+        "db1": "First database",
+        "table1": "First table",
+        "db2": "Second database",
+        "table2": "Second table"
+      },
+      "expected_result": "Common column names that might be join keys",
+      "alternative": "If DBC access unavailable, check Databases/*.json for fk field"
+    },
+    "sample_join_results": {
+      "purpose": "Test join and see sample results",
+      "when_to_use": "Want to verify join produces expected data",
+      "template": "SELECT TOP 10 t1.*, t2.* FROM {left_table} t1 LEFT JOIN {right_table} t2 ON {join_condition} WHERE t1.SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWBLU01600_VP.DT) AND t2.SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWBLU01600_VP.DT)",
+      "parameters": {
+        "left_table": "Primary table",
+        "right_table": "Secondary table",
+        "join_condition": "Full join condition with AND SNPST_DT if applicable"
+      },
+      "expected_result": "Sample joined rows to verify correctness"
+    },
+    "check_ldb_id_distribution": {
+      "purpose": "Check LDB_ID values and distribution",
+      "when_to_use": "Need to understand which LDB_ID to filter",
+      "template": "SELECT LDB_ID, COUNT(*) AS cnt FROM {database}.{table} WHERE SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWBLU01600_VP.DT) GROUP BY LDB_ID ORDER BY cnt DESC",
+      "parameters": {
+        "database": "Database name",
+        "table": "Table with LDB_ID column"
+      },
+      "expected_result": "Count of records per LDB_ID",
+      "analysis": "Most operational data is LDB_ID = 1600"
+    },
+    "check_flag_values": {
+      "purpose": "Explore flag field values (_F suffix)",
+      "when_to_use": "Need to understand Y/N or 1/0 flag values",
+      "template": "SELECT {flag_column}, COUNT(*) AS cnt FROM {database}.{table} WHERE SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWBLU01600_VP.DT) GROUP BY {flag_column} ORDER BY cnt DESC",
+      "parameters": {
+        "database": "Database name",
+        "table": "Table containing flag",
+        "flag_column": "Flag column to explore (e.g., EXT_PD_F, CST_AC_F)"
+      },
+      "expected_result": "Distribution of flag values (Y/N, 1/0, etc.)",
+      "analysis": "Check variable_explanations.json for flag meaning"
+    }
+  },
+  "diagnostic_workflow": {
+    "when_to_trigger_diagnostics": [
+      "Table or column name uncertain",
+      "Code values not documented in variable_explanations.json",
+      "Join cardinality uncertain (will it multiply rows?)",
+      "Need to validate business logic with sample data",
+      "Date ranges or snapshot availability unknown",
+      "Relationship between tables not in common_join_patterns.json"
+    ],
+    "how_to_request": {
+      "format": "--- DIAGNOSTICS REQUEST ---",
+      "sections": [
+        "**Purpose**: Brief explanation of what needs verification",
+        "**Context**: What user asked for and what's unclear",
+        "**What needs checking**: Specific tables/columns/relationships to explore",
+        "**Key questions**: What uncertainties need to be resolved",
+        "**What to look for**: Data patterns, anomalies, discrepancies",
+        "**Report back**: What specific information is needed to proceed"
+      ]
+    },
+    "diagnostic_query_requirements": [
+      "Simple and fast (avoid complex joins when possible)",
+      "Limited with TOP 10 or SAMPLE 100 when exploring",
+      "Teradata-syntax compliant (check TERADATA_FORBIDDEN_PATTERNS.json)",
+      "Self-contained (don't reference previous conversation)",
+      "Focused (each query checks one specific thing)"
+    ]
+  },
+  "common_diagnostic_scenarios": {
+    "unknown_customer_segment_data": {
+      "problem": "Need to segment customers but unsure which table/column",
+      "diagnostic_queries": [
+        {
+          "purpose": "Find tables with segment or group in name",
+          "action": "Search Databases/*.json for tables containing SEG, GRP, CLASS"
+        },
+        {
+          "purpose": "Explore CST_GRP or similar tables",
+          "template": "verify_table_exists for each candidate table"
+        },
+        {
+          "purpose": "Check relationship between CST and segment tables",
+          "template": "check_join_cardinality between CST and candidate tables"
+        }
+      ]
+    },
+    "unknown_balance_calculation": {
+      "problem": "Need balance but unsure which balance field to use",
+      "diagnostic_queries": [
+        {
+          "purpose": "Find balance columns",
+          "action": "Search Databases/*.json for columns containing BAL, AMT"
+        },
+        {
+          "purpose": "Check sample values and NULLs",
+          "template": "check_data_completeness for each balance column"
+        },
+        {
+          "purpose": "Verify which balance is correct for use case",
+          "template": "Sample data from AC_AR_BAL with different balance columns"
+        }
+      ]
+    },
+    "unknown_code_meaning": {
+      "problem": "Code values not documented, need to understand meaning",
+      "diagnostic_queries": [
+        {
+          "purpose": "Get all code values with frequency",
+          "template": "check_code_values"
+        },
+        {
+          "purpose": "Check if _NM variant exists with descriptions",
+          "action": "Look for {column}_NM in same table schema"
+        },
+        {
+          "purpose": "Sample records to infer meaning",
+          "template": "verify_table_exists to see sample data"
+        }
+      ]
+    },
+    "join_causing_duplicates": {
+      "problem": "Join returns more rows than expected",
+      "diagnostic_queries": [
+        {
+          "purpose": "Check join cardinality",
+          "template": "check_join_cardinality"
+        },
+        {
+          "purpose": "Verify both tables filtered by same SNPST_DT",
+          "action": "Check if AND t1.SNPST_DT = t2.SNPST_DT in join"
+        },
+        {
+          "purpose": "Check for bridge table pattern",
+          "action": "Look for {TABLE1}_X_{TABLE2} table in schema"
+        }
+      ]
+    }
+  }
+}

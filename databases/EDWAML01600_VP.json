@@ -1,0 +1,1136 @@
+{
+  "EDWAML01600_VP.AML_ALRT": {
+    "cols": {
+      "AML_ALRT_ID": "INT!",
+      "UNQ_ID_SRC_DEC": "DEC(15,0)!",
+      "ENTY_SEG_ID": "DEC(13,0)!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "EFF_DT": "DATE!",
+      "AML_ALRT_PD_TP_CL": "VAR(5)",
+      "AML_ALRT_PD_TP_NM": "VAR(255)",
+      "AML_ALRT_LCS_CL": "VAR(5)",
+      "AML_ALRT_LCS_NM": "VAR(255)",
+      "MNY_LNDR_RSK_SCOR": "SMALLINT",
+      "TERROR_FNC_RSK_SCOR": "SMALLINT",
+      "AML_ALRT_DSC": "VAR(100)",
+      "IP_ID": "INT!",
+      "IP_UNQ_ID_IN_SRC_DEC": "DEC(12,0)!",
+      "UNQ_ID_IN_SRC_DEC": "DEC(15,0)!",
+      "AR_ID": "INT!",
+      "AR_UNQ_ID_IN_SRC_DEC": "DEC(15,0)!",
+      "AML_SRO_ID": "INT!",
+      "SPPR_END_DT": "TIMESTAMP(2)",
+      "ALRT_VAL_TX": "VAR(2000)",
+      "ALRT_LVL_TP_CL": "VAR(5)",
+      "AML_LVL_TP_NM": "VAR(255)",
+      "CRT_TMS": "TIMESTAMP(2)",
+      "EXT_USR": "VAR(60)",
+      "VRSN_NBR": "SMALLINT",
+      "LOGL_DEL_F": "CHAR(1)",
+      "ALRT_TP_CL": "VAR(5)",
+      "ALRT_TP_NM": "VAR(255)",
+      "ALRT_CGY_CL": "VAR(5)",
+      "ALRT_CGY_NM": "VAR(255)",
+      "ALRT_SUB_CGY_CL": "VAR(5)",
+      "ALRT_SUB_CGY_NM": "VAR(255)"
+    },
+    "pk": [
+      "AML_ALRT_ID",
+      "UNQ_ID_SRC_DEC",
+      "ENTY_SEG_ID",
+      "LDB_ID",
+      "IP_ID",
+      "IP_UNQ_ID_IN_SRC_DEC",
+      "UNQ_ID_IN_SRC_DEC",
+      "AR_ID",
+      "AR_UNQ_ID_IN_SRC_DEC",
+      "AML_SRO_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "AML_ALRT_ID": "AML_ALRT.AML_ALRT_ID",
+      "ENTY_SEG_ID": "ENTY_SEG.ENTY_SEG_ID",
+      "IP_ID": "IP.IP_ID",
+      "AR_ID": "AR.AR_ID",
+      "AML_SRO_ID": "AML_SRO.AML_SRO_ID"
+    },
+    "idx": [
+      "AML_ALRT_ID",
+      "ENTY_SEG_ID",
+      "LDB_ID",
+      "SNPST_DT",
+      "EFF_DT"
+    ]
+  },
+  "EDWAML01600_VP.AML_ALRT_CASES_FCT": {
+    "cols": {
+      "SNPST_DT": "DATE!",
+      "LDB_ID": "SMALLINT!",
+      "ALRT_EV_EXT_USR": "VAR(60)",
+      "CLC_IVS_TM_DAYS": "INT",
+      "CLS_RSN": "VAR(255)",
+      "ALRT_IP_ID": "INT!",
+      "ALRT_IP_NM": "VAR(255)",
+      "DRVD_CST_IDENTN_NO": "VAR(255)!",
+      "SRO_NM": "VAR(32)",
+      "SRO_DSC": "VAR(255)",
+      "SRO_ST_TP_CL": "CHAR(5)",
+      "SRO_ST_TP": "VAR(255)",
+      "AML_ALRT_ID": "INT!",
+      "ALRT_CRT_TMS": "TIMESTAMP(2)",
+      "AML_CASE_ID": "INT!",
+      "CASE_CRT_TMS": "TIMESTAMP(6)",
+      "CRT_DT": "DATE",
+      "PPN_EV_ID": "INT!"
+    },
+    "pk": [
+      "LDB_ID",
+      "ALRT_IP_ID",
+      "DRVD_CST_IDENTN_NO",
+      "AML_ALRT_ID",
+      "AML_CASE_ID",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "ALRT_IP_ID": "ALRT.IP_ID",
+      "AML_ALRT_ID": "AML_ALRT.AML_ALRT_ID",
+      "AML_CASE_ID": "AML_CASE.AML_CASE_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "SNPST_DT",
+      "LDB_ID",
+      "ALRT_IP_ID",
+      "AML_ALRT_ID",
+      "AML_CASE_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_ALRT_EV": {
+    "cols": {
+      "AML_EV_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "EV_CRT_TMS": "TIMESTAMP(3)",
+      "EV_TP_CL": "VAR(5)",
+      "EV_TP_NM": "VAR(255)",
+      "AML_ALRT_ID": "INT!",
+      "EV_DSC": "VAR(255)",
+      "EXT_USR": "VAR(60)",
+      "UNQ_ID_SRC_DEC": "DEC(15,0)!"
+    },
+    "pk": [
+      "AML_EV_ID",
+      "LDB_ID",
+      "AML_ALRT_ID",
+      "UNQ_ID_SRC_DEC"
+    ],
+    "fk": {
+      "AML_EV_ID": "AML_EV.AML_EV_ID",
+      "AML_ALRT_ID": "AML_ALRT.AML_ALRT_ID"
+    },
+    "idx": [
+      "AML_EV_ID",
+      "LDB_ID",
+      "AML_ALRT_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_AUDT_TRCK_FCT_SRO": {
+    "cols": {
+      "SNPST_DT": "DATE!",
+      "LDB_ID": "SMALLINT!",
+      "SRO_NM": "VAR(32)",
+      "SRO_SHRT_DSC": "VAR(100)",
+      "SRO_ST_TP_CL": "CHAR(5)",
+      "SRO_ST_TP": "VAR(255)",
+      "VRSN_NBR": "SMALLINT",
+      "EFF_DT": "DATE!",
+      "CHG_EXT_USR": "VAR(60)",
+      "PARM_NM": "VAR(32)",
+      "PARM_TP_CL": "CHAR(5)",
+      "PARM_TP": "VAR(255)",
+      "PARM_DSC": "VAR(255)",
+      "PARM_CRN_VAL": "VAR(1024)",
+      "PARM_PREV_VAL": "VAR(1024)",
+      "PARM_ORIG_VAL": "VAR(1024)",
+      "PPN_EV_ID": "INT!"
+    },
+    "pk": [
+      "LDB_ID",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "SNPST_DT",
+      "LDB_ID",
+      "EFF_DT",
+      "PPN_EV_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_CASE": {
+    "cols": {
+      "AML_CASE_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "EFF_DT": "DATE!",
+      "CASE_TP_CL": "VAR(5)",
+      "CASE_TP_NM": "VAR(255)",
+      "CASE_CGY_CL": "VAR(5)",
+      "CASE_CGY_NM": "VAR(255)",
+      "CASE_SUB_CGY_CL": "VAR(5)",
+      "CASE_SUB_CGY_NM": "VAR(255)",
+      "CASE_PRTY_CL": "VAR(5)",
+      "CASE_PRTY_NM": "VAR(255)",
+      "CASE_CLS_RSN_CL": "VAR(5)",
+      "CASE_CLS_RSN_NM": "VAR(255)",
+      "CASE_DSC": "VAR(100)",
+      "CASE_SMY": "VAR(4000)",
+      "AGRT_AMT": "DEC(16,3)",
+      "LAW_ENFR_AGNC_CNTC_F": "CHAR(1)",
+      "LAW_ENFR_AGNC": "VAR(150)",
+      "LAW_ENFR_AGNC_CTC_NM": "VAR(150)",
+      "LAW_ENFR_AGNC_CTC_PH": "VAR(16)",
+      "LAW_ENFR_AGNC_CTC_EXN": "VAR(16)",
+      "LAW_ENFR_AGNC_CTC_DT": "DATE",
+      "CRT_TMS": "TIMESTAMP(6)",
+      "CRT_EXT_USR": "VAR(60)",
+      "OPN_F": "CHAR(1)",
+      "MOD_F": "CHAR(1)",
+      "EMPE_F": "CHAR(1)",
+      "CASE_ST_TP_CL": "VAR(5)",
+      "CASE_ST_TP_NM": "VAR(255)",
+      "FRST_TXN_DT": "DATE",
+      "LAST_TXN_DT": "DATE",
+      "VRSN_NBR": "SMALLINT",
+      "LOGL_DEL_F": "CHAR(1)",
+      "CHG_EXT_USR": "VAR(60)",
+      "OWNR_EXT_USR": "VAR(60)"
+    },
+    "pk": [
+      "AML_CASE_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "AML_CASE_ID": "AML_CASE.AML_CASE_ID"
+    },
+    "idx": [
+      "AML_CASE_ID",
+      "LDB_ID",
+      "SNPST_DT",
+      "EFF_DT",
+      "LAW_ENFR_AGNC_CTC_DT"
+    ]
+  },
+  "EDWAML01600_VP.AML_CASE_ENTY": {
+    "cols": {
+      "AML_CASE_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "LAST_UPD_TMS": "TIMESTAMP(3)",
+      "ENTY_TP_CL": "VAR(5)",
+      "ENTY_TP_NM": "VAR(255)",
+      "AML_ENTY_ID": "INT!",
+      "AR_ID": "INT!",
+      "IP_ID": "INT!",
+      "ENTY_NO": "VAR(50)",
+      "ENTY_UNQ_ID_IN_SRC_DEC": "DEC(15,0)!",
+      "ENTY_NM": "VAR(200)",
+      "PRIM_SSP_F": "CHAR(1)",
+      "RLTN_DSC": "VAR(32)",
+      "EXT_USR": "VAR(60)",
+      "VRSN_NBR": "SMALLINT",
+      "REG_RPT_RQD_F": "CHAR(1)"
+    },
+    "pk": [
+      "AML_CASE_ID",
+      "LDB_ID",
+      "AML_ENTY_ID",
+      "AR_ID",
+      "IP_ID",
+      "ENTY_UNQ_ID_IN_SRC_DEC"
+    ],
+    "fk": {
+      "AML_CASE_ID": "AML_CASE.AML_CASE_ID",
+      "AML_ENTY_ID": "AML_ENTY.AML_ENTY_ID",
+      "AR_ID": "AR.AR_ID",
+      "IP_ID": "IP.IP_ID"
+    },
+    "idx": [
+      "AML_CASE_ID",
+      "LDB_ID",
+      "AML_ENTY_ID",
+      "AR_ID",
+      "IP_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_CASE_EV": {
+    "cols": {
+      "AML_EV_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "EV_CRT_TMS": "TIMESTAMP(3)",
+      "AML_CASE_ID": "INT!",
+      "UNQ_ID_SRC_DEC": "DEC(15,0)!",
+      "EV_TP_CL": "VAR(5)",
+      "EV_TP_NM": "VAR(255)",
+      "EV_DSC": "VAR(255)",
+      "EXT_USR": "VAR(60)"
+    },
+    "pk": [
+      "AML_EV_ID",
+      "LDB_ID",
+      "AML_CASE_ID",
+      "UNQ_ID_SRC_DEC"
+    ],
+    "fk": {
+      "AML_EV_ID": "AML_EV.AML_EV_ID",
+      "AML_CASE_ID": "AML_CASE.AML_CASE_ID"
+    },
+    "idx": [
+      "AML_EV_ID",
+      "LDB_ID",
+      "AML_CASE_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_CASE_X_ALRT": {
+    "cols": {
+      "AML_CASE_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "AML_ALRT_ID": "INT!",
+      "LAST_UPD_TMS": "TIMESTAMP(3)",
+      "EXT_USR": "VAR(60)",
+      "VRSN_NBR": "SMALLINT"
+    },
+    "pk": [
+      "AML_CASE_ID",
+      "LDB_ID",
+      "AML_ALRT_ID"
+    ],
+    "fk": {
+      "AML_CASE_ID": "AML_CASE.AML_CASE_ID",
+      "AML_ALRT_ID": "AML_ALRT.AML_ALRT_ID"
+    },
+    "idx": [
+      "AML_CASE_ID",
+      "LDB_ID",
+      "AML_ALRT_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_CGY_CL_FIV": {
+    "cols": {
+      "AML_CGY_CL_ID": "INT!",
+      "LVL_2_LOOKUP_CODE": "VAR(28)",
+      "LVL_3_LOOKUP_CODE": "VAR(28)",
+      "LVL_3_LOOKUP_NM": "VAR(250)",
+      "EXT_USER": "VAR(60)",
+      "EFF_DT": "DATE!",
+      "END_DT": "DATE",
+      "LDB_ID": "SMALLINT!",
+      "ACT_ROW_F": "CHAR(1)"
+    },
+    "pk": [
+      "AML_CGY_CL_ID",
+      "LDB_ID"
+    ],
+    "fk": {
+      "AML_CGY_CL_ID": "AML_CGY_CL.AML_CGY_CL_ID"
+    },
+    "idx": [
+      "AML_CGY_CL_ID",
+      "EFF_DT",
+      "END_DT",
+      "LDB_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_CGY_FIV": {
+    "cols": {
+      "LVL_2_LOOKUP_CODE": "VAR(28)",
+      "LVL_3_LOOKUP_CODE": "VAR(28)",
+      "LOOKUP_CODE": "VAR(35)",
+      "EXT_USER": "VAR(60)",
+      "EFF_DT": "DATE!",
+      "END_DT": "DATE",
+      "LDB_ID": "SMALLINT!",
+      "ACT_ROW_F": "CHAR(1)"
+    },
+    "pk": "LDB_ID",
+    "idx": [
+      "EFF_DT",
+      "END_DT",
+      "LDB_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_CTF_RPT_NO_FIV": {
+    "cols": {
+      "SNPST_DT": "DATE!",
+      "LDB_ID": "SMALLINT!",
+      "FI_LEGAL_NM": "VAR(200)",
+      "BULLET_NO": "VAR(20)",
+      "BULLET_TXT": "VAR(200)",
+      "VAL": "DEC(15,0)",
+      "ORDER_NO": "SMALLINT"
+    },
+    "pk": [
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "SNPST_DT",
+      "LDB_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_HDR": {
+    "cols": {
+      "AML_HDR_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "EFF_DT": "DATE!",
+      "HDR_NM": "VAR(32)",
+      "HDR_DSC": "VAR(255)",
+      "HDR_TP_CL": "CHAR(5)",
+      "HDR_TP_NM": "VAR(255)",
+      "UNQ_ID_SRC_DEC": "DEC(15,0)!",
+      "DENORM_TBL_NM": "VAR(32)",
+      "ALERT_TBL_NM": "VAR(24)",
+      "HDR_AUTOGEN_F": "CHAR(1)",
+      "HDR_LO_DSC": "VAR(255)",
+      "SRC_TP_DSC": "VAR(32)",
+      "EXT_USR": "VAR(60)",
+      "HDR_FRST_EFF_DT": "DATE!",
+      "HDR_HOST_DSC": "VAR(50)",
+      "VRSN_NBR": "SMALLINT",
+      "LOGL_DEL_F": "CHAR(1)"
+    },
+    "pk": [
+      "AML_HDR_ID",
+      "LDB_ID",
+      "UNQ_ID_SRC_DEC",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "AML_HDR_ID": "AML_HDR.AML_HDR_ID"
+    },
+    "idx": [
+      "AML_HDR_ID",
+      "LDB_ID",
+      "SNPST_DT",
+      "EFF_DT",
+      "HDR_FRST_EFF_DT"
+    ]
+  },
+  "EDWAML01600_VP.AML_KYC_POLCY": {
+    "cols": {
+      "AML_POLCY_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "EFF_DT": "DATE!",
+      "UNQ_ID_IN_SRC_DEC": "DEC(15,0)!",
+      "AML_RTG_SCL": "VAR(35)",
+      "FRQ_PRD": "DEC(8,0)",
+      "MAX_FRC_ENTR": "DEC(8,0)"
+    },
+    "pk": [
+      "AML_POLCY_ID",
+      "LDB_ID",
+      "UNQ_ID_IN_SRC_DEC",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "AML_POLCY_ID": "AML_POLCY.AML_POLCY_ID"
+    },
+    "idx": [
+      "AML_POLCY_ID",
+      "LDB_ID",
+      "SNPST_DT",
+      "EFF_DT"
+    ]
+  },
+  "EDWAML01600_VP.AML_KYC_TRGR": {
+    "cols": {
+      "AML_TRGR_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "EFF_DT": "DATE!",
+      "AML_POLCY_ID": "INT!",
+      "UNQ_ID_IN_SRC_DEC": "INT!",
+      "POLCY_UNQ_ID_IN_SRC_DEC": "DEC(8,0)!",
+      "IP_ID": "INT!",
+      "TRGR_FRST_EFF_DT": "DATE!",
+      "TRGR_LCS_TP_CL": "CHAR(5)",
+      "TRGR_LCS_TP_NM": "VAR(255)",
+      "KYC_TP": "VAR(16)",
+      "SRC_STM": "VAR(16)",
+      "CRT_EXT_USR": "VAR(100)",
+      "APPR_EXT_USER": "VAR(100)",
+      "APPR_TS": "TIMESTAMP(6)",
+      "SKIP_COUNT": "INT",
+      "KYC_LCS_UPD_USR": "VAR(100)"
+    },
+    "pk": [
+      "AML_TRGR_ID",
+      "LDB_ID",
+      "AML_POLCY_ID",
+      "UNQ_ID_IN_SRC_DEC",
+      "POLCY_UNQ_ID_IN_SRC_DEC",
+      "IP_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "AML_TRGR_ID": "AML_TRGR.AML_TRGR_ID",
+      "AML_POLCY_ID": "AML_POLCY.AML_POLCY_ID",
+      "IP_ID": "IP.IP_ID"
+    },
+    "idx": [
+      "AML_TRGR_ID",
+      "LDB_ID",
+      "SNPST_DT",
+      "EFF_DT",
+      "AML_POLCY_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_NOTF_AHR_CLS_FCT": {
+    "cols": {
+      "SNPST_DT": "DATE!",
+      "LDB_ID": "SMALLINT!",
+      "EXT_USR": "VAR(60)",
+      "CLS_RSN": "VAR(255)",
+      "IP_ID": "INT!",
+      "AML_ALRT_ID": "INT!",
+      "AML_CASE_ID": "INT!",
+      "EDW_ALRT_ID": "INT!",
+      "EDW_CASE_ID": "INT!",
+      "CLS_DT": "DATE",
+      "AML_RATING": "VAR(5)",
+      "AML_DSC": "VAR(255)",
+      "CST_NM": "VAR(511)",
+      "DRVD_CST_IDENTN_NO": "VAR(255)!",
+      "CST_SEG_NM": "VAR(255)",
+      "POS_AMT": "DEC(18,2)",
+      "NEG_AMT": "DEC(18,2)",
+      "PPN_EV_ID": "INT!"
+    },
+    "pk": [
+      "LDB_ID",
+      "IP_ID",
+      "AML_ALRT_ID",
+      "AML_CASE_ID",
+      "EDW_ALRT_ID",
+      "EDW_CASE_ID",
+      "DRVD_CST_IDENTN_NO",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "IP_ID": "IP.IP_ID",
+      "AML_ALRT_ID": "AML_ALRT.AML_ALRT_ID",
+      "AML_CASE_ID": "AML_CASE.AML_CASE_ID",
+      "EDW_ALRT_ID": "EDW_ALRT.EDW_ALRT_ID",
+      "EDW_CASE_ID": "EDW_CASE.EDW_CASE_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "SNPST_DT",
+      "LDB_ID",
+      "IP_ID",
+      "AML_ALRT_ID",
+      "AML_CASE_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_NOTF_AHR_RPT_FCT": {
+    "cols": {
+      "SNPST_DT": "DATE!",
+      "LDB_ID": "SMALLINT!",
+      "AML_CASE_ID": "INT!",
+      "RPT_KEY": "DEC(15,0)",
+      "RPT_DSC": "VAR(100)",
+      "RPT_LC_TP_CL": "CHAR(5)",
+      "RPT_LC_TP_NM": "VAR(255)",
+      "CRT_TMS": "TIMESTAMP(6)",
+      "CRT_DT": "DATE",
+      "OWNR_EXT_USR": "VAR(60)",
+      "IP_ID": "INT!",
+      "CST_SRC_CASE_ALRT_F": "CHAR(3)",
+      "AML_RATING": "VAR(5)",
+      "AML_DSC": "VAR(200)",
+      "CST_NM": "VAR(483)",
+      "DRVD_CST_IDENTN_NO": "VAR(255)!",
+      "CST_SEG_NM": "VAR(255)",
+      "POS_AMT": "DEC(15,2)",
+      "NEG_AMT": "DEC(15,2)",
+      "PPN_EV_ID": "INT!"
+    },
+    "pk": [
+      "LDB_ID",
+      "AML_CASE_ID",
+      "IP_ID",
+      "DRVD_CST_IDENTN_NO",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "AML_CASE_ID": "AML_CASE.AML_CASE_ID",
+      "IP_ID": "IP.IP_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "SNPST_DT",
+      "LDB_ID",
+      "AML_CASE_ID",
+      "CRT_DT",
+      "IP_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_PAR_AR_FIV": {
+    "cols": {
+      "PD_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "PD_IDFR": "DEC(15,0)!",
+      "APD_CODE": "VAR(40)",
+      "APD_NAME": "VAR(255)",
+      "APD_MARKETING_NAME": "VAR(80)",
+      "CDN_IDFR": "DEC(15,0)!",
+      "CDN_TXT": "VAR(35)",
+      "PDEL_IDFR": "DEC(15,0)!",
+      "PDEL_TP_CL": "VAR(7)",
+      "PDEL_NAME": "VAR(255)",
+      "ACC_GRP_COD": "VAR(2)",
+      "ACC_COD_TXT": "VAR(255)",
+      "ACC_SEG_TXT": "VAR(255)",
+      "APD_INC_F": "CHAR(1)",
+      "CDN_INC_F": "CHAR(1)",
+      "TPL_INC_F": "CHAR(1)",
+      "ACT_DT": "DATE",
+      "ACC_INC_F": "CHAR(1)",
+      "PDS_EFF_DT": "DATE!"
+    },
+    "pk": [
+      "PD_ID",
+      "LDB_ID",
+      "PD_IDFR",
+      "CDN_IDFR",
+      "PDEL_IDFR"
+    ],
+    "fk": {
+      "PD_ID": "PD.PD_ID"
+    },
+    "idx": [
+      "PD_ID",
+      "LDB_ID",
+      "ACT_DT",
+      "PDS_EFF_DT"
+    ]
+  },
+  "EDWAML01600_VP.AML_PAR_TXN_FIV": {
+    "cols": {
+      "AC_TXN_TP_ID": "INT!",
+      "TXN_CNL_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "PSSTD_IDFR": "DEC(15,0)!",
+      "RIFS_IDFR_USES": "DEC(15,0)!",
+      "TK_KEY": "DEC(15,0)",
+      "DLV_SYST_NM": "VAR(255)",
+      "PSSTD_NM": "VAR(255)",
+      "PYMT_NM": "VAR(255)",
+      "UPDATED_BY": "VAR(100)",
+      "UPDATED": "TIMESTAMP(6)",
+      "EFF_DT": "DATE!",
+      "END_DT": "DATE",
+      "BRC": "DEC(15,0)",
+      "DSC_ID": "DEC(15,0)!",
+      "TX": "VAR(70)"
+    },
+    "pk": [
+      "AC_TXN_TP_ID",
+      "TXN_CNL_ID",
+      "LDB_ID",
+      "PSSTD_IDFR",
+      "RIFS_IDFR_USES",
+      "DSC_ID"
+    ],
+    "fk": {
+      "AC_TXN_TP_ID": "AC_TXN_TP.AC_TXN_TP_ID",
+      "TXN_CNL_ID": "TXN_CNL.TXN_CNL_ID",
+      "DSC_ID": "DSC.DSC_ID"
+    },
+    "idx": [
+      "AC_TXN_TP_ID",
+      "TXN_CNL_ID",
+      "LDB_ID",
+      "EFF_DT",
+      "END_DT"
+    ]
+  },
+  "EDWAML01600_VP.AML_REG_NO_765_2006_AMT_FIV": {
+    "cols": {
+      "SNPST_DT": "Y!",
+      "LDB_ID": "SMALLINT!",
+      "IP_ID": "INT!",
+      "DRVD_CST_IDENTN_NO": "VAR(16)!",
+      "PSN_IDENTN_NO": "VAR(16)!",
+      "AC_OWN_PCT": "DEC(9,5)",
+      "NM": "VAR(483)",
+      "SUR_NM": "VAR(120)",
+      "GVN_NM": "VAR(120)",
+      "IP_TP_CL": "VAR(5)",
+      "ZIP_CODE": "VAR(10)",
+      "POSTAL_NM": "VAR(120)",
+      "CTY": "CHAR(2)",
+      "BRTH_DT": "DATE",
+      "PLC_OF_BRTH_ISO_CODE": "VAR(20)",
+      "PLC_OF_BRTH_NM": "VAR(35)",
+      "PRIM_CTZN_ISO_CODE": "VAR(20)",
+      "PRIM_CTZN_CTY_NM": "VAR(120)",
+      "SCDY_CTZN_ISO_CODE": "VAR(20)",
+      "SCDY_CTZN_CTY_NM": "VAR(120)",
+      "RU_BY_RLN_CGY": "CHAR(2)",
+      "RU_BY_ISO_CODE_CGY": "VAR(4)",
+      "AR_ID": "INT!",
+      "AR_TP_CL_NM": "VAR(255)",
+      "AR_LCS_TP_CL_NM": "VAR(255)",
+      "AC_AR_NO": "VAR(20)",
+      "IBAN_AC_NO": "VAR(30)",
+      "CCY": "CHAR(3)",
+      "EOD_BAL_AMT": "DEC(15,2)",
+      "SUM_EOD_BAL_AMT": "DEC(15,2)",
+      "SUM_FLAG": "BYTEINT",
+      "SUM_FLAG_DT": "DATE",
+      "LDB_ID_CTY": "CHAR(2)!",
+      "PPN_EV_ID": "INT!"
+    },
+    "pk": [
+      "LDB_ID",
+      "IP_ID",
+      "DRVD_CST_IDENTN_NO",
+      "PSN_IDENTN_NO",
+      "AR_ID",
+      "LDB_ID_CTY",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "IP_ID": "IP.IP_ID",
+      "AR_ID": "AR.AR_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "SNPST_DT",
+      "LDB_ID",
+      "IP_ID",
+      "BRTH_DT",
+      "AR_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_REG_RPT": {
+    "cols": {
+      "AML_RPT_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "EFF_DT": "DATE!",
+      "PREV_RPT_KEY": "INT",
+      "PRN_RPT_KEY": "INT",
+      "RPT_LC_TP_CL": "CHAR(5)",
+      "RPT_LC_TP_NM": "VAR(255)",
+      "RPT_ST_TP_CL": "CHAR(5)",
+      "RPT_ST_TP_NM": "VAR(255)",
+      "RPT_DSC": "VAR(100)",
+      "FORM_CFG_ID": "INT!",
+      "FORM_CFG_UNQ_ID_IN_SRC_DEC": "DEC(15,0)!",
+      "UNQ_ID_SRC_DEC": "DEC(15,0)!",
+      "PRN_OBJ_TP_CL": "CHAR(5)",
+      "PRN_OBJ_TP_NM": "VAR(255)",
+      "AML_CASE_ID": "INT!",
+      "CORR_RPT_F": "CHAR(1)",
+      "CRT_EXT_USR": "VAR(60)",
+      "OWNR_EXT_USR": "VAR(60)",
+      "CHG_EXT_USR": "VAR(60)",
+      "CRT_TMS": "TIMESTAMP(6)",
+      "CHG_TMS": "TIMESTAMP(6)",
+      "VRSN_NBR": "SMALLINT",
+      "LOGL_DEL_F": "CHAR(1)"
+    },
+    "pk": [
+      "AML_RPT_ID",
+      "LDB_ID",
+      "FORM_CFG_ID",
+      "FORM_CFG_UNQ_ID_IN_SRC_DEC",
+      "UNQ_ID_SRC_DEC",
+      "AML_CASE_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "AML_RPT_ID": "AML_RPT.AML_RPT_ID",
+      "FORM_CFG_ID": "FORM_CFG.FORM_CFG_ID",
+      "AML_CASE_ID": "AML_CASE.AML_CASE_ID"
+    },
+    "idx": [
+      "AML_RPT_ID",
+      "LDB_ID",
+      "SNPST_DT",
+      "EFF_DT",
+      "FORM_CFG_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_RSK_CLC_F_FIV": {
+    "cols": {
+      "IP_ID": "INT!",
+      "EFF_DT": "DATE!",
+      "END_DT": "DATE",
+      "LDB_ID": "SMALLINT!",
+      "UNQ_ID_SRC_DEC": "DEC(15,0)!",
+      "ATTR_NM": "VAR(30)",
+      "ATTR_VAL": "VAR(50)"
+    },
+    "pk": [
+      "IP_ID",
+      "LDB_ID",
+      "UNQ_ID_SRC_DEC"
+    ],
+    "fk": {
+      "IP_ID": "IP.IP_ID"
+    },
+    "idx": [
+      "IP_ID",
+      "EFF_DT",
+      "END_DT",
+      "LDB_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_RSK_CLC_SCOR_FIV": {
+    "cols": {
+      "IP_ID": "INT!",
+      "EFF_DT": "DATE!",
+      "END_DT": "DATE",
+      "LDB_ID": "SMALLINT!",
+      "UNQ_ID_SRC_DEC": "DEC(15,0)!",
+      "CLC_TSM": "TIMESTAMP(6)",
+      "CDD_RULE_IDENTN": "VAR(32)!",
+      "CDD_RULE_NM": "VAR(300)",
+      "CDD_RULE_DSC": "VAR(300)",
+      "CLC_INPT_VAL": "VAR(105)",
+      "CLC_SCOR_VAL": "DEC(10,0)",
+      "SCOR_CL_CODE": "VAR(32)"
+    },
+    "pk": [
+      "IP_ID",
+      "LDB_ID",
+      "UNQ_ID_SRC_DEC",
+      "CDD_RULE_IDENTN"
+    ],
+    "fk": {
+      "IP_ID": "IP.IP_ID"
+    },
+    "idx": [
+      "IP_ID",
+      "EFF_DT",
+      "END_DT",
+      "LDB_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_RSK_PARM_FIV": {
+    "cols": {
+      "IP_ID": "INT!",
+      "EFF_DT": "DATE!",
+      "END_DT": "DATE",
+      "LDB_ID": "SMALLINT!",
+      "PRIM_BANK_F": "CHAR(1)",
+      "PRIM_BANK_TX": "VAR(1000)",
+      "PHYS_ATTD_F": "CHAR(1)",
+      "PHYS_ATTD_TX": "VAR(1000)",
+      "WEB_ATTD_F": "CHAR(1)",
+      "WEB_ATTD_TX": "VAR(1000)",
+      "UNUS_CIRCUM_F": "CHAR(1)",
+      "UNUS_CIRCUM_TX": "VAR(1000)",
+      "PRVT_BNKG_F": "CHAR(1)",
+      "PRVT_BNKG_TX": "VAR(1000)",
+      "TRDPTY_HIGH_RISK_F": "CHAR(1)",
+      "TRDPTY_HIGH_RISK_TX": "VAR(1000)",
+      "MISS_KYC_INF_F": "CHAR(1)",
+      "MISS_KYC_INF_TX": "VAR(1000)",
+      "DE_RSK_F": "CHAR(1)",
+      "DE_RSK_TX": "VAR(1000)",
+      "ACCNT_F": "CHAR(1)",
+      "ACCNT_TX": "VAR(1000)",
+      "UNSPF_CIRCUM_F": "CHAR(1)",
+      "UNSPF_CIRCUM_TX": "VAR(1000)",
+      "EXPC_CRYPTO_TDG_F": "CHAR(1)",
+      "AC_ON_BEHF_F": "CHAR(1)",
+      "ACT_ROW_F": "CHAR(1)",
+      "EXT_USER": "VAR(60)"
+    },
+    "pk": [
+      "IP_ID",
+      "LDB_ID"
+    ],
+    "fk": {
+      "IP_ID": "IP.IP_ID"
+    },
+    "idx": [
+      "IP_ID",
+      "EFF_DT",
+      "END_DT",
+      "LDB_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_RSK_PARM_PEP_FIV": {
+    "cols": {
+      "IP_ID": "INT!",
+      "EFF_DT": "DATE!",
+      "END_DT": "DATE",
+      "LDB_ID": "SMALLINT!",
+      "ST_DT": "DATE",
+      "EXP_DT": "DATE",
+      "PEP_F": "CHAR(1)",
+      "ENTY_WATCH_LIST_NBR": "VAR(35)",
+      "PEP_TP": "VAR(35)",
+      "PEP_RSN_TX": "VAR(1000)",
+      "ACT_ROW_F": "CHAR(1)",
+      "EXT_USER": "VAR(60)",
+      "LOGL_DEL_F": "CHAR(1)",
+      "ADV_CMNT": "VAR(1000)"
+    },
+    "pk": [
+      "IP_ID",
+      "LDB_ID"
+    ],
+    "fk": {
+      "IP_ID": "IP.IP_ID"
+    },
+    "idx": [
+      "IP_ID",
+      "EFF_DT",
+      "END_DT",
+      "LDB_ID",
+      "ST_DT"
+    ]
+  },
+  "EDWAML01600_VP.AML_SEG": {
+    "cols": {
+      "EFF_DT": "DATE!",
+      "END_DT": "DATE",
+      "ENTY_SEG_KEY": "DEC(13,0)",
+      "ENTY_SEG_ID": "DEC(13,0)!",
+      "SEG_NM": "VAR(50)",
+      "SEG_DESC": "VAR(100)",
+      "LDB_ID": "SMALLINT!"
+    },
+    "pk": [
+      "ENTY_SEG_ID",
+      "LDB_ID"
+    ],
+    "fk": {
+      "ENTY_SEG_ID": "ENTY_SEG.ENTY_SEG_ID"
+    },
+    "idx": [
+      "EFF_DT",
+      "END_DT",
+      "ENTY_SEG_ID",
+      "LDB_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_SRO": {
+    "cols": {
+      "AML_SRO_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "EFF_DT": "DATE!",
+      "SRO_NM": "VAR(32)",
+      "SRO_SHRT_DSC": "VAR(100)",
+      "SRO_DSC": "VAR(255)",
+      "SRO_CGY_CL": "CHAR(5)",
+      "SRO_CGY_NM": "VAR(255)",
+      "SRO_PD_TP_CL": "CHAR(5)",
+      "SRO_PD_TP_NM": "VAR(255)",
+      "SRO_CODE_LO_DSC": "VAR(255)",
+      "SRO_ST_TP_CL": "CHAR(5)",
+      "CURRENT_IND": "CHAR(1)",
+      "SRO_ST_TP_NM": "VAR(255)",
+      "UNQ_ID_SRC_DEC": "DEC(15,0)!",
+      "AML_HDR_ID": "INT!",
+      "SRO_DRTN_CNT": "INT",
+      "DFLT_SPPR_DRTN_CNT": "INT",
+      "MNY_LNDR_BAYES_WGHT": "DEC(15,5)",
+      "TERROR_FNC_BAYES_WGHT": "DEC(15,5)",
+      "EXEC_PRBL_RATE": "DEC(7,7)",
+      "RSK_FCTR_F": "CHAR(1)",
+      "SRO_FRST_EFF_DT": "DATE!",
+      "CRT_EXT_USR": "VAR(60)",
+      "CHG_EXT_USR": "VAR(60)",
+      "VRSN_NBR": "SMALLINT",
+      "LOGL_DEL_F": "CHAR(1)",
+      "ORDR_IN_HDR": "SMALLINT",
+      "ALRT_TP_CL": "CHAR(5)",
+      "ALRT_TP_NM": "VAR(255)",
+      "ALRT_CGY_CL": "CHAR(5)",
+      "ALRT_CGY_NM": "VAR(255)",
+      "ALRT_SUB_CGY_CL": "CHAR(5)",
+      "ALRT_SUB_CGY_NM": "VAR(255)",
+      "SRO_TP_CL": "CHAR(5)",
+      "SRO_TP_NM": "VAR(255)",
+      "SRO_RUN_FRQ_CL": "CHAR(5)",
+      "SRO_RUN_FRQ_NM": "VAR(255)",
+      "SV_TRGR_TXN_F": "CHAR(1)",
+      "SKP_N_TXN_F": "CHAR(1)",
+      "PRN_SRO_ID": "INT!"
+    },
+    "pk": [
+      "AML_SRO_ID",
+      "LDB_ID",
+      "UNQ_ID_SRC_DEC",
+      "AML_HDR_ID",
+      "PRN_SRO_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "AML_SRO_ID": "AML_SRO.AML_SRO_ID",
+      "AML_HDR_ID": "AML_HDR.AML_HDR_ID",
+      "PRN_SRO_ID": "PRN_SRO.PRN_SRO_ID"
+    },
+    "idx": [
+      "AML_SRO_ID",
+      "LDB_ID",
+      "SNPST_DT",
+      "EFF_DT",
+      "AML_HDR_ID"
+    ]
+  },
+  "EDWAML01600_VP.AML_SRO_PARM": {
+    "cols": {
+      "AML_SRO_ID": "INT!",
+      "ENTY_SEG_ID": "DEC(13,0)!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "EFF_DT": "DATE!",
+      "PARM_NM": "VAR(32)",
+      "PARM_VAL": "VAR(1024)",
+      "PARM_TP_CL": "VAR(5)",
+      "BTL_PARM_VAL": "VAR(1024)",
+      "PARM_TP_NM": "VAR(255)",
+      "PARM_DSC": "VAR(255)"
+    },
+    "pk": [
+      "AML_SRO_ID",
+      "ENTY_SEG_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "AML_SRO_ID": "AML_SRO.AML_SRO_ID",
+      "ENTY_SEG_ID": "ENTY_SEG.ENTY_SEG_ID"
+    },
+    "idx": [
+      "AML_SRO_ID",
+      "ENTY_SEG_ID",
+      "LDB_ID",
+      "SNPST_DT",
+      "EFF_DT"
+    ]
+  },
+  "EDWAML01600_VP.FCT_AML_ODD": {
+    "cols": {
+      "AML_TRGR_ID": "INT!",
+      "IP_ID": "INT!",
+      "EFF_DT": "DATE!",
+      "APPR_TS": "TIMESTAMP(6)",
+      "TRGR_LCS_TP_CL": "CHAR(5)",
+      "TRGR_LCS_TP_NM": "VAR(100)",
+      "CRT_EXT_USR": "VAR(100)",
+      "SRC_STM": "VAR(16)",
+      "KYC_TP": "VAR(16)",
+      "KYC_LCS_UPD_USR": "VAR(100)",
+      "SKIP_COUNT": "INT",
+      "REMAINING_SKIPS": "DEC(15,0)",
+      "SEQ_NUM": "INT",
+      "LDB_ID": "SMALLINT!",
+      "GRP_LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "PPN_EV_ID": "INT!"
+    },
+    "pk": [
+      "AML_TRGR_ID",
+      "IP_ID",
+      "LDB_ID",
+      "GRP_LDB_ID",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "AML_TRGR_ID": "AML_TRGR.AML_TRGR_ID",
+      "IP_ID": "IP.IP_ID",
+      "GRP_LDB_ID": "GRP_LDB.GRP_LDB_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "AML_TRGR_ID",
+      "IP_ID",
+      "EFF_DT",
+      "LDB_ID",
+      "GRP_LDB_ID"
+    ]
+  },
+  "EDWAML01600_VP.FSC_LOOKUP_DIM_FIV": {
+    "cols": {
+      "LOOKUP_KEY": "DEC(12,0)",
+      "LOOKUP_LEVEL_1_TYPE_CODE": "VAR(3)",
+      "LOOKUP_LEVEL_2_TYPE_CODE": "VAR(28)",
+      "LOOKUP_CODE": "VAR(35)",
+      "LOOKUP_CHAR_VALUE": "VAR(50)",
+      "LOOKUP_NUM_VALUE": "DEC(18,5)",
+      "LOOKUP_DATE_VALUE": "TIMESTAMP(2)",
+      "CHANGE_BEGIN_DATE": "TIMESTAMP(2)",
+      "CHANGE_END_DATE": "TIMESTAMP(2)",
+      "CHANGE_CURRENT_IND": "CHAR(1)",
+      "LDB_ID": "SMALLINT!",
+      "LOOKUP_NM": "VAR(255)",
+      "EXTRA_INFO": "VAR(255)"
+    },
+    "pk": "LDB_ID",
+    "idx": [
+      "LDB_ID"
+    ]
+  },
+  "EDWAML01600_VP.FSC_TRANSACTION_TYPE_DIM_FIV": {
+    "cols": {
+      "TRANSACTION_TYPE_KEY": "DEC(12,0)",
+      "FUNDS_SECURITIES_CODE": "CHAR(1)",
+      "FUNDS_SECURITIES_DESC": "VAR(20)",
+      "TRANSACTION_CDI_CODE": "CHAR(1)",
+      "TRANSACTION_CDI_DESC": "VAR(20)",
+      "PRIMARY_MEDIUM_DESC": "VAR(30)",
+      "SECONDARY_MEDIUM_DESC": "VAR(30)",
+      "TERTIARY_MEDIUM_DESC": "VAR(30)",
+      "MECHANISM_DESC": "VAR(20)",
+      "X_TRANSACTION_SEGMENT": "VAR(50)",
+      "X_ORIGINATING_SYSTEM_CD": "CHAR(1)",
+      "X_ACTIVE_IND": "CHAR(1)",
+      "LDB_ID": "SMALLINT!"
+    },
+    "pk": "LDB_ID",
+    "idx": [
+      "LDB_ID"
+    ]
+  },
+  "EDWAML01600_VP.SQL_AML_LOOKUP_DIM_HIST_FIV": {
+    "cols": {
+      "LOOKUP_KEY": "DEC(12,0)",
+      "LOOKUP_LEVEL_1_TYPE_CODE": "CHAR(3)",
+      "LOOKUP_LEVEL_2_TYPE_CODE": "VAR(28)",
+      "LOOKUP_CODE": "VAR(35)",
+      "LOOKUP_CHAR_VALUE": "VAR(50)",
+      "LOOKUP_NUM_VALUE": "DEC(18,5)",
+      "LOOKUP_DATE_VALUE": "TIMESTAMP(2)",
+      "CHANGE_BEGIN_DATE": "TIMESTAMP(2)",
+      "CHANGE_END_DATE": "TIMESTAMP(2)",
+      "CHANGE_CURRENT_IND": "CHAR(1)",
+      "UPDATED_BY": "VAR(100)",
+      "LOOKUP_NM": "VAR(255)",
+      "EXTRA_INFO": "VAR(255)",
+      "LDB_ID": "SMALLINT!"
+    },
+    "pk": "LDB_ID",
+    "idx": [
+      "LDB_ID"
+    ]
+  }
+}

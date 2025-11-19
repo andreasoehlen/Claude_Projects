@@ -1,0 +1,245 @@
+{
+  "metadata": {
+    "description": "Common join patterns extracted from 139 production SQL queries",
+    "last_updated": "2025-11-12",
+    "source": "SQL_Examples folder bootstrap analysis + overdraft query learning",
+    "total_patterns": 19
+  },
+
+  "temporal_joins": {
+    "snapshot_date_join": {
+      "priority": "HIGH",
+      "frequency": 119,
+      "description": "Critical temporal join ensuring same snapshot date across all tables",
+      "sql_template": "JOIN table_name t2\n  ON t1.some_id = t2.some_id\n  AND t1.SNPST_DT = t2.SNPST_DT",
+      "why_important": "Without this condition, you'll get cross-product of all snapshots",
+      "common_mistake": "Forgetting SNPST_DT in join causes massive result set and wrong data"
+    },
+
+    "max_snapshot_date_filter": {
+      "priority": "HIGH",
+      "frequency": 44,
+      "description": "Get most current snapshot date",
+      "sql_template": "WHERE t1.SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWBLU01600_VP.DT)",
+      "alternatives": [
+        "PREV_BNK_DT for previous bank date",
+        "PREV_BNK_MNTH_END_DT for month-end"
+      ]
+    },
+
+    "previous_bank_date": {
+      "priority": "HIGH",
+      "frequency": 21,
+      "description": "Get previous banking day snapshot",
+      "sql_template": "WHERE t1.SNPST_DT = (SELECT MAX(PREV_BNK_DT) FROM EDWBLU01600_VP.DT)",
+      "use_case": "Comparing yesterday's data or T-1 reports"
+    },
+
+    "month_end_snapshot": {
+      "priority": "HIGH",
+      "frequency": 15,
+      "description": "Get month-end snapshot for reporting",
+      "sql_template": "WHERE t1.SNPST_DT = (SELECT MAX(PREV_BNK_MNTH_END_DT) FROM EDWBLU01600_VP.DT)",
+      "use_case": "Monthly reports and regulatory filings"
+    }
+  },
+
+  "customer_joins": {
+    "customer_to_employee": {
+      "priority": "HIGH",
+      "frequency": 82,
+      "description": "Lookup responsible employee for customer",
+      "tables": ["CST", "RSPL_EMP"],
+      "sql_template": "FROM EDWBLU01600_VP.CST t1\nLEFT OUTER JOIN EDWBLU01600_VP.RSPL_EMP t2\n  ON t1.RSPL_EMP_ID = t2.IP_ID\n  AND t1.SNPST_DT = t2.SNPST_DT",
+      "output_columns": ["t2.NM AS KUNDEANSVAR"],
+      "join_type": "LEFT OUTER",
+      "why_left": "Not all customers have assigned employee"
+    },
+
+    "customer_to_department": {
+      "priority": "HIGH",
+      "frequency": 38,
+      "description": "Lookup responsible organizational unit",
+      "tables": ["CST", "RSPL_OU"],
+      "sql_template": "LEFT OUTER JOIN EDWBLU01600_VP.RSPL_OU t3\n  ON t1.RSPL_OU_ID = t3.IP_ID\n  AND t1.SNPST_DT = t3.SNPST_DT",
+      "output_columns": ["t3.NM AS AFDELING"]
+    },
+
+    "customer_to_address": {
+      "priority": "HIGH",
+      "frequency": 18,
+      "description": "Get customer primary address",
+      "tables": ["CST", "ADR"],
+      "sql_template": "LEFT OUTER JOIN EDWBLU01600_VP.ADR t4\n  ON t1.PRIM_ADR_ID = t4.ADR_ID\n  AND t1.SNPST_DT = t4.SNPST_DT",
+      "output_columns": [
+        "PST_ADR_NM_1",
+        "PST_ADR_NM_2",
+        "PST_ADR_NM_3",
+        "PST_ADR_NM_4",
+        "PSTCD",
+        "POSTAL_NM"
+      ]
+    },
+
+    "customer_to_rating": {
+      "priority": "HIGH",
+      "frequency": 21,
+      "description": "Get customer credit rating",
+      "tables": ["CST", "CST_X_RATING", "RATING"],
+      "sql_template": "LEFT OUTER JOIN EDWBLU01600_VP.CST_X_RATING t5\n  ON t1.IP_ID = t5.IP_ID\n  AND t1.SNPST_DT = t5.SNPST_DT\n  AND (t5.GRP_ID = '1835260' OR t5.IP_ID IS NULL)\nLEFT OUTER JOIN EDWBLU01600_VP.RATING t6\n  ON t5.RATING_ID = t6.RATING_ID\n  AND t1.SNPST_DT = t6.SNPST_DT",
+      "output_columns": ["t6.RATING_SCL_VAL AS RISIKOVURDERING"],
+      "notes": [
+        "GRP_ID = 1835260 for Risk assessment",
+        "GRP_ID = 2707716 for AHV (customer assessment)",
+        "OR t5.IP_ID IS NULL prevents row elimination when no rating"
+      ]
+    },
+
+    "customer_to_electronic_address": {
+      "priority": "MEDIUM",
+      "frequency": 8,
+      "description": "Get email and phone numbers",
+      "tables": ["CST", "ELC_ADR"],
+      "sql_template": "LEFT JOIN EDWBLU01600_VP.ELC_ADR t7\n  ON t1.IP_ID = t7.IP_ID\n  AND t1.SNPST_DT = t7.SNPST_DT\n  AND t7.ELC_ADR_TP_CL IN ('lgem_', 'lgmb_', 'lgph_')",
+      "output_columns": ["EMAIL_ADR", "ELC_ADR_NO"],
+      "filter_explanation": {
+        "lgem_": "Email address",
+        "lgmb_": "Mobile phone",
+        "lgph_": "Phone number"
+      }
+    }
+  },
+
+  "account_joins": {
+    "customer_account_product": {
+      "priority": "HIGH",
+      "frequency": 51,
+      "description": "Complete customer-account-product view",
+      "tables": ["CST", "AC_AR", "AC_PD"],
+      "sql_template": "FROM EDWBLU01600_VP.CST t1\nINNER JOIN EDWBLU01600_VP.AC_AR t2\n  ON t1.IP_ID = t2.PRIM_OWN_ID\n  AND t1.SNPST_DT = t2.SNPST_DT\nINNER JOIN EDWBLU01600_VP.AC_PD t3\n  ON t2.PD_ID = t3.PD_ID\n  AND t1.SNPST_DT = t3.SNPST_DT",
+      "typical_filters": [
+        "t2.AR_LCS_TP_CL = 'actv_' -- Active accounts",
+        "t3.EXT_PD_F = 'Y' -- External products only"
+      ]
+    },
+
+    "customer_account_balance": {
+      "priority": "HIGH",
+      "frequency": 31,
+      "description": "Customer accounts with balances",
+      "tables": ["CST", "AC_AR", "AC_AR_BAL"],
+      "sql_template": "FROM EDWBLU01600_VP.CST t1\nLEFT JOIN EDWBLU01600_VP.AC_AR t2\n  ON t1.IP_ID = t2.PRIM_OWN_ID\n  AND t1.SNPST_DT = t2.SNPST_DT\nLEFT JOIN EDWBLU01600_VP.AC_AR_BAL t3\n  ON t2.AR_ID = t3.AR_ID\n  AND t1.SNPST_DT = t3.SNPST_DT",
+      "common_aggregations": [
+        "SUM(t3.RISK_AMT) AS TOTAL_RISK",
+        "SUM(t3.CR_EOD_BAL_AMT) AS TOTAL_DEPOSITS",
+        "SUM(t3.DB_EOD_BAL_AMT) AS TOTAL_DEBIT"
+      ],
+      "group_by": "t1.DRVD_CST_IDENTN_NO"
+    },
+
+    "account_product_balance": {
+      "priority": "HIGH",
+      "frequency": 24,
+      "description": "Account with product and balance details",
+      "tables": ["AC_AR", "AC_PD", "AC_AR_BAL"],
+      "sql_template": "FROM EDWBLU01600_VP.AC_AR t1\nINNER JOIN EDWBLU01600_VP.AC_PD t2\n  ON t1.PD_ID = t2.PD_ID\n  AND t1.SNPST_DT = t2.SNPST_DT\nLEFT JOIN EDWBLU01600_VP.AC_AR_BAL t3\n  ON t1.AR_ID = t3.AR_ID\n  AND t1.SNPST_DT = t3.SNPST_DT"
+    },
+
+    "account_interested_parties": {
+      "priority": "HIGH",
+      "frequency": 38,
+      "description": "Multi-party account ownership/relationships",
+      "tables": ["CST", "AC_AR_X_IP", "AC_AR"],
+      "sql_template": "FROM EDWBLU01600_VP.CST t1\nINNER JOIN EDWBLU01600_VP.AC_AR_X_IP t2\n  ON t1.IP_ID = t2.IP_ID\n  AND t1.SNPST_DT = t2.SNPST_DT\nINNER JOIN EDWBLU01600_VP.AC_AR t3\n  ON t2.AR_ID = t3.AR_ID\n  AND t1.SNPST_DT = t3.SNPST_DT",
+      "common_filters": [
+        "t2.AC_AR_X_IP_TP_CL IN ('prow_', 'ownr_') -- Primary/co-owners",
+        "t2.AC_AR_X_IP_TP_CL = 'txlb_' -- Tax liable party",
+        "t2.AC_AR_X_IP_TP_CL = 'cngr_' -- Co-guarantor"
+      ],
+      "notes": "Use AC_AR_X_IP when accounts have multiple parties (joint accounts, guarantors, etc.)"
+    },
+
+    "overdraft_by_risk_group_with_primary_owner": {
+      "priority": "HIGH",
+      "frequency": "NEW",
+      "description": "Aggregate overdraft amounts at risk group level using primary ownership to prevent double-counting",
+      "use_case": "When calculating group-level overdraft metrics where accounts may have multiple co-owners",
+      "tables": ["CST", "AC_AR_OD_INF_DLY"],
+      "critical_rules": [
+        "ALWAYS use AC_AR_OD_INF_DLY.PRIM_OWN_ID (not AC_AR_X_IP) to link customers to accounts for overdraft calculations",
+        "ALWAYS use OD_ORIG_AMT column from AC_AR_OD_INF_DLY, not OD_AMT from AC_AR_BAL",
+        "ALWAYS filter CST to LDB_ID = 1600 before joining to overdraft data",
+        "Use CASE WHEN OD_ORIG_AMT < 0 THEN OD_ORIG_AMT ELSE 0 END for defensive summation"
+      ],
+      "sql_template": "FROM EDWBLU01600_VP.CST c\nJOIN EDWBLU01600_VP.AC_AR_OD_INF_DLY od\n  ON c.IP_ID = od.PRIM_OWN_ID\n  AND c.LDB_ID = od.LDB_ID\n  AND c.SNPST_DT = od.SNPST_DT\nWHERE c.LDB_ID = 1600\n  AND od.OD_ORIG_AMT < 0",
+      "cardinality_trap_avoided": "Using PRIM_OWN_ID ensures each account is counted once per day, even when multiple group members are co-owners",
+      "wrong_pattern": "Joining via AC_AR_X_IP creates duplicates when multiple group members co-own same account",
+      "aggregation_example": "SUM(CASE WHEN od.OD_ORIG_AMT < 0 THEN od.OD_ORIG_AMT ELSE 0 END) AS TOTAL_OVERDRAFT"
+    }
+  },
+
+  "complex_multi_table_joins": {
+    "full_customer_account_view": {
+      "priority": "HIGH",
+      "frequency": 31,
+      "description": "Complete customer view: account + product + balance + employee + department",
+      "tables": ["CST", "AC_AR", "AC_PD", "AC_AR_BAL", "RSPL_EMP", "RSPL_OU"],
+      "sql_template": "FROM EDWBLU01600_VP.CST t1\nLEFT JOIN EDWBLU01600_VP.AC_AR t2\n  ON t1.IP_ID = t2.PRIM_OWN_ID\n  AND t1.SNPST_DT = t2.SNPST_DT\nLEFT JOIN EDWBLU01600_VP.AC_PD t3\n  ON t2.PD_ID = t3.PD_ID\n  AND t1.SNPST_DT = t3.SNPST_DT\nLEFT JOIN EDWBLU01600_VP.AC_AR_BAL t4\n  ON t2.AR_ID = t4.AR_ID\n  AND t1.SNPST_DT = t4.SNPST_DT\nLEFT JOIN EDWBLU01600_VP.RSPL_EMP t5\n  ON t1.RSPL_EMP_ID = t5.IP_ID\n  AND t1.SNPST_DT = t5.SNPST_DT\nLEFT JOIN EDWBLU01600_VP.RSPL_OU t6\n  ON t1.RSPL_OU_ID = t6.IP_ID\n  AND t1.SNPST_DT = t6.SNPST_DT",
+      "use_case": "Comprehensive customer reports with all relationships"
+    }
+  },
+
+  "special_patterns": {
+    "securities_depot_self_join": {
+      "priority": "MEDIUM",
+      "frequency": 6,
+      "description": "FEDAFT self-join for depot with multiple roles",
+      "tables": ["FEDAFT"],
+      "sql_template": "FROM EDWXTR01600_VP.FEDAFT t1\nINNER JOIN EDWXTR01600_VP.FEDAFT t2\n  ON t1.FED_DEPOT_NR = t2.FED_DEPOT_NR\n  AND t1.SNPST_DT = t2.SNPST_DT\n  AND t1.PRIMAER_EJER_MAR = 'J'",
+      "use_case": "Get depot with primary owner, admin dept, and home dept in one row",
+      "notes": "Self-join needed because each role is a separate row"
+    },
+
+    "customer_group_exclusion": {
+      "priority": "HIGH",
+      "frequency": 15,
+      "description": "Exclude customers in specific groups",
+      "tables": ["CST", "CST_X_CST_GRP"],
+      "sql_template": "FROM EDWBLU01600_VP.CST t1\nLEFT JOIN EDWBLU01600_VP.CST_X_CST_GRP t2\n  ON t1.IP_ID = t2.IP_ID\n  AND t1.SNPST_DT = t2.SNPST_DT\nWHERE t2.GRP_ID IS NULL OR t2.GRP_ID = 1",
+      "use_case": "Exclude test accounts, internal groups, or special customer segments",
+      "notes": "LEFT JOIN with NULL check is the pattern for 'NOT IN group'"
+    },
+
+    "spd_ar_bridge": {
+      "priority": "MEDIUM",
+      "frequency": 3,
+      "description": "SPD_AR to CST via bridge with multi-column join",
+      "tables": ["SPD_AR", "SPD_AR_X_IP", "CST"],
+      "sql_template": "JOIN SPD_AR_X_IP sx ON s.AR_ID = sx.SPD_AR_ID JOIN CST c ON sx.LDB_ID = c.LDB_ID AND sx.SNPST_DT = c.SNPST_DT AND sx.CST_ID = c.CST_ID",
+      "trap": "Must use all 3 cols (LDB_ID, SNPST_DT, CST_ID) to avoid dups; AR_ID maps to SPD_AR_ID"
+    }
+  },
+
+  "common_traps": [
+    {
+      "trap": "Missing SNPST_DT in join condition",
+      "consequence": "Cartesian product across all snapshots = massive result set",
+      "fix": "ALWAYS include AND t1.SNPST_DT = t2.SNPST_DT in every join"
+    },
+    {
+      "trap": "Using INNER JOIN when LEFT JOIN needed",
+      "consequence": "Customers without accounts/employees/ratings disappear",
+      "fix": "Use LEFT JOIN unless you specifically want to exclude nulls"
+    },
+    {
+      "trap": "Forgetting GRP_ID filter on CST_X_RATING",
+      "consequence": "Multiple rating types returned, duplicates results",
+      "fix": "Always specify GRP_ID = 1835260 (Risk) or 2707716 (AHV)"
+    },
+    {
+      "trap": "Not handling NULL in LEFT JOIN with OR condition",
+      "consequence": "Rows disappear when filter applied to optional table",
+      "fix": "Use (t2.GRP_ID = 'value' OR t2.IP_ID IS NULL)"
+    }
+  ]
+}

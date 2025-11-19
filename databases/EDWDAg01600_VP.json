@@ -1,0 +1,4374 @@
+{
+  "EDWDAG01600_VP.ACCOUNT_ACCOUNT_PART_RELATION": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "SUB_ARF_IDFR": "DEC(15,0)!",
+      "SUB_AC_NO": "VAR(40)",
+      "OBJ_ARF_IDFR": "DEC(15,0)!",
+      "OBJ_AC_NO": "VAR(40)",
+      "RLT_TP_NM": "VAR(255)",
+      "AC_UPD_DT": "DATE",
+      "OU_NM": "VAR(483)",
+      "CST_UPD_DT": "DATE",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "LDB_ID",
+      "SUB_ARF_IDFR",
+      "OBJ_ARF_IDFR",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "AC_UPD_DT",
+      "CST_UPD_DT",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.ACCOUNT_ARRANGEMENT": {
+    "cols": {
+      "KUNDE_ID": "VAR(16)!",
+      "IP_IDFR": "DEC(15,0)!",
+      "KONTONR": "CHAR(20)",
+      "ARF_IDFR": "DEC(15,0)!",
+      "HREGCTR": "VAR(16)",
+      "OPRET": "DATE",
+      "AFTALE_ANSVARLIG": "VAR(16)",
+      "KUNDE_ANSVARLIG": "VAR(16)",
+      "PRODUKTTYPE": "VAR(255)",
+      "SYSTEM": "VAR(10)",
+      "PRODUKTNAVN": "VAR(255)",
+      "PRODUKTKODE": "VAR(40)",
+      "PD_IDFR": "DEC(15,0)!",
+      "VALUTA": "CHAR(3)",
+      "INTERN": "VAR(2)",
+      "UFORRENTET": "VAR(2)",
+      "FRIT_AFT_NVN": "VAR(34)",
+      "MARKE_MARK": "VAR(2)",
+      "KONTO_RESTRIK": "VAR(0)",
+      "UDSK_MEDIE_MK": "VAR(0)",
+      "EXP_DT": "DATE",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "KUNDE_ID",
+      "IP_IDFR",
+      "ARF_IDFR",
+      "PD_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "KUNDE_ID",
+      "EXP_DT",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.ACCOUNT_ARRANGEMENT_BAL": {
+    "cols": {
+      "KUNDE_ID": "VAR(16)!",
+      "IP_IDFR": "DEC(15,0)!",
+      "LDB_ID": "SMALLINT!",
+      "ARF_IDFR": "DEC(15,0)!",
+      "KONTONR": "CHAR(20)",
+      "SYSTEM": "VAR(10)",
+      "SALDO_VAL": "DEC(15,2)",
+      "MAX1_VAL": "DEC(15,2)",
+      "MAX2_VAL": "DEC(15,2)",
+      "DBSALDO_VAL": "DEC(15,2)",
+      "KRSALDO_VAL": "DEC(15,2)",
+      "STPRSTGAELD_VAL": "DEC(15,2)",
+      "OVERTRAEK_VAL": "DEC(15,2)",
+      "HOVEDSTOL_VAL": "DEC(15,2)",
+      "VALUTA": "CHAR(3)",
+      "VALUTAKURS": "DEC(8,5)",
+      "SALDO": "DEC(15,2)",
+      "DBSALDO": "DEC(15,2)",
+      "KRSALDO": "DEC(15,2)",
+      "MAX1": "DEC(15,2)",
+      "MAX2": "DEC(15,2)",
+      "OVERTRAEK": "DEC(15,2)",
+      "HOVEDSTOL": "DEC(15,2)",
+      "STPRSTGAELD": "DEC(15,2)",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "KUNDE_ID",
+      "IP_IDFR",
+      "LDB_ID",
+      "ARF_IDFR",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "KUNDE_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.ACCOUNT_ARRANGEMENT_NOTIF": {
+    "cols": {
+      "KUNDE_ID": "VAR(16)!",
+      "IP_IDFR": "DEC(15,0)!",
+      "KONTONR": "CHAR(20)",
+      "ARF_IDFR": "DEC(15,0)!",
+      "OPRET": "DATE",
+      "PRODUKTTYPE": "VAR(255)",
+      "PRODUKTKODE": "VAR(40)",
+      "PD_IDFR": "DEC(15,0)!",
+      "VALUTA": "CHAR(3)",
+      "OPSAGT_FRA": "DATE",
+      "OPSAGT_BELOEB": "DEC(15,2)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "KUNDE_ID",
+      "IP_IDFR",
+      "ARF_IDFR",
+      "PD_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "KUNDE_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.ACCOUNT_ARRANGEMENT_SETTLED": {
+    "cols": {
+      "KUNDE_ID": "VAR(16)!",
+      "IP_IDFR": "DEC(15,0)!",
+      "KONTONR": "CHAR(20)",
+      "ARF_IDFR": "DEC(15,0)!",
+      "HREGCTR": "VAR(16)",
+      "OPRET": "DATE",
+      "OPGJORT": "DATE",
+      "AFTALE_ANSVARLIG": "VAR(16)",
+      "KUNDE_ANSVARLIG": "VAR(16)",
+      "PRODUKTTYPE": "VAR(255)",
+      "SYSTEM": "VAR(10)",
+      "PRODUKTNAVN": "VAR(255)",
+      "PRODUKTKODE": "VAR(40)",
+      "PD_IDFR": "DEC(15,0)!",
+      "VALUTA": "CHAR(3)",
+      "INTERN": "VAR(2)",
+      "UFORRENTET": "VAR(2)",
+      "FRIT_AFT_NVN": "VAR(34)",
+      "MARKE_MARK": "VAR(2)",
+      "KONTO_RESTRIK": "VAR(0)",
+      "UDSK_MEDIE_MK": "VAR(0)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "KUNDE_ID",
+      "IP_IDFR",
+      "ARF_IDFR",
+      "PD_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "KUNDE_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.ACCOUNT_ARRANGEMENT_STL_NOTIF": {
+    "cols": {
+      "KUNDE_ID": "VAR(16)!",
+      "IP_IDFR": "DEC(15,0)!",
+      "KONTONR": "CHAR(20)",
+      "ARF_IDFR": "DEC(15,0)!",
+      "OPRET": "DATE",
+      "PRODUKTTYPE": "VAR(255)",
+      "PRODUKTKODE": "VAR(40)",
+      "PD_IDFR": "DEC(15,0)!",
+      "VALUTA": "CHAR(3)",
+      "OPSAGT_FRA": "DATE",
+      "OPSIGELSES_GRUND": "VAR(255)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "KUNDE_ID",
+      "IP_IDFR",
+      "ARF_IDFR",
+      "PD_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "KUNDE_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.ACCOUNT_BALANCES": {
+    "cols": {
+      "KUNDE_ID": "VAR(16)!",
+      "IP_IDFR": "DEC(15,0)!",
+      "KONTONR": "CHAR(20)",
+      "ARF_IDFR": "DEC(15,0)!",
+      "BAL_TYPE_CL": "CHAR(5)",
+      "BAL_TYPE": "VAR(255)",
+      "BAL_END_DT": "DATE",
+      "ORIG_CCY_AMT": "DEC(15,2)",
+      "ORIG_CCY": "CHAR(3)",
+      "MSR_CCY_AMT": "DEC(15,2)",
+      "MSR_CCY": "CHAR(3)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "KUNDE_ID",
+      "IP_IDFR",
+      "ARF_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "KUNDE_ID",
+      "BAL_END_DT",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.ACCOUNT_INTEREST_RATES": {
+    "cols": {
+      "KUNDE_ID": "VAR(16)!",
+      "IP_IDFR": "DEC(15,0)!",
+      "KONTONR": "CHAR(20)",
+      "ARF_IDFR": "DEC(15,0)!",
+      "RENTE_TYPE_CL": "CHAR(5)",
+      "RENTE_TYPE": "VAR(255)",
+      "RENTE_TRIN": "DEC(15,0)",
+      "BELOBS_GRAENSE": "DEC(15,2)",
+      "RENTEPROCENT": "DEC(10,5)",
+      "KNAEK_TRAPPE_CL": "CHAR(5)",
+      "KNAEK_TRAPPE": "VAR(255)",
+      "AFVIGELSE": "DEC(9,5)",
+      "DEBET_KREDIT_CL": "CHAR(5)",
+      "DEBET_KREDIT": "VAR(255)",
+      "INDIVIDUAL_FLAG": "VAR(2)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "KUNDE_ID",
+      "IP_IDFR",
+      "ARF_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "KUNDE_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.ACCOUNT_SUPPLEMENT": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "AR_ID": "INT!",
+      "ARF_IDFR": "DEC(15,0)!",
+      "AC_NO": "CHAR(20)",
+      "IP_IDFR": "DEC(15,0)!",
+      "IP_ID": "INT!",
+      "NEG_BAL_AV": "DEC(15,2)",
+      "POS_BAL_AV": "DEC(15,2)",
+      "INT_START_DT": "DATE",
+      "INT_END_DT": "DATE",
+      "FIX_DB_INT_F": "VAR(8)",
+      "FIX_DB_INT_END_DT": "DATE",
+      "FIX_CR_INT_F": "VAR(8)",
+      "FIX_CR_INT_END_DT": "DATE",
+      "PD_GRP_NM": "VAR(68)",
+      "INT_RATE_NM": "VAR(68)"
+    },
+    "pk": [
+      "LDB_ID",
+      "AR_ID",
+      "ARF_IDFR",
+      "IP_IDFR",
+      "IP_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "AR_ID": "AR.AR_ID",
+      "IP_ID": "IP.IP_ID"
+    },
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT",
+      "AR_ID",
+      "IP_ID",
+      "INT_START_DT"
+    ]
+  },
+  "EDWDAG01600_VP.ACC_ARR_CL": {
+    "cols": {
+      "KUNDE_ID": "VAR(16)!",
+      "IP_IDFR": "DEC(15,0)!",
+      "KONTONR": "CHAR(20)",
+      "ARF_IDFR": "DEC(15,0)!",
+      "HREGCTR": "VAR(16)",
+      "OPRET": "DATE",
+      "AFTALE_ANSVARLIG": "VAR(16)",
+      "KUNDE_ANSVARLIG": "VAR(16)",
+      "PRODUKTTYPE": "VAR(255)",
+      "SYSTEM": "VAR(10)",
+      "PRODUKTNAVN": "VAR(255)",
+      "PRODUKTKODE": "VAR(40)",
+      "PD_IDFR": "DEC(15,0)!",
+      "VALUTA": "CHAR(3)",
+      "INTERN": "VAR(2)",
+      "UFORRENTET": "VAR(2)",
+      "FRIT_AFT_NVN": "VAR(34)",
+      "MARKE_MARK": "VAR(2)",
+      "KONTO_RESTRIK": "CHAR(2)",
+      "SALDO_VAL": "DEC(15,2)",
+      "MAX1_VAL": "DEC(15,2)",
+      "MAX2_VAL": "DEC(15,2)",
+      "DBSALDO_VAL": "DEC(15,2)",
+      "KRSALDO_VAL": "DEC(15,2)",
+      "STPRSTGAELD_VAL": "DEC(15,2)",
+      "OVERTRAEK_VAL": "DEC(15,2)",
+      "HOVEDSTOL_VAL": "DEC(15,2)",
+      "VALUTAKURS": "DEC(8,5)",
+      "SALDO": "DEC(15,2)",
+      "DBSALDO": "DEC(15,2)",
+      "KRSALDO": "DEC(15,2)",
+      "MAX1": "DEC(15,2)",
+      "MAX2": "DEC(15,2)",
+      "OVERTRAEK": "DEC(15,2)",
+      "HOVEDSTOL": "DEC(15,2)",
+      "STPRSTGAELD": "DEC(15,2)",
+      "DRS1": "DEC(10,5)",
+      "DRS1_BELGR": "DEC(15,2)",
+      "DRS1_AFV": "DEC(9,5)",
+      "DRS2": "DEC(10,5)",
+      "DRS2_BELGR": "DEC(15,2)",
+      "DRS2_AFV": "DEC(9,5)",
+      "DRS_RTE_TYPE": "VAR(5)",
+      "BEV_RTE1": "DEC(10,5)",
+      "BEV_RTE1_BELGR": "DEC(15,2)",
+      "BEV_RTE1_AFV": "DEC(9,5)",
+      "BEV_RTE_TYPE": "VAR(5)",
+      "OVTR_RTE1": "DEC(10,5)",
+      "OVTR_RTE1_BELGR": "DEC(15,2)",
+      "OVTR_RTE1_AFV": "DEC(9,5)",
+      "OVTR_RTE_TYPE": "VAR(5)",
+      "KRS1": "DEC(10,5)",
+      "KRS1_BELGR": "DEC(15,2)",
+      "KRS1_AFV": "DEC(9,5)",
+      "KRS2": "DEC(10,5)",
+      "KRS2_BELGR": "DEC(15,2)",
+      "KRS2_AFV": "DEC(9,5)",
+      "KRS3": "DEC(10,5)",
+      "KRS3_BELGR": "DEC(15,2)",
+      "KRS3_AFV": "DEC(9,5)",
+      "KRS4": "DEC(10,5)",
+      "KRS4_BELGR": "DEC(15,2)",
+      "KRS4_AFV": "DEC(9,5)",
+      "KRS_RTE_TYPE": "VAR(5)",
+      "PROV1_TYPE": "CHAR(10)",
+      "PROV1_SATS": "DEC(10,5)",
+      "PROV1_BELGR": "DEC(15,2)",
+      "PROV1_AFV": "DEC(9,5)",
+      "PROV_RTE_TYPE": "VAR(5)",
+      "UDSK_MEDIE_MK": "CHAR(10)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "KUNDE_ID",
+      "IP_IDFR",
+      "ARF_IDFR",
+      "PD_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "KUNDE_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.AML_DEPARTMENT": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "OU_NM": "VAR(483)",
+      "IP_IDFR": "DEC(15,0)!",
+      "CST_ID": "VAR(16)!",
+      "CST_ID_TP": "VAR(34)!",
+      "CORP_IDENTN_NO": "VAR(16)!",
+      "CST_UPD_DT": "DATE",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "LDB_ID",
+      "IP_IDFR",
+      "CST_ID",
+      "CST_ID_TP",
+      "CORP_IDENTN_NO",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "CST_ID": "CST.CST_ID"
+    },
+    "idx": [
+      "LDB_ID",
+      "CST_ID",
+      "CST_UPD_DT",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.ARRANGEMENT_SERVICE": {
+    "cols": {
+      "ARF_IDFR": "DEC(15,0)!",
+      "PD_CODE": "VAR(40)",
+      "LDB_ID": "SMALLINT!",
+      "OU_NM": "VAR(483)",
+      "AR_UPD_DT": "DATE",
+      "CST_NO": "VAR(16)",
+      "CST_ID_TP": "VAR(34)!",
+      "CORP_IDENTN_NO": "VAR(16)!",
+      "USR_NO": "VAR(16)",
+      "PD_UPD_DT": "DATE",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "ARF_IDFR",
+      "LDB_ID",
+      "CST_ID_TP",
+      "CORP_IDENTN_NO",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "AR_UPD_DT",
+      "PD_UPD_DT",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.ASSOCIATED_EFFECT": {
+    "cols": {
+      "CLT_AR_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "EFCT_ID": "INT!",
+      "PCT_AR_CVR": "DEC(9,5)",
+      "CLM_SEQ_NO": "SMALLINT",
+      "PPN_EV_ID": "INT!"
+    },
+    "pk": [
+      "CLT_AR_ID",
+      "LDB_ID",
+      "EFCT_ID",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "CLT_AR_ID": "CLT_AR.CLT_AR_ID",
+      "EFCT_ID": "EFCT.EFCT_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "CLT_AR_ID",
+      "LDB_ID",
+      "SNPST_DT",
+      "EFCT_ID",
+      "PPN_EV_ID"
+    ]
+  },
+  "EDWDAG01600_VP.BUSINESS_PROCESS": {
+    "cols": {
+      "CASE_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "CASE_TP_NM": "VAR(510)",
+      "CTY_CASE_TP_ID": "INT!",
+      "CASE_LCS_TP_CL": "CHAR(5)",
+      "CASE_LCS_TP_DT": "DATE",
+      "CASE_STRT_TMS": "TIMESTAMP(0)",
+      "CASE_END_TMS": "TIMESTAMP(0)",
+      "TOT_TM_CASE": "DEC(15,1)",
+      "TOT_TM_TO_DT_CASE": "DEC(15,1)",
+      "TM_TO_APRV": "DEC(15,1)",
+      "TOT_TM_CR_APRV": "DEC(15,1)",
+      "TM_TO_PRPR_APRV": "DEC(15,1)",
+      "RSPL_OU_ID": "INT!",
+      "RSPL_EMPE_ID": "INT!",
+      "UNQ_ID_SRC": "DEC(15,0)!",
+      "PPN_EV_ID": "INT!"
+    },
+    "pk": [
+      "CASE_ID",
+      "LDB_ID",
+      "CTY_CASE_TP_ID",
+      "RSPL_OU_ID",
+      "RSPL_EMPE_ID",
+      "UNQ_ID_SRC",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "CASE_ID": "CASE.CASE_ID",
+      "CTY_CASE_TP_ID": "CTY_CASE_TP.CTY_CASE_TP_ID",
+      "RSPL_OU_ID": "RSPL_OU.IP_ID",
+      "RSPL_EMPE_ID": "RSPL_EMPE.RSPL_EMPE_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "CASE_ID",
+      "LDB_ID",
+      "SNPST_DT",
+      "CTY_CASE_TP_ID",
+      "CASE_LCS_TP_DT"
+    ]
+  },
+  "EDWDAG01600_VP.BUSINESS_PROCESS_ACTIVITY": {
+    "cols": {
+      "CASE_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "CMT_TS": "TIMESTAMP(6)",
+      "AVY_CMPL_F": "CHAR(1)",
+      "AVY_LCS_TP_DT": "DATE",
+      "WF_STRT_TMS": "TIMESTAMP(0)",
+      "WF_END_TMS": "TIMESTAMP(0)",
+      "AVY_STRT_TMS": "TIMESTAMP(0)",
+      "AVY_END_TMS": "TIMESTAMP(0)",
+      "APRV_EMPE_ID": "INT!",
+      "APRV_EMPE_BEHALF_ID": "INT!",
+      "RSPL_EMPE_ID": "INT!",
+      "WF_TP_ID": "INT!",
+      "WF_TP_NM": "VAR(255)",
+      "AVY_TP_ID": "INT!",
+      "AVY_TP_NM": "VAR(255)",
+      "AVY_DCSN_TP_CL": "CHAR(5)",
+      "UNQ_ID_SRC": "DEC(15,0)!",
+      "PPN_EV_ID": "INT!"
+    },
+    "pk": [
+      "CASE_ID",
+      "LDB_ID",
+      "APRV_EMPE_ID",
+      "APRV_EMPE_BEHALF_ID",
+      "RSPL_EMPE_ID",
+      "WF_TP_ID",
+      "AVY_TP_ID",
+      "UNQ_ID_SRC",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "CASE_ID": "CASE.CASE_ID",
+      "APRV_EMPE_ID": "APRV_EMPE.APRV_EMPE_ID",
+      "APRV_EMPE_BEHALF_ID": "APRV_EMPE_BEHALF.APRV_EMPE_BEHALF_ID",
+      "RSPL_EMPE_ID": "RSPL_EMPE.RSPL_EMPE_ID",
+      "WF_TP_ID": "WF_TP.WF_TP_ID",
+      "AVY_TP_ID": "AVY_TP.AVY_TP_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "CASE_ID",
+      "LDB_ID",
+      "SNPST_DT",
+      "AVY_LCS_TP_DT",
+      "APRV_EMPE_ID"
+    ]
+  },
+  "EDWDAG01600_VP.BUSINESS_VOLUME": {
+    "cols": {
+      "IP_IDFR": "DEC(15,0)!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "CUSTOMER_ID": "VAR(16)!",
+      "IDTYP_VALUE": "VAR(8)",
+      "NM": "VAR(483)",
+      "DEAD_F": "VAR(2)",
+      "NEMKONTO_F": "VAR(2)",
+      "EMP_NM": "VAR(483)",
+      "BRANCH_NM": "VAR(483)",
+      "ANNUAL_INCOME_AMOUNT": "DEC(15,2)",
+      "ANNUAL_INCOME_CCY": "CHAR(3)",
+      "ANNUAL_CASH_DEPOSIT_CNT": "INT",
+      "MAX_CASH_DEPOSIT": "DEC(15,2)",
+      "MAX_CASH_DEPOSIT_CCY": "CHAR(3)",
+      "ANNUAL_FOREIGN_CREDIT_CNT": "INT",
+      "ANNUAL_FOREIGN_CREDIT_AMT": "DEC(15,2)",
+      "ANNUAL_FOREIGN_CREDIT_CCY": "CHAR(3)",
+      "ANNUAL_FOREIGN_DEBIT_CNT": "INT",
+      "ANNUAL_FOREIGN_DEBIT_AMT": "DEC(15,2)",
+      "ANNUAL_FOREIGN_DEBIT_CCY": "CHAR(3)",
+      "CUSTOMER_REASON": "VAR(4000)"
+    },
+    "pk": [
+      "IP_IDFR",
+      "LDB_ID",
+      "CUSTOMER_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "CUSTOMER_ID": "CUSTOMER.CUSTOMER_ID"
+    },
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT",
+      "CUSTOMER_ID"
+    ]
+  },
+  "EDWDAG01600_VP.CA_AMOUNT_TOTAL": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "TOT_APP_TMP_ENG": "DEC(15,2)",
+      "TOT_APP_FIN_ENG": "DEC(15,2)",
+      "TOT_APP_AMT": "DEC(15,2)",
+      "TOT_RDM_AMT": "DEC(15,2)",
+      "TOT_NET_TMP_ENG": "DEC(15,2)",
+      "TOT_NET_FIN_ENG": "DEC(15,2)",
+      "TOT_ENG_CUR": "DEC(15,2)",
+      "TOT_ENG_TMP": "DEC(15,2)",
+      "TOT_ENG_FIN": "DEC(15,2)",
+      "TOT_CTL_NOM": "DEC(15,2)",
+      "TOT_CTL_CAL": "DEC(15,2)",
+      "TOT_CTL_USD": "DEC(15,2)",
+      "TOT_CTL_ALT_USD": "DEC(15,2)",
+      "TOT_CTL_CAL_BFA": "DEC(15,2)",
+      "TOT_CTL_TMP_USD": "DEC(15,2)",
+      "TOT_CTL_FIN_USD": "DEC(15,2)",
+      "TOT_BLC_ENG_CUR": "DEC(15,2)",
+      "TOT_BLC_ENG_TMP": "DEC(15,2)",
+      "TOT_BLC_ENG_FIN": "DEC(15,2)",
+      "TOT_CNT_REG_CUR": "DEC(15,2)",
+      "TOT_CNT_REG_APP": "DEC(15,2)",
+      "TOT_CNT_REG_TMP": "DEC(15,2)",
+      "TOT_CNT_REG_FIN": "DEC(15,2)",
+      "TOT_CNT_CUR": "DEC(15,2)",
+      "TOT_CNT_APP": "DEC(15,2)",
+      "TOT_CNT_TMP": "DEC(15,2)",
+      "TOT_CNT_FIN": "DEC(15,2)",
+      "TOT_CST_DEP": "DEC(15,2)",
+      "TOT_CNT_DPR": "DEC(15,2)",
+      "TOT_CNT_LOS": "DEC(15,2)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_APPLICATION": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "EFF_DT": "DATE!",
+      "RESP_EMP_NM": "VAR(100)",
+      "CASE_TP": "VAR(255)",
+      "TASK_TP": "VAR(100)",
+      "TASK_NM": "VAR(100)",
+      "CASE_LCS_TP_CL": "CHAR(5)",
+      "CASE_LCS": "VAR(255)",
+      "CASE_LCS_DT": "DATE",
+      "RCM_BY_NM": "VAR(483)",
+      "RCM_BY_IP_IDFR": "DEC(15,0)!",
+      "SAT_NM": "VAR(483)",
+      "SAT_IP_IDFR": "DEC(15,0)!",
+      "GRA_NM": "VAR(483)",
+      "GRA_IP_IDFR": "DEC(15,0)!",
+      "BHF_NM": "VAR(483)",
+      "BHF_IP_IDFR": "DEC(15,0)!",
+      "CASE_NOTE": "VAR(2000)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "RCM_BY_IP_IDFR",
+      "SAT_IP_IDFR",
+      "GRA_IP_IDFR",
+      "BHF_IP_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "EFF_DT",
+      "CASE_LCS_DT",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_CAPITAL": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "TP_NM": "VAR(2)",
+      "INC": "VAR(2)",
+      "ITM_TP_CL": "CHAR(5)",
+      "ITM_TP_NM": "VAR(255)",
+      "AMT_TP_CL": "CHAR(5)",
+      "AMT_TP_NM": "VAR(255)",
+      "UNQ_ID_SRC": "VAR(34)!",
+      "NM": "VAR(170)",
+      "AMT": "DEC(15,2)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "UNQ_ID_SRC",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_CAPITAL_TOTAL": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "TOT_UNS_PROP": "DEC(15,2)",
+      "TOT_PROP": "DEC(15,2)",
+      "TOT_UNS_VHCL": "DEC(15,2)",
+      "TOT_VHCL": "DEC(15,2)",
+      "TOT_UNS_BOA": "DEC(15,2)",
+      "TOT_BOA": "DEC(15,2)",
+      "TOT_UNS_AIR": "DEC(15,2)",
+      "TOT_AIR": "DEC(15,2)",
+      "TOT_UNS_DEP": "DEC(15,2)",
+      "TOT_DEP": "DEC(15,2)",
+      "TOT_UNS_CUST": "DEC(15,2)",
+      "TOT_CUST": "DEC(15,2)",
+      "TOT_UNS_AST_REG": "DEC(15,2)",
+      "TOT_AST_REG": "DEC(15,2)",
+      "TOT_UNS_AST": "DEC(15,2)",
+      "TOT_AST": "DEC(15,2)",
+      "TOT_UNS_AST_OTH": "DEC(15,2)",
+      "TOT_AST_OTH": "DEC(15,2)",
+      "TOT_LIA_IN_EFC": "DEC(15,2)",
+      "TOT_DEB_OWN": "DEC(15,2)",
+      "TOT_DEB_OTH": "DEC(15,2)",
+      "TOT_ENG_EXP": "DEC(15,2)",
+      "TOT_LIA_REG": "DEC(15,2)",
+      "TOT_DBT": "DEC(15,2)",
+      "TOT_FRT": "DEC(15,2)",
+      "TOT_LIA": "DEC(15,2)",
+      "SOL": "DEC(9,5)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_COLLATERAL": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "CLT_TP_CL": "VAR(10)",
+      "CTL_TP": "VAR(255)",
+      "PD_IDFR": "DEC(15,0)!",
+      "PD_NM": "VAR(80)",
+      "ARF_IDFR": "DEC(15,0)!",
+      "AC_NO": "VAR(40)",
+      "CCY": "CHAR(3)",
+      "NML_AMT": "DEC(15,2)",
+      "CLC_AMT": "DEC(15,2)",
+      "USED_AMT": "DEC(15,2)",
+      "CHG_USG_AMT": "DEC(15,2)",
+      "FNL_CLC_AMT": "DEC(15,2)",
+      "TEMP_USG_AMT": "DEC(15,2)",
+      "FNL_USG_AMT": "DEC(15,2)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "PD_IDFR",
+      "ARF_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_COLLATERAL_MATRIX": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "CLT_IDFR": "DEC(15,0)!",
+      "CLT_AC_NO": "VAR(40)",
+      "CLT_NM": "VAR(255)",
+      "CLT_TRD_PTY": "VAR(2)",
+      "CLT_CLC_AMT": "DEC(15,2)",
+      "CLT_USG_AMT": "DEC(15,2)",
+      "CLT_NML_AMT": "DEC(15,2)",
+      "ITM_IDFR": "DEC(15,0)!",
+      "ITM_ID": "VAR(40)!",
+      "ITM_NM": "VAR(483)",
+      "ITM_TRD_PTY": "VAR(2)",
+      "ITM_AMT": "DEC(15,2)",
+      "CEL_TP": "CHAR(5)",
+      "CEL_AMT": "DEC(15,2)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "CLT_IDFR",
+      "ITM_IDFR",
+      "ITM_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "ITM_ID": "ITM.ITM_ID"
+    },
+    "idx": [
+      "ITM_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_ENGAGEMENT_TOTAL": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "DEP_CUR": "DEC(15,2)",
+      "DEP_SUP": "DEC(15,2)",
+      "DEP_AOR": "DEC(15,2)",
+      "DEP_TMP": "DEC(15,2)",
+      "DEP_FIN": "DEC(15,2)",
+      "CRE_CUR": "DEC(15,2)",
+      "CRE_SUP": "DEC(15,2)",
+      "CRE_AOR": "DEC(15,2)",
+      "CRE_TMP": "DEC(15,2)",
+      "CRE_FIN": "DEC(15,2)",
+      "LOA_CUR": "DEC(15,2)",
+      "LOA_SUP": "DEC(15,2)",
+      "LOA_AOR": "DEC(15,2)",
+      "LOA_TMP": "DEC(15,2)",
+      "LOA_FIN": "DEC(15,2)",
+      "GUA_CUR": "DEC(15,2)",
+      "GUA_SUP": "DEC(15,2)",
+      "GUA_AOR": "DEC(15,2)",
+      "GUA_TMP": "DEC(15,2)",
+      "GUA_FIN": "DEC(15,2)",
+      "CLA_CUR": "DEC(15,2)",
+      "CLA_SUP": "DEC(15,2)",
+      "CLA_AOR": "DEC(15,2)",
+      "CLA_TMP": "DEC(15,2)",
+      "CLA_FIN": "DEC(15,2)",
+      "LGA_CUR": "DEC(15,2)",
+      "LGA_SUP": "DEC(15,2)",
+      "LGA_AOR": "DEC(15,2)",
+      "LGA_TMP": "DEC(15,2)",
+      "LGA_FIN": "DEC(15,2)",
+      "MRL_CUR": "DEC(15,2)",
+      "MRL_TMP": "DEC(15,2)",
+      "MRL_FIN": "DEC(15,2)",
+      "MRO_CUR": "DEC(15,2)",
+      "MRO_TMP": "DEC(15,2)",
+      "MRO_FIN": "DEC(15,2)",
+      "TOT_CUR": "DEC(15,2)",
+      "TOT_SUP": "DEC(15,2)",
+      "TOT_AOR": "DEC(15,2)",
+      "TOT_TMP": "DEC(15,2)",
+      "TOT_FIN": "DEC(15,2)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_FEE": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "ARF_IDFR": "DEC(15,0)!",
+      "BSN_ID": "VAR(40)!",
+      "PD_NM": "VAR(255)",
+      "FEE_TP_NM": "VAR(30)",
+      "CCY": "CHAR(3)",
+      "AMT": "DEC(15,2)",
+      "FEE_CSZ_F": "CHAR(1)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "ARF_IDFR",
+      "BSN_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "BSN_ID": "BSN.BSN_ID"
+    },
+    "idx": [
+      "BSN_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_INCLUDES": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "ARF_IDFR": "DEC(15,0)!",
+      "BSN_ID": "VAR(40)!",
+      "PD_NM": "VAR(255)",
+      "REP_AMT": "DEC(15,2)",
+      "REP_STRT_DT": "DATE",
+      "REP_FRQ_CL": "VAR(5)",
+      "REP_FRQ": "VAR(255)",
+      "REP_END_DT": "DATE",
+      "CCY": "CHAR(3)",
+      "AMT": "DEC(15,2)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "ARF_IDFR",
+      "BSN_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "BSN_ID": "BSN.BSN_ID"
+    },
+    "idx": [
+      "BSN_ID",
+      "REP_STRT_DT",
+      "REP_END_DT",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_INDICATOR": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "ECN_IDFR": "DEC(15,0)!",
+      "ECN_IND_NM": "VAR(40)",
+      "SUB_IDFR": "DEC(15,0)!",
+      "AMT": "DEC(15,2)",
+      "CCY": "CHAR(3)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "ECN_IDFR",
+      "SUB_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_INDICATOR_FORTUNE": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "IP_IDFR": "DEC(15,0)!",
+      "RGST_DT": "DATE",
+      "CCY": "CHAR(3)",
+      "AST_AMT": "DEC(15,2)",
+      "DBT_AMT": "DEC(15,2)",
+      "FRT_AMT": "DEC(15,2)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "IP_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "RGST_DT",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_INDICATOR_INCOME": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "IP_IDFR": "DEC(15,0)!",
+      "RGST_DT": "DATE",
+      "CCY": "CHAR(3)",
+      "GRS_AMT": "DEC(15,2)",
+      "OTH_AMT": "DEC(15,2)",
+      "TOT_AMT": "DEC(15,2)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "IP_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "RGST_DT",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_INDICATOR_KREN": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "IP_IDFR": "DEC(15,0)!",
+      "CCY": "CHAR(3)",
+      "NET_AMT": "DEC(15,2)",
+      "NET_PCT_AST": "DEC(9,5)",
+      "NET_PCT_WGT": "DEC(9,5)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "IP_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_INDICATOR_TOTAL": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "KRE_DT": "DATE",
+      "KRE_NET": "DEC(15,2)",
+      "REV_DT": "DATE",
+      "REV_GRS": "DEC(15,2)",
+      "REV_OTH": "DEC(15,2)",
+      "REV_TOT": "DEC(15,2)",
+      "REV_PRE": "DEC(15,2)",
+      "FRT_DT": "DATE",
+      "FRT_AST": "DEC(15,2)",
+      "FRT_DPT": "DEC(15,2)",
+      "FRT_TOT": "DEC(15,2)",
+      "FRT_PRE": "DEC(15,2)",
+      "ENG_EXT_DT": "DATE",
+      "ENG_EXT_AST": "DEC(15,2)",
+      "ENG_EXT_DPT": "DEC(15,2)",
+      "ENG_EXT_FRT": "DEC(15,2)",
+      "ENG_EXT_PRE": "DEC(15,2)",
+      "REG_DT": "DATE",
+      "AMT_TFC_MND": "DEC(15,2)",
+      "AMT_ACT_MND": "DEC(15,2)",
+      "DBT_FAC": "DEC(9,5)",
+      "SOL": "DEC(9,5)",
+      "ADU": "INT",
+      "CHD": "INT",
+      "PRE_REG_DT": "DATE",
+      "PRE_AMT_TFC_MND": "DEC(15,2)",
+      "PRE_AMT_ACT_MND": "DEC(15,2)",
+      "PRE_DBT_FAC": "DEC(9,5)",
+      "PRE_SOL": "DEC(9,5)",
+      "PRE_ADU": "INT",
+      "PRE_CHD": "INT",
+      "TOT_REG_DT": "DATE",
+      "TOT_ENG": "DEC(15,2)",
+      "TOT_CTL": "DEC(15,2)",
+      "TOT_BLC": "DEC(15,2)",
+      "TOT_CNT": "DEC(15,2)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "KRE_DT",
+      "REV_DT",
+      "FRT_DT",
+      "ENG_EXT_DT",
+      "REG_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_OWNER": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "REL_TP_CL": "CHAR(5)",
+      "REL_TP": "VAR(255)",
+      "ARF_IDFR": "DEC(15,0)!",
+      "AC_NO": "VAR(40)",
+      "OWN_TP_CL": "CHAR(5)",
+      "OWN_TP": "VAR(255)",
+      "OWN_PCT": "DEC(9,5)",
+      "IP_IDFR": "DEC(15,0)!",
+      "NM": "VAR(483)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "ARF_IDFR",
+      "IP_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_PARTICIPANT": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "IP_IDFR": "DEC(15,0)!",
+      "CST_PRIM_F": "VAR(2)",
+      "CST_NO": "VAR(100)",
+      "CST_NM": "VAR(100)",
+      "CST_ADR": "VAR(100)",
+      "CST_CTY": "VAR(100)",
+      "CST_IDY": "VAR(20)!",
+      "CST_SCT": "VAR(20)",
+      "CST_SEG": "VAR(40)",
+      "ADV_IP_IDFR": "DEC(15,0)!",
+      "ADV_NM": "VAR(483)",
+      "DEP_IP_IDFR": "DEC(15,0)!",
+      "DEP_NM": "VAR(483)",
+      "GRP_RIFS_IDFR": "DEC(15,0)!",
+      "GRP_NM": "VAR(120)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "IP_IDFR",
+      "CST_IDY",
+      "ADV_IP_IDFR",
+      "DEP_IP_IDFR",
+      "GRP_RIFS_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_RATES": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "ARF_IDFR": "DEC(15,0)!",
+      "BSN_ID": "VAR(40)!",
+      "PD_NM": "VAR(255)",
+      "INT_TP_CL": "CHAR(5)",
+      "INT_TP_NM": "VAR(255)",
+      "INT_APL_TP_CL": "CHAR(5)",
+      "INT_APL_TP_NM": "VAR(255)",
+      "INT_BAL_MX_AMT": "DEC(15,2)",
+      "EFF_RATE_PCT": "DEC(8,5)",
+      "INT_RATE_CSZ_F": "CHAR(1)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "ARF_IDFR",
+      "BSN_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "BSN_ID": "BSN.BSN_ID"
+    },
+    "idx": [
+      "BSN_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_REDEMPTION": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "ARF_IDFR": "DEC(15,0)!",
+      "BSN_ID": "VAR(40)!",
+      "PD_NM": "VAR(255)",
+      "ARR_CCY": "CHAR(3)",
+      "ARR_AMT": "DEC(15,2)",
+      "ACC_CCY": "CHAR(3)",
+      "ACC_AMT": "DEC(15,2)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "ARF_IDFR",
+      "BSN_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "BSN_ID": "BSN.BSN_ID"
+    },
+    "idx": [
+      "BSN_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_STRATEGY": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "IP_IDFR": "DEC(15,0)!",
+      "RTG_SCL_NM": "VAR(40)",
+      "RTG_SCOR": "VAR(80)",
+      "RTG_DSC": "VAR(80)",
+      "RTG_UDT_NM": "VAR(80)",
+      "RGST_DT": "DATE",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "IP_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "RGST_DT",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CA_STRATEGY_TOTAL": {
+    "cols": {
+      "CASE_NO": "DEC(15,0)",
+      "CASE_RPT_VRSN_TS": "TIMESTAMP(6)",
+      "RTG_SCL_NM": "VAR(40)",
+      "RTG_SCOR": "VAR(80)",
+      "RTG_DSC": "VAR(80)",
+      "RGST_DT": "DATE",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "RGST_DT",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CB_ELIGIBLE": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "EFFEKT_NR": "VAR(255)",
+      "PD_TP_CL_NM": "VAR(30)",
+      "PD_LCS_TP_CL_NM": "VAR(30)",
+      "ISIN_CD": "VAR(12)",
+      "REG_CRY": "VAR(2)",
+      "SIC_CD": "INT",
+      "SIC_CD_NM": "VAR(255)",
+      "DK_ELIGIBLE_F": "VAR(2)",
+      "SE_ELIGIBLE_F": "VAR(2)",
+      "NO_ELIGIBLE_F": "VAR(2)",
+      "EU_ELIGIBLE_F": "VAR(2)"
+    },
+    "pk": [
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.COLLATERAL_ARRANGEMENT": {
+    "cols": {
+      "CLT_AR_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "CLT_AR_TP_CL": "CHAR(5)",
+      "PD_ID": "INT!",
+      "AR_CCY": "CHAR(3)",
+      "BSN_ID": "VAR(40)!",
+      "UNQ_ID_SRC": "DEC(15,0)!",
+      "FST_ACT_DT": "DATE",
+      "EST_END_DT": "DATE",
+      "STATUS": "CHAR(5)",
+      "RSPL_OU_ID": "INT!",
+      "CLT_EFF_DT": "DATE!",
+      "CLT_END_DT": "DATE",
+      "CLT_RGST_DT": "DATE",
+      "CLT_TERM_RULE_CL": "CHAR(5)",
+      "NOM_AMT": "DEC(15,2)",
+      "NOM_AMT_CCY": "CHAR(3)",
+      "NOM_AMT_DT": "DATE",
+      "EST_RPRCH_AMT": "DEC(15,2)",
+      "EST_RPRCH_AMT_DT": "DATE",
+      "HRC_ADJ_AMT": "DEC(15,2)",
+      "HRC_ADJ_AMT_DT": "DATE",
+      "GC_AMT": "DEC(15,2)",
+      "GC_AMT_DT": "DATE",
+      "MKT_VAL_AMT": "DEC(15,2)",
+      "MKT_VAL_AMT_DT": "DATE",
+      "ADJ_MKT_VAL_AMT": "DEC(15,2)",
+      "ADJ_MKT_VAL_AMT_DT": "DATE",
+      "CPTL_CALC_AMT": "DEC(15,2)",
+      "CPTL_CALC_AMT_DT": "DATE",
+      "SPRT_AR_BSN_ID": "VAR(40)!",
+      "ALT_REFR_NO": "VAR(40)",
+      "PLG_KS_AR_BSN_ID": "VAR(40)!",
+      "PLG_KS_AR_CCY": "CHAR(3)",
+      "VT_RGHT_PCT": "DEC(9,5)",
+      "OTSND_PNP_ADJ": "CHAR(1)",
+      "BRW_RTO": "INT",
+      "CLT_DOC_TP_NM": "VAR(35)",
+      "MSR_CCY": "CHAR(3)",
+      "SCR_AMT": "DEC(15,2)",
+      "CLM_RNG_MIN_AMT": "DEC(15,2)",
+      "SHR_CLM_IND": "CHAR(1)",
+      "PPN_EV_ID": "INT!"
+    },
+    "pk": [
+      "CLT_AR_ID",
+      "LDB_ID",
+      "PD_ID",
+      "BSN_ID",
+      "UNQ_ID_SRC",
+      "RSPL_OU_ID",
+      "SPRT_AR_BSN_ID",
+      "PLG_KS_AR_BSN_ID",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "CLT_AR_ID": "CLT_AR.CLT_AR_ID",
+      "PD_ID": "PD.PD_ID",
+      "BSN_ID": "BSN.BSN_ID",
+      "RSPL_OU_ID": "RSPL_OU.IP_ID",
+      "SPRT_AR_BSN_ID": "SPRT_AR_BSN.SPRT_AR_BSN_ID",
+      "PLG_KS_AR_BSN_ID": "PLG_KS_AR_BSN.PLG_KS_AR_BSN_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "CLT_AR_ID",
+      "LDB_ID",
+      "SNPST_DT",
+      "PD_ID",
+      "BSN_ID"
+    ]
+  },
+  "EDWDAG01600_VP.COLLATERAL_DISTRIBUTION": {
+    "cols": {
+      "CLT_AR_ID": "INT!",
+      "CLT_KS_ID": "DEC(15,0)!",
+      "LDB_ID": "SMALLINT!",
+      "CLT_AR_TP_CL": "CHAR(5)",
+      "CLT_CCY": "CHAR(3)",
+      "CLT_CCY_RATE": "DEC(15,7)",
+      "CLT_END_DT": "DATE",
+      "CLT_BSN_ID": "DEC(15,0)!",
+      "IP_CLT_F": "INT",
+      "CLT_OWN_IP_ID": "INT!",
+      "CLT_OWN_KS_ID": "DEC(15,0)!",
+      "EXP_OWN_IP_ID": "INT!",
+      "EXP_OWN_KS_ID": "DEC(15,0)!",
+      "EXP_AC_AR_ID": "INT!",
+      "EXP_AC_KS_ID": "DEC(15,0)!",
+      "EXP_AC_AR_TP_CL": "CHAR(4)",
+      "EXP_BSN_ID": "CHAR(30)!",
+      "LDA_EXT_AR_NMBR": "VAR(34)",
+      "LOKUS_EXT_REF_NR": "VAR(14)",
+      "LOKUS_AR_NR": "DEC(15,0)",
+      "LDA_SYSTEM_NAME": "VAR(40)",
+      "EXP_AC_AR_BAL": "DEC(15,2)",
+      "EXP_AC_AR_BAL_MSR": "DEC(15,2)",
+      "EXP_AC_AR_CCY": "CHAR(3)",
+      "EXP_AC_AR_RATE": "DEC(15,7)",
+      "EXP_RSK_WGHT_BAL": "DEC(15,2)",
+      "EXP_RSK_WGHT_BAL_MRS": "DEC(15,2)",
+      "RISK_GRP": "VAR(9)",
+      "CR_UNUSED_F": "CHAR(1)",
+      "CCY_MSMTCH_F": "CHAR(1)",
+      "HRCT_F": "CHAR(1)",
+      "RISK_RATE": "DEC(15,7)",
+      "DPST_KS_ID": "DEC(15,0)!",
+      "ISIN_CODE": "VAR(12)",
+      "DOC_HRCT_PCT": "DEC(9,5)",
+      "RI_ID": "INT!",
+      "RI_KS_ID": "DEC(15,0)!",
+      "RI_USG_TP_CL": "CHAR(5)",
+      "RI_WGHT": "DEC(3,0)",
+      "RI_VAL_TP_CL": "CHAR(5)",
+      "RI_CCY": "CHAR(3)",
+      "RI_CCY_RATE": "DEC(15,7)",
+      "CLT_RI_TP_DSC": "VAR(35)",
+      "CVT_RSK_AMT": "DEC(15,2)",
+      "CVT_RSK_AMT_MSR": "DEC(15,2)",
+      "NON_CVT_EXP_RISK_AMT": "DEC(15,2)",
+      "NON_CVT_EXP_RISK_AMT_MSR": "DEC(15,2)",
+      "CVT_AC_AR_AMT": "DEC(15,2)",
+      "CVT_AC_AR_AMT_MSR": "DEC(15,2)",
+      "NON_CVT_AC_AR_AMT": "DEC(15,2)",
+      "NON_CVT_AC_AR_AMT_MSR": "DEC(15,2)",
+      "CVT_AMT": "DEC(15,2)",
+      "CVT_AMT_MSR": "DEC(15,2)",
+      "CVT_AMT_CCY": "CHAR(3)",
+      "CVT_AMT_RATE": "DEC(15,7)",
+      "USED_CLT_AMT": "DEC(15,2)",
+      "USED_CLT_AMT_MSR": "DEC(15,2)",
+      "UNUSED_CLT_AMT": "DEC(15,2)",
+      "UNUSED_CLT_AMT_MSR": "DEC(15,2)",
+      "USED_RI_AMT": "DEC(15,2)",
+      "USED_RI_AMT_MSR": "DEC(15,2)",
+      "UNUSED_RI_AMT": "DEC(15,2)",
+      "UNUSED_RI_AMT_MSR": "DEC(15,2)",
+      "RI_SPLT_F": "CHAR(3)",
+      "SCNRIE": "INT",
+      "CRY": "CHAR(2)",
+      "AR_AC_BAL_TP": "VAR(8)",
+      "UNUSED_CLT_MAX_MSR": "DEC(15,2)",
+      "SNPST_DT": "DATE!",
+      "PPN_EV_ID": "INT!",
+      "RI_TP_CL": "CHAR(5)"
+    },
+    "pk": [
+      "CLT_AR_ID",
+      "CLT_KS_ID",
+      "LDB_ID",
+      "CLT_BSN_ID",
+      "CLT_OWN_IP_ID",
+      "CLT_OWN_KS_ID",
+      "EXP_OWN_IP_ID",
+      "EXP_OWN_KS_ID",
+      "EXP_AC_AR_ID",
+      "EXP_AC_KS_ID",
+      "EXP_BSN_ID",
+      "DPST_KS_ID",
+      "RI_ID",
+      "RI_KS_ID",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "CLT_AR_ID": "CLT_AR.CLT_AR_ID",
+      "CLT_KS_ID": "CLT_KS.CLT_KS_ID",
+      "CLT_BSN_ID": "CLT_BSN.CLT_BSN_ID",
+      "CLT_OWN_IP_ID": "CLT_OWN.IP_ID",
+      "CLT_OWN_KS_ID": "CLT_OWN_KS.CLT_OWN_KS_ID",
+      "EXP_OWN_IP_ID": "EXP_OWN.IP_ID",
+      "EXP_OWN_KS_ID": "EXP_OWN_KS.EXP_OWN_KS_ID",
+      "EXP_AC_AR_ID": "EXP_AC_AR.EXP_AC_AR_ID",
+      "EXP_AC_KS_ID": "EXP_AC_KS.EXP_AC_KS_ID",
+      "EXP_BSN_ID": "EXP_BSN.EXP_BSN_ID",
+      "DPST_KS_ID": "DPST_KS.DPST_KS_ID",
+      "RI_ID": "RI.RI_ID",
+      "RI_KS_ID": "RI_KS.RI_KS_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "CLT_AR_ID",
+      "CLT_KS_ID",
+      "LDB_ID",
+      "CLT_END_DT",
+      "CLT_BSN_ID"
+    ]
+  },
+  "EDWDAG01600_VP.COLLATERAL_FOUNDATION": {
+    "cols": {
+      "CLT_AR_ID": "INT!",
+      "CLT_KS_ID": "DEC(15,0)!",
+      "LDB_ID": "SMALLINT!",
+      "CLT_AR_TP_CL": "CHAR(5)",
+      "CLT_CCY": "CHAR(3)",
+      "CLT_CCY_RATE": "DEC(15,7)",
+      "CLT_EFF_DT": "DATE!",
+      "CLT_END_DT": "DATE",
+      "CLT_BSN_ID": "DEC(15,0)!",
+      "CLT_AC_AR_ID": "DEC(15,0)!",
+      "CLT_AC_KS_ID": "DEC(15,0)!",
+      "CLT_AC_BAL": "DEC(15,2)",
+      "CLT_AC_BAL_MSR": "DEC(15,2)",
+      "CLT_AC_BAL_RATE": "DEC(15,7)",
+      "CLT_AC_CCY": "CHAR(3)",
+      "CLT_VAL": "DEC(15,2)",
+      "CLT_VAL_MSR": "DEC(15,2)",
+      "CLT_VAL_CCY": "CHAR(3)",
+      "CLT_VAL_CCY_RATE": "DEC(15,7)",
+      "CLT_RGHT_VAL_MSR": "DEC(15,2)",
+      "OTSND_PNP_ADJ_F": "CHAR(1)",
+      "IP_CLT_IND": "INT",
+      "CLT_OWN_IP_ID": "INT!",
+      "CLT_OWN_KS_ID": "DEC(15,0)!",
+      "CLT_OWN_WGHT": "DEC(3,0)",
+      "CLT_OWN_EXPCAT": "DEC(15,0)",
+      "CLT_OWN_SEK_CODE": "CHAR(6)",
+      "EXP_OWN_IP_ID": "INT!",
+      "EXP_OWN_KS_ID": "DEC(15,0)!",
+      "EXP_OWN_WGHT": "DEC(3,0)",
+      "EXP_OWN_EXPCAT": "DEC(15,0)",
+      "EXP_OWN_SEK_CODE": "CHAR(6)",
+      "EXP_AC_AR_ID": "INT!",
+      "EXP_AC_KS_ID": "DEC(15,0)!",
+      "EXP_AC_AR_TP_CL": "CHAR(4)",
+      "AR_ACG_GRP_NM": "VAR(35)",
+      "GNT_TXT": "VAR(40)",
+      "CPTL_BASE_F": "CHAR(1)",
+      "EXP_BSN_ID": "VAR(30)!",
+      "LDA_EXT_AR_NMBR": "VAR(34)",
+      "LOKUS_EXT_REF_NR": "VAR(14)",
+      "LOKUS_AR_NR": "DEC(15,0)",
+      "LDA_SYSTEM_NAME": "VAR(40)",
+      "EXP_AC_AR_BAL": "DEC(15,2)",
+      "EXP_AC_AR_BAL_MSR": "DEC(15,2)",
+      "EXP_AC_AR_CCY": "CHAR(3)",
+      "EXP_AC_AR_RATE": "DEC(15,7)",
+      "EXP_RSK_WGHT_BAL": "DEC(15,2)",
+      "EXP_RSK_WGHT_BAL_MRS": "DEC(15,2)",
+      "ORG_AR_AC_BAL": "DEC(15,2)",
+      "ORG_AR_AC_BAL_MSR": "DEC(15,2)",
+      "RISK_GRP": "VAR(9)",
+      "CR_UNUSED_F": "CHAR(1)",
+      "CCY_MSMTCH_F": "CHAR(1)",
+      "HRCT_F": "CHAR(1)",
+      "RISK_RATE": "DEC(15,7)",
+      "DPST_KS_ID": "DEC(15,0)!",
+      "ISIN_CODE": "VAR(12)",
+      "DOC_HRCT_PCT": "DEC(9,5)",
+      "DOK_VAL": "DEC(15,2)",
+      "DOC_VAL_MSR": "DEC(15,2)",
+      "DOK_CCY": "CHAR(3)",
+      "RI_ID": "INT!",
+      "RI_KS_ID": "DEC(15,0)!",
+      "RI_TP_CL": "CHAR(5)",
+      "RI_USG_TP_CL": "CHAR(5)",
+      "USG_PCT": "DEC(9,5)",
+      "RI_VAL_TP_CL": "CHAR(5)",
+      "RI_VAL_AMT": "DEC(15,2)",
+      "RI_VAL_AMT_MSR": "DEC(15,2)",
+      "RI_VAL_AMT_PER_USG": "DEC(15,2)",
+      "RI_VAL_AMT_PER_USG_MSR": "DEC(15,2)",
+      "RI_VAL_AMT_CCY": "CHAR(3)",
+      "RI_VAL_CCY_RATE": "DEC(15,7)",
+      "ENCB_VAL_MSR": "DEC(15,2)",
+      "ENCB_VAL_PER_USG_MSR": "DEC(15,2)",
+      "REAL_PTY_VAL_INDPND_F": "CHAR(1)",
+      "BRW_RSK_INDPND_F": "CHAR(1)",
+      "OWN_BRW_F": "CHAR(1)",
+      "RSDNC_PART_RENT_F": "CHAR(1)",
+      "CLT_RI_TP_TXT": "VAR(35)",
+      "CLT_RDCD_VAL": "DEC(15,2)",
+      "CLT_RDCD_VAL_MSR": "DEC(15,2)",
+      "CLT_RDCD_VAL_CCY": "CHAR(3)",
+      "CLT_RDCD_VAL_RATE": "DEC(15,7)",
+      "RI_RDCD_VAL": "DEC(15,2)",
+      "RI_RDCD_VAL_MSR": "DEC(15,2)",
+      "RI_RDCD_VAL_CCY": "CHAR(3)",
+      "RI_RDCD_VAL_RATE": "DEC(15,7)",
+      "F540_SRC_SYS_RECNR": "VAR(40)",
+      "RI_SPLT_IND": "CHAR(3)",
+      "CLT_WGHT": "DEC(3,0)",
+      "LOAN_PCT": "DEC(15,2)",
+      "CLT_VAL_PCT": "DEC(15,2)",
+      "DWN_RATE_ALWD_F": "CHAR(1)",
+      "SCNRIE": "SMALLINT",
+      "CRY": "CHAR(2)",
+      "MSR_CCY": "CHAR(3)",
+      "SNPST_DT": "DATE!",
+      "AR_AC_BAL_TP": "VAR(8)",
+      "CLT_OWN_EXP_OWN_F": "DEC(15,0)",
+      "CLT_MAX_MSR": "DEC(15,2)",
+      "CLT_CVR_SEQ": "SMALLINT",
+      "CR_RSK_PRVSN": "DEC(15,2)",
+      "CR_RSK_PRVSN_MSR": "DEC(15,2)",
+      "CR_RSK_PRVSN_F": "CHAR(1)",
+      "PPN_EV_ID": "INT!",
+      "DEAL_DT": "DATE",
+      "AC_PURPOSE": "VAR(40)",
+      "IP_SECTOR_CODE_TXT": "VAR(40)",
+      "IP_CATEGORY": "VAR(40)",
+      "INTEREST": "DEC(15,2)",
+      "INTEREST_MSR": "DEC(15,2)",
+      "DISTRIBUTION_SORT_ORDER": "DEC(15,0)",
+      "INCLUDE_DISTRIBUTION_F": "CHAR(1)"
+    },
+    "pk": [
+      "CLT_AR_ID",
+      "CLT_KS_ID",
+      "LDB_ID",
+      "CLT_BSN_ID",
+      "CLT_AC_AR_ID",
+      "CLT_AC_KS_ID",
+      "CLT_OWN_IP_ID",
+      "CLT_OWN_KS_ID",
+      "EXP_OWN_IP_ID",
+      "EXP_OWN_KS_ID",
+      "EXP_AC_AR_ID",
+      "EXP_AC_KS_ID",
+      "EXP_BSN_ID",
+      "DPST_KS_ID",
+      "RI_ID",
+      "RI_KS_ID",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "CLT_AR_ID": "CLT_AR.CLT_AR_ID",
+      "CLT_KS_ID": "CLT_KS.CLT_KS_ID",
+      "CLT_BSN_ID": "CLT_BSN.CLT_BSN_ID",
+      "CLT_AC_AR_ID": "CLT_AC_AR.CLT_AC_AR_ID",
+      "CLT_AC_KS_ID": "CLT_AC_KS.CLT_AC_KS_ID",
+      "CLT_OWN_IP_ID": "CLT_OWN.IP_ID",
+      "CLT_OWN_KS_ID": "CLT_OWN_KS.CLT_OWN_KS_ID",
+      "EXP_OWN_IP_ID": "EXP_OWN.IP_ID",
+      "EXP_OWN_KS_ID": "EXP_OWN_KS.EXP_OWN_KS_ID",
+      "EXP_AC_AR_ID": "EXP_AC_AR.EXP_AC_AR_ID",
+      "EXP_AC_KS_ID": "EXP_AC_KS.EXP_AC_KS_ID",
+      "EXP_BSN_ID": "EXP_BSN.EXP_BSN_ID",
+      "DPST_KS_ID": "DPST_KS.DPST_KS_ID",
+      "RI_ID": "RI.RI_ID",
+      "RI_KS_ID": "RI_KS.RI_KS_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "CLT_AR_ID",
+      "CLT_KS_ID",
+      "LDB_ID",
+      "CLT_EFF_DT",
+      "CLT_END_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CONSOLIDATED_BASEL_RISK_GROUP": {
+    "cols": {
+      "GRP_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "IP_ID": "INT!",
+      "IP_IDFR": "DEC(15,0)!",
+      "IP_NM": "VAR(483)",
+      "CPR_CVR": "VAR(16)",
+      "IP_TYPE": "CHAR(5)",
+      "GRP_TYPE": "VAR(2)",
+      "GROUP_NAME_KS": "VAR(120)",
+      "HIGEST_EXP_NAME": "VAR(483)",
+      "HIGEST_EXP_NAME_IP_ID": "INT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "GRP_ID",
+      "LDB_ID",
+      "IP_ID",
+      "IP_IDFR",
+      "HIGEST_EXP_NAME_IP_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "GRP_ID": "GRP.GRP_ID",
+      "IP_ID": "IP.IP_ID",
+      "HIGEST_EXP_NAME_IP_ID": "HIGEST_EXP_NAME.IP_ID"
+    },
+    "idx": [
+      "GRP_ID",
+      "LDB_ID",
+      "IP_ID",
+      "HIGEST_EXP_NAME_IP_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.COVERING_ARRANGEMENT": {
+    "cols": {
+      "CLT_AR_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "CVR_AR_ID": "INT!",
+      "MX_PVDD_CCY": "CHAR(3)",
+      "MX_PVDD_AMT": "DEC(15,2)",
+      "MTRL_THRS": "DEC(15,2)",
+      "MTRL_THRS_CCY": "CHAR(3)",
+      "PCT_ESR_CVRD": "DEC(9,5)",
+      "PCT_CLT_PLG": "DEC(9,5)",
+      "CLM_SEQ_NO": "SMALLINT",
+      "PPN_EV_ID": "INT!"
+    },
+    "pk": [
+      "CLT_AR_ID",
+      "LDB_ID",
+      "CVR_AR_ID",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "CLT_AR_ID": "CLT_AR.CLT_AR_ID",
+      "CVR_AR_ID": "CVR_AR.CVR_AR_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "CLT_AR_ID",
+      "LDB_ID",
+      "SNPST_DT",
+      "CVR_AR_ID",
+      "PPN_EV_ID"
+    ]
+  },
+  "EDWDAG01600_VP.COVERING_CUSTOMER": {
+    "cols": {
+      "CLT_AR_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "IP_ID": "INT!",
+      "MX_PVDD_CCY": "CHAR(3)",
+      "MX_PVDD_AMT": "DEC(15,2)",
+      "MTRL_THRS": "DEC(15,2)",
+      "MTRL_THRS_CCY": "CHAR(3)",
+      "PCT_ESR_CVRD": "DEC(9,5)",
+      "PCT_CLT_PLG": "DEC(9,5)",
+      "CLM_SEQ_NO": "SMALLINT",
+      "PPN_EV_ID": "INT!"
+    },
+    "pk": [
+      "CLT_AR_ID",
+      "LDB_ID",
+      "IP_ID",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "CLT_AR_ID": "CLT_AR.CLT_AR_ID",
+      "IP_ID": "IP.IP_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "CLT_AR_ID",
+      "LDB_ID",
+      "SNPST_DT",
+      "IP_ID",
+      "PPN_EV_ID"
+    ]
+  },
+  "EDWDAG01600_VP.CREDIT_ACCOUNT_MAXIMUM": {
+    "cols": {
+      "KUNDE_NR": "VAR(16)",
+      "SNPST_DT": "DATE!",
+      "LDB_ID": "SMALLINT!",
+      "KUNDE_NAVN": "VAR(483)",
+      "KUNDE_ANSVARLIG": "VAR(483)",
+      "AVDELING": "VAR(483)",
+      "KONTO_NR": "VAR(40)",
+      "PRODUKT_KODE": "VAR(40)",
+      "SALDO": "DEC(15,2)",
+      "SALDO_VALUTA": "VAR(3)",
+      "AKTUELT_MAKSIMUM": "DEC(15,2)",
+      "BEVILGET_OVERTREKK": "DEC(15,2)",
+      "UTLOPSDATO_BEV_OV": "DATE",
+      "UTLOPSDATO_AKT_MAX": "DATE",
+      "REVUDERINGS_DATO": "DATE"
+    },
+    "pk": [
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "SNPST_DT",
+      "LDB_ID"
+    ]
+  },
+  "EDWDAG01600_VP.CREDIT_LINE": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "ARF_IDFR": "DEC(15,0)!",
+      "IP_IDFR": "DEC(15,0)!",
+      "SNPST_DT": "DATE!",
+      "ESTABLISH_DT": "DATE",
+      "PD_IDFR": "DEC(15,0)!",
+      "PRODUKTTYPE_CL": "CHAR(5)",
+      "KONTO_NR": "VAR(40)",
+      "CREDIT_LINE_AMT": "DEC(15,2)",
+      "CCY_TOT": "VAR(3)",
+      "TOTALRAMME": "DEC(15,2)",
+      "CCY_FOR": "VAR(3)",
+      "FORDELINGSRAMME": "DEC(15,2)",
+      "CCY_UUR": "VAR(3)",
+      "UUDNYTTET_RAMME": "DEC(15,2)",
+      "CCY_UUF": "VAR(3)",
+      "UUDNYTTET_FORDELINGS_RAMME": "DEC(15,2)",
+      "CCY_UUT": "VAR(3)",
+      "UUDNYTTET_TOTAL_RAMME": "DEC(15,2)",
+      "EXP_DT": "DATE",
+      "DEPRICATION_START_DATE": "DATE",
+      "DEPRICATION_AMT": "DEC(15,2)",
+      "DEPRICATION_FREQUENCY": "VAR(5)",
+      "PI_NOTIFICATION_PERIOD": "VAR(35)",
+      "RAMMEPROFIL": "VAR(120)",
+      "GRP_RIFS_IDFR_APD": "DEC(15,0)!",
+      "RISIKOGRUPPE": "VAR(120)",
+      "GRP_RIFS_IDFR_CUST": "DEC(15,0)!"
+    },
+    "pk": [
+      "LDB_ID",
+      "ARF_IDFR",
+      "IP_IDFR",
+      "PD_IDFR",
+      "GRP_RIFS_IDFR_APD",
+      "GRP_RIFS_IDFR_CUST",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT",
+      "ESTABLISH_DT",
+      "EXP_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CUSTOMER": {
+    "cols": {
+      "KUNDE_ID": "VAR(16)!",
+      "LDB_ID": "SMALLINT!",
+      "IP_IDFR": "DEC(15,0)!",
+      "NAVN1": "VAR(120)",
+      "NAVN2": "VAR(120)",
+      "NAVN3": "VAR(120)",
+      "NAVN4": "VAR(120)",
+      "EFTERNAVN": "VAR(120)",
+      "ADR1": "VAR(34)",
+      "ADR2": "VAR(34)",
+      "ADR3": "VAR(34)",
+      "ADR4": "VAR(34)",
+      "ADR5": "VAR(34)",
+      "POSTNR": "VAR(34)",
+      "STATUS": "VAR(255)",
+      "KUNDE_ANSVAR": "VAR(16)",
+      "HREGCTR": "VAR(7)",
+      "BRANCHE_KODE": "VAR(20)",
+      "SEKTOR_KODE": "VAR(20)",
+      "KUNDESEG": "VAR(255)",
+      "ALDER": "INT",
+      "FINANSIEL_ST": "VAR(255)",
+      "CIVILSTAND": "VAR(255)",
+      "EMIGRERET": "VAR(255)",
+      "UMYNDIG": "VAR(255)",
+      "BOLIG": "VAR(255)",
+      "KUNDETYPE": "VAR(20)",
+      "AKTIV_KONTO": "CHAR(1)",
+      "CPR_SPAER": "CHAR(1)",
+      "PI_SPAER": "CHAR(1)",
+      "KONTOOVERSIGT": "CHAR(1)",
+      "PENSOVERSIGT": "CHAR(1)",
+      "FORSEND_NAVN": "VAR(120)",
+      "CNTRY_IDFR": "DEC(15,0)!",
+      "HREGCTR_IDFR": "DEC(15,0)!",
+      "ALT_CPR_SE": "VAR(16)",
+      "RELATION": "CHAR(1)",
+      "SELSKABSFORM": "VAR(255)",
+      "SELSKABSTYPE": "VAR(255)",
+      "LANDEKODE": "VAR(20)",
+      "PI_LANDEKODE": "CHAR(2)",
+      "BOPKOD": "VAR(120)",
+      "FOERSTE_AFTALE": "DATE",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "KUNDE_ID",
+      "LDB_ID",
+      "IP_IDFR",
+      "CNTRY_IDFR",
+      "HREGCTR_IDFR",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "KUNDE_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CUSTOMER_COUNTRY_RELATION": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "IP_ID": "INT!",
+      "IP_IDFR": "DEC(15,0)!",
+      "KUNDE_ID": "VAR(16)!",
+      "RELATIONSTYPE": "VAR(255)",
+      "LANDEKODE": "VAR(20)",
+      "LANDENAVN": "VAR(120)",
+      "LOEBENUMMER": "INT",
+      "RELATIONSTEKST": "VAR(35)",
+      "SKATTEPLIGTIG": "VAR(255)",
+      "STARTDATO": "DATE",
+      "UDLOEBSDATO": "DATE",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "LDB_ID",
+      "IP_ID",
+      "IP_IDFR",
+      "KUNDE_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "IP_ID": "IP.IP_ID",
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "LDB_ID",
+      "IP_ID",
+      "KUNDE_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CUSTOMER_D": {
+    "cols": {
+      "KUNDE_ID": "VAR(16)!",
+      "LDB_ID": "SMALLINT!",
+      "IP_IDFR": "DEC(15,0)!",
+      "NAVN1": "VAR(120)",
+      "NAVN2": "VAR(120)",
+      "NAVN3": "VAR(120)",
+      "NAVN4": "VAR(120)",
+      "EFTERNAVN": "VAR(120)",
+      "ADR1": "VAR(34)",
+      "ADR2": "VAR(34)",
+      "ADR3": "VAR(34)",
+      "ADR4": "VAR(34)",
+      "ADR5": "VAR(34)",
+      "POSTNR": "VAR(34)",
+      "STATUS": "VAR(255)",
+      "KUNDE_ANSVAR": "VAR(16)",
+      "HREGCTR": "VAR(7)",
+      "BRANCHE_KODE": "VAR(20)",
+      "SEKTOR_KODE": "VAR(20)",
+      "KUNDESEG": "VAR(255)",
+      "ALDER": "INT",
+      "FINANSIEL_ST": "VAR(255)",
+      "CIVILSTAND": "VAR(255)",
+      "EMIGRERET": "VAR(255)",
+      "UMYNDIG": "VAR(255)",
+      "BOLIG": "VAR(255)",
+      "KUNDETYPE": "VAR(20)",
+      "AKTIV_KONTO": "CHAR(1)",
+      "CPR_SPAER": "CHAR(1)",
+      "PI_SPAER": "CHAR(1)",
+      "KONTOOVERSIGT": "CHAR(1)",
+      "PENSOVERSIGT": "CHAR(1)",
+      "FORSEND_NAVN": "VAR(120)",
+      "CNTRY_IDFR": "DEC(15,0)!",
+      "HREGCTR_IDFR": "DEC(15,0)!",
+      "ALT_CPR_SE": "VAR(16)",
+      "RELATION": "CHAR(1)",
+      "SELSKABSFORM": "VAR(255)",
+      "SELSKABSTYPE": "VAR(255)",
+      "LANDEKODE": "VAR(20)",
+      "PI_LANDEKODE": "CHAR(2)",
+      "BOPKOD": "VAR(120)",
+      "FOERSTE_AFTALE": "DATE",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "KUNDE_ID",
+      "LDB_ID",
+      "IP_IDFR",
+      "CNTRY_IDFR",
+      "HREGCTR_IDFR",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "KUNDE_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CUSTOMER_MEETING": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "CASE_NO": "DEC(15,0)",
+      "CASE_ST_NM": "VAR(255)",
+      "MTG_ST_NM": "VAR(255)",
+      "MTG_DT": "DATE",
+      "MTG_DSC": "VAR(80)",
+      "MTG_ITT_TP_NM": "VAR(255)",
+      "MTG_CTC_TP_NM": "VAR(255)",
+      "MTG_EMP_IP_IDFR": "DEC(15,0)!",
+      "MTG_EMP_NM": "VAR(483)",
+      "MTG_CST_IP_IDFR": "DEC(15,0)!",
+      "MTG_CST_NM": "VAR(483)",
+      "MTG_OU_IP_IDFR": "DEC(15,0)!",
+      "MTG_OU_NM": "VAR(483)"
+    },
+    "pk": [
+      "LDB_ID",
+      "MTG_EMP_IP_IDFR",
+      "MTG_CST_IP_IDFR",
+      "MTG_OU_IP_IDFR",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT",
+      "MTG_DT"
+    ]
+  },
+  "EDWDAG01600_VP.CUSTOMER_SUPPLEMENT": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "IP_IDFR": "DEC(15,0)!",
+      "IP_ID": "INT!",
+      "KUNDE_ID": "VAR(16)!",
+      "FI_BSN_CODE": "VAR(20)",
+      "FI_BSN_NM": "VAR(255)",
+      "OFFC_BSN_CODE": "VAR(20)",
+      "OFFC_BSN_NM": "VAR(255)",
+      "FI_SECT_CODE": "VAR(20)",
+      "FI_SECT_NM": "VAR(255)",
+      "OFFC_SECT_CODE": "VAR(20)",
+      "OFFC_SECT_NM": "VAR(255)",
+      "CTY_CODE": "CHAR(2)",
+      "ESR_CGY_MNUL": "VAR(128)",
+      "ESR_CGY_DFLT": "VAR(128)",
+      "CSR_CRT_DT": "VAR(2)",
+      "BOOK_YR": "VAR(2)",
+      "PH_NBR_PRVT": "VAR(2)",
+      "PH_NBR_CO": "VAR(2)",
+      "PH_MBL_NBR": "VAR(2)",
+      "EMAIL_PRVT": "VAR(2)",
+      "EMAIL_CO": "VAR(2)",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "LDB_ID",
+      "IP_IDFR",
+      "IP_ID",
+      "KUNDE_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "IP_ID": "IP.IP_ID",
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "LDB_ID",
+      "IP_ID",
+      "KUNDE_ID",
+      "CSR_CRT_DT",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.DGLSAL": {
+    "cols": {
+      "DAGSDATO": "DATE",
+      "LDB_ID": "SMALLINT!",
+      "ARF_IDFR": "DEC(15,0)!",
+      "KONTONR": "CHAR(20)",
+      "SALDO_VAL": "DEC(15,2)",
+      "MAX1_VAL": "DEC(15,2)",
+      "MAX2_VAL": "DEC(15,2)",
+      "STPRSTGAELD_VAL": "DEC(15,2)",
+      "VALUTA": "CHAR(3)",
+      "SALDO": "DEC(15,2)",
+      "MAX1": "DEC(15,2)",
+      "MAX2": "DEC(15,2)",
+      "STPRSTGAELD": "DEC(15,2)",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "LDB_ID",
+      "ARF_IDFR",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.DK_EJENDOMME_GEOMATIC": {
+    "cols": {
+      "KOMMUNEKODE": "SMALLINT",
+      "EJENDOMSNUMMER": "INT",
+      "EFF_DT": "DATE!",
+      "END_DT": "DATE",
+      "LEVERANCE_ID": "INT!",
+      "LEVERANCE_GRUPPE": "SMALLINT",
+      "LEVERANCE_TMS": "TIMESTAMP(6)",
+      "FORMATID": "SMALLINT",
+      "HPVEJENDOMSTYPE": "SMALLINT",
+      "MARKEDSPRISBEREGNINGSDATO": "DATE",
+      "ANVENDTAREALMODEL": "INT",
+      "SENESTEHANDELSPRIS": "DEC(13,0)",
+      "SENESTEHANDELSDATO": "DATE",
+      "ERIUDBUD": "SMALLINT",
+      "UDBUDSPRIS": "DEC(13,0)",
+      "UDBUDSDATO": "DATE",
+      "EJERFORHOLDSKODE": "SMALLINT",
+      "ZONEANGIVELSE": "SMALLINT",
+      "OFFENTLIGVURDERING": "DEC(13,0)",
+      "VURDERINGSBENYTTELSESKODE": "SMALLINT",
+      "EJENDOMSVURDERINGSAREAL": "INT",
+      "BYGNINGSANVENDELSESKODE": "SMALLINT",
+      "ENHEDSANVENDELSESKODE": "SMALLINT",
+      "BEBOELSESAREAL": "INT",
+      "UDNYTTETLOFTSAREAL": "INT",
+      "UUDNYTTETLOFTSAREAL": "INT",
+      "KAELDERAR_GODKENDTTILBEBOELSE": "INT",
+      "KAELDERAREAL": "INT",
+      "INDBYG_GARAGECARPORTUDHUSAR": "INT",
+      "FRITLIG_GARAGECARPORTUDHUSAR": "INT",
+      "UDESTUEAREAL": "INT",
+      "ERUDLEJET": "SMALLINT",
+      "OPFOERELSESAAR": "SMALLINT",
+      "OMBYGNINGSAAR": "SMALLINT",
+      "YDERVAEGSMATERIALE": "SMALLINT",
+      "TAGMATERIALE": "SMALLINT",
+      "OPVARMNINGSFORM": "SMALLINT",
+      "CONZOOMTYPE": "CHAR(2)",
+      "VEJNAVN": "VAR(40)",
+      "HUSNUMMER": "VAR(4)",
+      "ETAGE": "CHAR(2)",
+      "SIDEDOER": "VAR(4)",
+      "POSTNUMMER": "SMALLINT",
+      "POSTDISTRIKT": "VAR(30)",
+      "KVHX": "VAR(17)",
+      "X": "INT",
+      "Y": "INT",
+      "PPN_EV_ID": "INT!",
+      "OFF_VURD_AAR": "SMALLINT",
+      "OFF_VURD_DATO": "DATE",
+      "PRISA": "DEC(15,2)",
+      "VALIDERINGSMODELA": "CHAR(3)",
+      "PRISB": "BIGINT",
+      "VALIDERINGSMODELB": "CHAR(3)",
+      "PRISC": "DEC(15,2)",
+      "VALIDERINGSMODELC": "CHAR(3)",
+      "PRISD": "DEC(15,2)",
+      "VALIDERINGSMODELD": "CHAR(3)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "LEVERANCE_ID",
+      "PPN_EV_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "LEVERANCE_ID": "LEVERANCE.LEVERANCE_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "EFF_DT",
+      "END_DT",
+      "LEVERANCE_ID",
+      "PPN_EV_ID",
+      "LDB_ID"
+    ]
+  },
+  "EDWDAG01600_VP.ECONOMIC_AFFINITY_GROUP": {
+    "cols": {
+      "KUNDE_ID": "VAR(16)!",
+      "LDB_ID": "SMALLINT!",
+      "IP_IDFR": "DEC(15,0)!",
+      "RIFS_IDFR_GRP": "DEC(15,0)!",
+      "GRP_NAME": "VAR(120)",
+      "RIFS_IDFR_GRP_DESC": "DEC(15,0)!",
+      "GRP_TYPE_CL": "CHAR(5)",
+      "GRP_TYPE": "VAR(255)",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "KUNDE_ID",
+      "LDB_ID",
+      "IP_IDFR",
+      "RIFS_IDFR_GRP",
+      "RIFS_IDFR_GRP_DESC",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "KUNDE_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.EFFECT": {
+    "cols": {
+      "EFCT_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "FI_CTY_CODE": "CHAR(2)",
+      "EFCT_TP_CL": "CHAR(5)",
+      "EFCT_LCS_TP_CL": "CHAR(5)",
+      "EFCT_CCY": "CHAR(3)",
+      "BSN_ID": "VAR(40)!",
+      "PD_ID": "INT!",
+      "BRW_RTO": "INT",
+      "DPRC_PCT": "INT",
+      "DPRC_FRQ": "VAR(35)",
+      "UNQ_ID_SRC": "DEC(15,0)!",
+      "RSPL_OU_ID": "INT!",
+      "BODY_IDNT": "VAR(20)!",
+      "MFC": "VAR(40)",
+      "MODL": "VAR(40)",
+      "RGST_NO": "VAR(20)",
+      "MODL_YR": "SMALLINT",
+      "VHCL_GRS_WGHT": "DEC(15,3)",
+      "VHCL_CRR_CPY": "DEC(15,3)",
+      "VHCL_TP_CL": "VAR(5)",
+      "LAND_OWNRSHP_TP_CL": "VAR(5)",
+      "PST_ADR_NM_1": "VAR(34)",
+      "PST_ADR_NM_2": "VAR(34)",
+      "PSTCD": "INT",
+      "MNCPL_ID": "INT!",
+      "BLD_IDNT": "VAR(20)!",
+      "MNCP_AREA_CODE": "VAR(20)",
+      "LOT_PLOT_AREA_NO": "VAR(20)",
+      "LOT_PLOT_AREA_NM": "VAR(20)",
+      "PARCEL_NO": "VAR(20)",
+      "FLAT_NO": "VAR(20)",
+      "EFCT_AC_VAL_TP_NM": "VAR(35)",
+      "TAX_VAL_AMT": "DEC(15,2)",
+      "TAX_VAL_DT": "DATE",
+      "TAX_VAL_BY_ID": "INT!",
+      "MKT_VAL_AMT": "DEC(15,2)",
+      "MKT_VAL_DT": "DATE",
+      "MKT_VAL_BY_ID": "INT!",
+      "MRTGI_VAL_AMT": "DEC(15,2)",
+      "MRTGI_VAL_DT": "DATE",
+      "MRTGI_VAL_BY_ID": "INT!",
+      "FI_VAL_AMT": "DEC(15,2)",
+      "FI_VAL_DT": "DATE",
+      "FI_VAL_BY_ID": "INT!",
+      "APRS_VAL_AMT": "DEC(15,2)",
+      "APRS_VAL_DT": "DATE",
+      "APRS_VAL_BY_ID": "INT!",
+      "TRD_VAL_AMT": "DEC(15,2)",
+      "TRD_VAL_DT": "DATE",
+      "TRD_VAL_BY_ID": "INT!",
+      "EST_VAL_AMT": "DEC(15,2)",
+      "EST_VAL_DT": "DATE",
+      "GC_AMT": "DEC(15,2)",
+      "GC_DT": "DATE",
+      "CPTL_CALC_AMT": "DEC(15,2)",
+      "CPTL_CALC_DT": "DATE",
+      "LOAN_VAL_AMT": "DEC(15,2)",
+      "LOAN_VAL_DT": "DATE",
+      "REC_AMT": "DEC(15,2)",
+      "REC_DT": "DATE",
+      "SHR_COOP_LOAN_AMT": "DEC(15,2)",
+      "SHR_COOP_LOAN_DT": "DATE",
+      "COMPL_GOOD_VAL_AMT": "DEC(15,2)",
+      "COMPL_GOOD_VAL_DT": "DATE",
+      "RAW_GOOD_VAL_AMT": "DEC(15,2)",
+      "RAW_GOOD_VAL_DT": "DATE",
+      "WRK_GOOD_VAL_AMT": "DEC(15,2)",
+      "WRK_GOOD_VAL_DT": "DATE",
+      "BOOK_VAL_AMT": "DEC(15,2)",
+      "BOOK_VAL_DT": "DATE",
+      "TAX_CODE": "INT",
+      "PPN_EV_ID": "INT!"
+    },
+    "pk": [
+      "EFCT_ID",
+      "LDB_ID",
+      "BSN_ID",
+      "PD_ID",
+      "UNQ_ID_SRC",
+      "RSPL_OU_ID",
+      "BODY_IDNT",
+      "MNCPL_ID",
+      "BLD_IDNT",
+      "TAX_VAL_BY_ID",
+      "MKT_VAL_BY_ID",
+      "MRTGI_VAL_BY_ID",
+      "FI_VAL_BY_ID",
+      "APRS_VAL_BY_ID",
+      "TRD_VAL_BY_ID",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "EFCT_ID": "EFCT.EFCT_ID",
+      "BSN_ID": "BSN.BSN_ID",
+      "PD_ID": "PD.PD_ID",
+      "RSPL_OU_ID": "RSPL_OU.IP_ID",
+      "MNCPL_ID": "MNCPL.MNCPL_ID",
+      "TAX_VAL_BY_ID": "TAX_VAL_BY.TAX_VAL_BY_ID",
+      "MKT_VAL_BY_ID": "MKT_VAL_BY.MKT_VAL_BY_ID",
+      "MRTGI_VAL_BY_ID": "MRTGI_VAL_BY.MRTGI_VAL_BY_ID",
+      "FI_VAL_BY_ID": "FI_VAL_BY.FI_VAL_BY_ID",
+      "APRS_VAL_BY_ID": "APRS_VAL_BY.APRS_VAL_BY_ID",
+      "TRD_VAL_BY_ID": "TRD_VAL_BY.TRD_VAL_BY_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "EFCT_ID",
+      "LDB_ID",
+      "SNPST_DT",
+      "BSN_ID",
+      "PD_ID"
+    ]
+  },
+  "EDWDAG01600_VP.EFFECT_INFO": {
+    "cols": {
+      "RIFS_IDFR": "DEC(15,0)!",
+      "EFFEKT_NR": "VAR(40)",
+      "EFFEKT_TYPE_CL": "CHAR(5)",
+      "EFFEKT_TYPE_KS": "DEC(15,0)",
+      "SIK_ARF_IDFR": "DEC(15,0)!",
+      "SIKKERHEDS_NR": "VAR(40)",
+      "IP_IDFR": "DEC(15,0)!",
+      "KUNDE_ID": "VAR(16)!",
+      "PD_IDFR": "DEC(15,0)!",
+      "APD_CODE": "VAR(40)",
+      "PD_NAME": "VAR(255)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "RIFS_IDFR",
+      "SIK_ARF_IDFR",
+      "IP_IDFR",
+      "KUNDE_ID",
+      "PD_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "KUNDE_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.EFFECT_REAL_PTY": {
+    "cols": {
+      "RIFS_IDFR": "DEC(15,0)!",
+      "EFFEKT_NR": "VAR(40)",
+      "EFFEKT_TYPE_CL": "CHAR(5)",
+      "EFFEKT_TYPE_KS": "DEC(15,0)",
+      "PD_IDFR": "DEC(15,0)!",
+      "APD_CODE": "VAR(40)",
+      "PD_NAME": "VAR(255)",
+      "REAL_PROPERTY_ID": "INT!",
+      "BUILDING_ID": "VAR(20)!",
+      "MUNICIPALITY_CODE": "VAR(20)",
+      "MUNICIPALITY_NAME": "VAR(120)",
+      "LOT_NAME": "VAR(20)",
+      "LOT_NUMBER": "VAR(20)",
+      "PARCEL_NUMBER": "VAR(20)",
+      "FLAT_NUMBER": "VAR(20)",
+      "ADR_1": "VAR(34)",
+      "ADR_2": "VAR(34)",
+      "MUNICIPALITY_PLOT_AREA_NAME": "VAR(100)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "RIFS_IDFR",
+      "PD_IDFR",
+      "REAL_PROPERTY_ID",
+      "BUILDING_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "REAL_PROPERTY_ID": "REAL_PROPERTY.REAL_PROPERTY_ID",
+      "BUILDING_ID": "BUILDING.BUILDING_ID"
+    },
+    "idx": [
+      "REAL_PROPERTY_ID",
+      "BUILDING_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.EFFECT_USAGE": {
+    "cols": {
+      "RIFS_IDFR": "DEC(15,0)!",
+      "EFFEKT_NR": "VAR(40)",
+      "USAGE_TYPE_CL": "CHAR(5)",
+      "USAGE_TYPE": "VAR(255)",
+      "USAGE_PCT": "DEC(9,5)",
+      "EJD_VAERDI_UAFH": "CHAR(1)",
+      "LAANTAGERS_RISIKO_UAFH": "CHAR(1)",
+      "EJES_AF_LAANTAGER": "CHAR(1)",
+      "BEBO_EL_DELV_UDL_AF_EJER": "CHAR(1)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "RIFS_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.EFFECT_VALUE": {
+    "cols": {
+      "RIFS_IDFR": "DEC(15,0)!",
+      "EFFEKT_NR": "VAR(40)",
+      "SIK_ARF_IDFR": "DEC(15,0)!",
+      "SIKKERHEDS_NR": "VAR(40)",
+      "IP_IDFR": "DEC(15,0)!",
+      "KUNDE_ID": "VAR(16)!",
+      "RI_VAL_TYPE_CL": "CHAR(5)",
+      "RI_VAL_TYPE": "VAR(255)",
+      "RI_VAL_AMT": "DEC(15,2)",
+      "RI_VAL_CCY": "CHAR(3)",
+      "RI_VAL_DT": "DATE",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "RIFS_IDFR",
+      "SIK_ARF_IDFR",
+      "IP_IDFR",
+      "KUNDE_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "KUNDE_ID",
+      "RI_VAL_DT",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.EFFECT_VHCL_CHTL": {
+    "cols": {
+      "RIFS_IDFR": "DEC(15,0)!",
+      "EFFEKT_NR": "VAR(40)",
+      "EFFEKT_TYPE_CL": "CHAR(5)",
+      "EFFEKT_TYPE_KS": "DEC(15,0)",
+      "PD_IDFR": "DEC(15,0)!",
+      "APD_CODE": "VAR(40)",
+      "PD_NAME": "VAR(255)",
+      "BODY_IDENTIFIER": "VAR(35)!",
+      "REGISTRATION_NUMBER": "VAR(20)",
+      "MODEL_YEAR": "VAR(12)",
+      "MODEL": "VAR(40)",
+      "MANUFACTOR": "VAR(40)",
+      "GROSS_WEIGHT": "DEC(15,3)",
+      "CARRYING_CAPACITY": "DEC(15,3)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "RIFS_IDFR",
+      "PD_IDFR",
+      "BODY_IDENTIFIER",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.ELC_ADR": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "IP_IDFR": "DEC(15,0)!",
+      "SNPST_DT": "DATE!",
+      "ADR_TP_CL": "CHAR(5)",
+      "ADR_TP_NM": "VAR(255)",
+      "USG_TP_CL": "CHAR(5)",
+      "USG_TP_NM": "VAR(255)",
+      "E_MAIL": "VAR(70)",
+      "PHONE_NO": "VAR(34)",
+      "EXT_NO": "VAR(34)",
+      "CTY": "VAR(2)"
+    },
+    "pk": [
+      "LDB_ID",
+      "IP_IDFR",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.EMPE_PNSN_STAT_MO": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "FI_CTY_CODE": "CHAR(2)",
+      "IP_IDFR": "DEC(15,0)!",
+      "IP_ID": "INT!",
+      "EMP_NM": "VAR(483)",
+      "IP_TP_NM": "VAR(255)",
+      "IP_LCS_NM": "VAR(255)",
+      "EFF_DT": "DATE!",
+      "END_DT": "DATE",
+      "YR_MO": "INT",
+      "TOT_PRPSL": "SMALLINT",
+      "PRPSL_WO_NEED_NBR": "SMALLINT",
+      "EXPR_PRPSL_NBR": "SMALLINT",
+      "HSG_PRPSL_NBR": "SMALLINT",
+      "PSN_PRPSL_NBR": "SMALLINT",
+      "UNQ_PSN_ID_NO": "SMALLINT!",
+      "BNDG_OFR_NOT_SBM_NBR": "SMALLINT",
+      "BNDG_OFR_SBM_NBR": "SMALLINT",
+      "EXP_BNDG_OFR_NBR": "SMALLINT",
+      "ACPT_OFR_NBR": "SMALLINT",
+      "ESTB_AGRM_NBR": "SMALLINT",
+      "RVK_OFR_NBR": "SMALLINT",
+      "PPN_EV_ID": "INT!"
+    },
+    "pk": [
+      "LDB_ID",
+      "IP_IDFR",
+      "IP_ID",
+      "UNQ_PSN_ID_NO",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "IP_ID": "IP.IP_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT",
+      "IP_ID",
+      "EFF_DT",
+      "END_DT"
+    ]
+  },
+  "EDWDAG01600_VP.EMPE_PNSN_STAT_WKLY": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "IP_ID": "INT!",
+      "IP_IDFR": "DEC(15,0)!",
+      "EMP_NM": "VAR(483)",
+      "IP_TP_CL": "CHAR(5)",
+      "IP_TP_NM": "VAR(255)",
+      "EFF_DT": "DATE!",
+      "END_DT": "DATE",
+      "WK_NO": "SMALLINT",
+      "OFR_TP_CL": "CHAR(5)",
+      "OFR_TP_NM": "VAR(255)",
+      "TOT_OFR": "SMALLINT",
+      "LIFE_ANN_NBR": "SMALLINT",
+      "CHL_ANN_NBR": "SMALLINT",
+      "LOAN_CR_NBR": "SMALLINT",
+      "LIFE_INS_NBR": "SMALLINT",
+      "HLT_INS_NBR": "SMALLINT",
+      "PPN_EV_ID": "INT!"
+    },
+    "pk": [
+      "LDB_ID",
+      "IP_ID",
+      "IP_IDFR",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "IP_ID": "IP.IP_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT",
+      "IP_ID",
+      "EFF_DT",
+      "END_DT"
+    ]
+  },
+  "EDWDAG01600_VP.EMPLOYEE": {
+    "cols": {
+      "IP_ID": "INT!",
+      "IP_IDFR": "DEC(15,0)!",
+      "NAME": "VAR(483)",
+      "SOC_SEC_NO": "VAR(16)",
+      "USER_NO": "VAR(16)",
+      "END_DT": "DATE",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "IP_ID",
+      "IP_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "IP_ID": "IP.IP_ID"
+    },
+    "idx": [
+      "IP_ID",
+      "END_DT",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.EXTASSET": {
+    "cols": {
+      "IP_IDFR": "DEC(15,0)!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "EFCTV_DATE": "DATE",
+      "EIAT_VALUE": "CHAR(5)",
+      "EIAPT_VALUE": "CHAR(5)",
+      "EIAI_NAME": "VAR(120)",
+      "EIAI_NMBR": "VAR(30)",
+      "EIA_AMT": "DEC(15,2)",
+      "CURRENCY": "CHAR(3)",
+      "EIAI_IDFR": "DEC(15,0)!"
+    },
+    "pk": [
+      "IP_IDFR",
+      "LDB_ID",
+      "EIAI_IDFR",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.F3201_SUPPORT_DETAIL": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "CLT_KS_ID": "DEC(15,0)!",
+      "CLT_AR_ID": "INT!",
+      "CLT_AR_TP_CL": "CHAR(5)",
+      "CLT_AR_TP_CL_NM": "VAR(255)",
+      "RI_TP_CL": "CHAR(5)",
+      "RI_TP_CL_NM": "VAR(255)",
+      "RI_USG_TP_CL": "CHAR(5)",
+      "RI_USG_TP_CL_NM": "VAR(255)",
+      "DAEKKET_DEL_KONTO_I_BASIS": "DEC(15,2)",
+      "KONC_MODER_DAT": "VAR(4)"
+    },
+    "pk": [
+      "LDB_ID",
+      "CLT_KS_ID",
+      "CLT_AR_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "CLT_KS_ID": "CLT_KS.CLT_KS_ID",
+      "CLT_AR_ID": "CLT_AR.CLT_AR_ID"
+    },
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT",
+      "CLT_KS_ID",
+      "CLT_AR_ID"
+    ]
+  },
+  "EDWDAG01600_VP.F3202_SUPPORT_DETAIL": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "CLT_KS_ID": "DEC(15,0)!",
+      "CLT_AR_ID": "INT!",
+      "MEDTAG_SIK": "VAR(2)",
+      "CLT_AR_TP_CL": "CHAR(5)",
+      "CLT_AR_TP_CL_NM": "VAR(30)",
+      "RI_TP_CL": "CHAR(5)",
+      "RI_TP_CL_NM": "VAR(30)",
+      "EDAM_IDFR": "DEC(15,0)!",
+      "ISIN_CD": "VAR(12)",
+      "SIC_CD": "INT",
+      "SIC_CD_NM": "VAR(255)",
+      "F3202_LVL1": "SMALLINT",
+      "F3202_LVL2": "SMALLINT",
+      "SIK_VAERDI_I_BASIS": "DEC(15,2)",
+      "KONC_MODER_DAT": "VAR(4)"
+    },
+    "pk": [
+      "LDB_ID",
+      "CLT_KS_ID",
+      "CLT_AR_ID",
+      "EDAM_IDFR",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "CLT_KS_ID": "CLT_KS.CLT_KS_ID",
+      "CLT_AR_ID": "CLT_AR.CLT_AR_ID"
+    },
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT",
+      "CLT_KS_ID",
+      "CLT_AR_ID"
+    ]
+  },
+  "EDWDAG01600_VP.FATCA_INFO": {
+    "cols": {
+      "CUSTOMER_NO": "VAR(16)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "CPR_FRGN_NO": "VAR(16)",
+      "CUSTOMER_NAME": "VAR(483)",
+      "TAX_COUNTRY_CODE": "VAR(20)",
+      "TAX_COUNTRY_NAME": "VAR(120)",
+      "DEPOSITORY_NO": "VAR(40)"
+    },
+    "pk": [
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.FKIC_GROUP": {
+    "cols": {
+      "FI_CL_SCM_CL": "CHAR(5)",
+      "GRP_TP": "VAR(255)",
+      "RIFS_IDFR": "DEC(15,0)!",
+      "NM": "VAR(120)",
+      "EFF_DT": "DATE!",
+      "UPD_DT": "DATE",
+      "ECN_IND_IDFR": "DEC(15,0)!",
+      "ECN_IND_NM": "VAR(255)",
+      "UOM_CL": "VAR(5)",
+      "UOM": "VAR(255)",
+      "AMT": "DEC(15,2)",
+      "NBR": "INT",
+      "PCT": "DEC(15,7)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "RIFS_IDFR",
+      "ECN_IND_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "EFF_DT",
+      "UPD_DT",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.FKIC_INVOLVED_PARTY": {
+    "cols": {
+      "FI_CL_SCM_CL": "CHAR(5)",
+      "IP_TP": "VAR(255)",
+      "IP_IDFR": "DEC(15,0)!",
+      "IDENTN_NO": "VAR(16)",
+      "NM": "VAR(483)",
+      "EFF_DT": "DATE!",
+      "UPD_DT": "DATE",
+      "ECN_IND_TP_CL": "CHAR(5)",
+      "ECN_IND_TP": "VAR(255)",
+      "ECN_IND_IDFR": "DEC(15,0)!",
+      "ECN_IND_NM": "VAR(255)",
+      "UOM_CL": "VAR(5)",
+      "UOM_NM": "VAR(255)",
+      "AMT": "DEC(15,2)",
+      "NBR": "INT",
+      "PCT": "DEC(15,7)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "IP_IDFR",
+      "ECN_IND_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "EFF_DT",
+      "UPD_DT",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.FORADR": {
+    "cols": {
+      "KUNDE_ID": "VAR(16)!",
+      "LDB_ID": "SMALLINT!",
+      "IP_IDFR": "DEC(15,0)!",
+      "ADR1": "VAR(34)",
+      "ADR2": "VAR(34)",
+      "ADR3": "VAR(34)",
+      "ADR4": "VAR(34)",
+      "ADR5": "VAR(34)",
+      "LANDEKODE": "CHAR(2)",
+      "LANDENAVN": "VAR(120)",
+      "POSTNR": "VAR(34)",
+      "HUS_NR": "VAR(34)",
+      "ETAGE": "VAR(34)",
+      "LOFS_IDFR": "DEC(15,0)!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "KUNDE_ID",
+      "LDB_ID",
+      "IP_IDFR",
+      "LOFS_IDFR",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "KUNDE_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.INTEREST_RECEIVABLE": {
+    "cols": {
+      "ARF_IDFR": "DEC(15,0)!",
+      "LDB_ID": "SMALLINT!",
+      "IP_IDFR": "DEC(15,0)!",
+      "SNPST_DT": "DATE!",
+      "AC_NO": "VAR(40)",
+      "AC_CCY": "CHAR(3)",
+      "DB_CMSN_UNPD": "DEC(15,2)",
+      "DB_INT_UNPD": "DEC(15,2)",
+      "CR_CMSN_UNPD": "DEC(15,2)",
+      "CR_INT_UNPD": "DEC(15,2)",
+      "DB_CMSN_UNPD_VAL": "DEC(15,2)",
+      "DB_INT_UNPD_VAL": "DEC(15,2)",
+      "CR_CMSN_UNPD_VAL": "DEC(15,2)",
+      "CR_INT_UNPD_VAL": "DEC(15,2)"
+    },
+    "pk": [
+      "ARF_IDFR",
+      "LDB_ID",
+      "IP_IDFR",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.INTERNAL_ACCOUNT_DAILY_BAL": {
+    "cols": {
+      "PRODUKTGRUPPENAVN": "VAR(255)",
+      "KS_EJEDE": "VAR(6)",
+      "PRODUKT_KODE": "VAR(50)",
+      "PRODUKT_NAVN": "VAR(255)",
+      "PRODUKT_ELEMENT": "VAR(255)",
+      "KONTO_NR": "VAR(20)",
+      "KONTO_NAVN": "VAR(34)",
+      "VALUTA": "CHAR(3)",
+      "SALDO": "DEC(15,2)",
+      "ENHEDS_NUMMER": "VAR(16)",
+      "AFDELINGS_NAVN": "VAR(519)",
+      "ARF_IDFR": "DEC(15,0)!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "ARF_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.KS_FORSIK_EXT": {
+    "cols": {
+      "SNPST_DT": "DATE!",
+      "LDB_ID": "SMALLINT!",
+      "ARF_IDFR": "DEC(15,0)!",
+      "AFTALE_NR": "VAR(40)",
+      "MODPOST_ARF_IDFR": "DEC(15,0)!",
+      "MODPOST_KONTONR": "VAR(40)",
+      "AFTALE_START_DATO": "DATE",
+      "AFTALE_STATUS": "VAR(255)",
+      "PRODUKT_KODE": "VAR(40)",
+      "PD_IDFR": "DEC(15,0)!",
+      "PR_DATO": "DATE",
+      "NAVN_DOED": "VAR(35)",
+      "NAVN_INVALID": "VAR(35)",
+      "NAVN_OEVRIGE": "VAR(35)",
+      "BELOEB_DOED": "INT",
+      "BELOEB_INVALID": "INT",
+      "BELOEB_OEVRIGE": "INT",
+      "UDLOEBS_ALDER": "INT",
+      "OPSIG_VARSEL_KUND": "VAR(35)",
+      "OPSIG_VARSEL_PI": "VAR(35)",
+      "FORSIK_GRUPPE_NR": "INT",
+      "FORSIK_TYPE_NR": "INT",
+      "FORSIK_SELSKAB": "VAR(35)",
+      "NEDSKRIV_MAADE": "VAR(35)",
+      "NEDSKRIV_ST_DATO": "DATE",
+      "NEDSKRIV_PERIODE": "VAR(35)",
+      "FAREKLASSE": "INT",
+      "SKATTEKODE": "INT",
+      "ANTAGELSES_DATO": "DATE",
+      "OPSIGELSES_DATO": "DATE",
+      "OPSIGELSES_INIT": "VAR(2)",
+      "PRIM_EJER_CPRNR": "VAR(18)",
+      "PRIM_EJER_IDFR": "DEC(15,0)!",
+      "FORSIKREDE_CPRNR": "VAR(16)",
+      "FORSIKREDE_IDFR": "DEC(15,0)!",
+      "BEGUNSTIGEDE_CPRNR": "VAR(16)",
+      "BEGUNSTIGEDE_IDFR": "DEC(15,0)!",
+      "BELOEB_NAVN_1": "VAR(50)",
+      "BELOEB_1": "DEC(15,2)",
+      "FREKVENS_1": "VAR(255)",
+      "BELOEB_NAVN_2": "VAR(50)",
+      "BELOEB_2": "DEC(15,2)",
+      "FREKVENS_2": "VAR(255)",
+      "BELOEB_NAVN_3": "VAR(50)",
+      "BELOEB_3": "DEC(15,2)",
+      "FREKVENS_3": "VAR(255)",
+      "PRODUKT_NAVN": "VAR(255)",
+      "MODP_KTONR_30": "VAR(40)",
+      "PDELP_VAL_ENC": "CHAR(5)",
+      "PGRP_NAME": "VAR(255)",
+      "UDLOEBS_DATO": "DATE",
+      "EXTERN_BELOEB_1": "DEC(15,2)",
+      "EXTERN_FREKVENS_1": "VAR(35)",
+      "EXTERN_PRODUKT_KODE": "VAR(7)",
+      "AR_ID": "INT!",
+      "PD_ID": "INT!"
+    },
+    "pk": [
+      "LDB_ID",
+      "ARF_IDFR",
+      "MODPOST_ARF_IDFR",
+      "PD_IDFR",
+      "PRIM_EJER_IDFR",
+      "FORSIKREDE_IDFR",
+      "BEGUNSTIGEDE_IDFR",
+      "AR_ID",
+      "PD_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "AR_ID": "AR.AR_ID",
+      "PD_ID": "PD.PD_ID"
+    },
+    "idx": [
+      "SNPST_DT",
+      "LDB_ID",
+      "AR_ID",
+      "PD_ID"
+    ]
+  },
+  "EDWDAG01600_VP.KUKTRE": {
+    "cols": {
+      "KUNDE_ID": "VAR(16)!",
+      "LDB_ID": "SMALLINT!",
+      "IP_IDFR": "DEC(15,0)!",
+      "ARF_IDFR": "DEC(15,0)!",
+      "APART_VALUE": "VAR(255)",
+      "AAOR_OWNS": "DEC(9,5)",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "KUNDE_ID",
+      "LDB_ID",
+      "IP_IDFR",
+      "ARF_IDFR",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "KUNDE_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.KUNDRE": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "IP_IDFR": "DEC(15,0)!",
+      "KUNDE_ID": "VAR(16)!",
+      "IP_IDFR_2": "DEC(15,0)!",
+      "KUNDE_ID_2": "VAR(16)!",
+      "IPRT_IDFR": "DEC(15,0)!",
+      "IPRT_SUBJECT_TXT": "VAR(68)",
+      "IPRT_OBJECT_TXT": "VAR(70)",
+      "IPR_EFCTV_DATE": "DATE",
+      "IPR_END_DATE": "DATE",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "LDB_ID",
+      "IP_IDFR",
+      "KUNDE_ID",
+      "IP_IDFR_2",
+      "KUNDE_ID_2",
+      "IPRT_IDFR",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "LDB_ID",
+      "KUNDE_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.KUVURD": {
+    "cols": {
+      "IP_IDFR": "DEC(15,0)!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "RASCALE_IDFR": "DEC(15,0)!",
+      "RATING_TYPE": "VAR(120)",
+      "RATING_BESKR": "VAR(2000)",
+      "RATING_VAERDI": "CHAR(5)",
+      "RASCVAL_IDFR": "DEC(15,0)!",
+      "EFFECTIVE_DATE": "DATE",
+      "EXT_USER": "VAR(20)"
+    },
+    "pk": [
+      "IP_IDFR",
+      "LDB_ID",
+      "RASCALE_IDFR",
+      "RASCVAL_IDFR",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.LAST_LOAD": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.LOAN_CASH_FLOW": {
+    "cols": {
+      "LOAN_ID": "VAR(40)!",
+      "PRODUCT_CODE": "VAR(50)",
+      "OBLIGOR_ID": "VAR(16)!",
+      "HREG": "VAR(16)",
+      "OUTSTANDING_BALANCE": "DEC(15,2)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "LOAN_TYPE": "VAR(255)",
+      "NEXT_PRINCIPAL_PAYMENT_DATE": "DATE",
+      "NEXT_INTEREST_PAYMENT_DATE": "DATE",
+      "REMAINING_PRINCIPAL_PERIOD_END_DATE": "DATE",
+      "BALOON_PAYMENT_DATE": "DATE",
+      "BALOON_PAYMENT_AMOUNT": "DEC(15,2)",
+      "AR_ID": "INT!",
+      "REPYM1_AMT": "DEC(15,2)",
+      "REPYM2_AMT": "DEC(15,2)",
+      "REPYM3_AMT": "DEC(15,2)",
+      "REPYM4_AMT": "DEC(15,2)",
+      "REPYM5_AMT": "DEC(15,2)",
+      "REPYM6_AMT": "DEC(15,2)",
+      "REPYM7_AMT": "DEC(15,2)",
+      "REPYM8_AMT": "DEC(15,2)",
+      "REPYM9_AMT": "DEC(15,2)",
+      "REPYM10_AMT": "DEC(15,2)",
+      "REPYM11_AMT": "DEC(15,2)",
+      "REPYM12_AMT": "DEC(15,2)",
+      "REPYM13_AMT": "DEC(15,2)",
+      "REPYM14_AMT": "DEC(15,2)",
+      "REPYM15_AMT": "DEC(15,2)",
+      "REPYM16_AMT": "DEC(15,2)",
+      "REPYM17_AMT": "DEC(15,2)",
+      "REPYM18_AMT": "DEC(15,2)",
+      "REPYM19_AMT": "DEC(15,2)",
+      "REPYM20_AMT": "DEC(15,2)",
+      "REPYM21_AMT": "DEC(15,2)",
+      "REPYM22_AMT": "DEC(15,2)",
+      "REPYM23_AMT": "DEC(15,2)",
+      "REPYM24_AMT": "DEC(15,2)",
+      "REPYM25_AMT": "DEC(15,2)",
+      "REPYM26_AMT": "DEC(15,2)",
+      "REPYM27_AMT": "DEC(15,2)",
+      "REPYM28_AMT": "DEC(15,2)",
+      "REPYM29_AMT": "DEC(15,2)",
+      "REPYM30_AMT": "DEC(15,2)",
+      "REPYM31_AMT": "DEC(15,2)",
+      "REPYM32_AMT": "DEC(15,2)",
+      "REPYM33_AMT": "DEC(15,2)",
+      "REPYM34_AMT": "DEC(15,2)",
+      "REPYM35_AMT": "DEC(15,2)",
+      "REPYM36_AMT": "DEC(15,2)",
+      "REPYM37_AMT": "DEC(15,2)",
+      "REPYM38_AMT": "DEC(15,2)",
+      "REPYM39_AMT": "DEC(15,2)",
+      "REPYM40_AMT": "DEC(15,2)",
+      "REPYM41_AMT": "DEC(15,2)",
+      "REPYM42_AMT": "DEC(15,2)",
+      "REPYM43_AMT": "DEC(15,2)",
+      "REPYM44_AMT": "DEC(15,2)",
+      "REPYM45_AMT": "DEC(15,2)",
+      "REPYM46_AMT": "DEC(15,2)",
+      "REPYM47_AMT": "DEC(15,2)",
+      "REPYM48_AMT": "DEC(15,2)",
+      "REPYM49_AMT": "DEC(15,2)",
+      "REPYM50_AMT": "DEC(15,2)",
+      "REPYM51_AMT": "DEC(15,2)",
+      "REPYM52_AMT": "DEC(15,2)",
+      "REPYM53_AMT": "DEC(15,2)",
+      "REPYM54_AMT": "DEC(15,2)",
+      "REPYM55_AMT": "DEC(15,2)",
+      "REPYM56_AMT": "DEC(15,2)",
+      "REPYM57_AMT": "DEC(15,2)",
+      "REPYM58_AMT": "DEC(15,2)",
+      "REPYM59_AMT": "DEC(15,2)",
+      "REPYM60_AMT": "DEC(15,2)",
+      "REPYM61_AMT": "DEC(15,2)",
+      "REPYM62_AMT": "DEC(15,2)",
+      "REPYM63_AMT": "DEC(15,2)",
+      "REPYM64_AMT": "DEC(15,2)",
+      "REPYM65_AMT": "DEC(15,2)",
+      "REPYM66_AMT": "DEC(15,2)",
+      "REPYM67_AMT": "DEC(15,2)",
+      "REPYM68_AMT": "DEC(15,2)",
+      "REPYM69_AMT": "DEC(15,2)",
+      "REPYM70_AMT": "DEC(15,2)",
+      "REPYM71_AMT": "DEC(15,2)",
+      "REPYM72_AMT": "DEC(15,2)",
+      "REPYM73_AMT": "DEC(15,2)",
+      "REPYM74_AMT": "DEC(15,2)",
+      "REPYM75_AMT": "DEC(15,2)",
+      "REPYM76_AMT": "DEC(15,2)",
+      "REPYM77_AMT": "DEC(15,2)",
+      "REPYM78_AMT": "DEC(15,2)",
+      "REPYM79_AMT": "DEC(15,2)",
+      "REPYM80_AMT": "DEC(15,2)",
+      "REPYM81_AMT": "DEC(15,2)",
+      "REPYM82_AMT": "DEC(15,2)",
+      "REPYM83_AMT": "DEC(15,2)",
+      "REPYM84_AMT": "DEC(15,2)",
+      "REPYM85_AMT": "DEC(15,2)",
+      "REPYM86_AMT": "DEC(15,2)",
+      "REPYM87_AMT": "DEC(15,2)",
+      "REPYM88_AMT": "DEC(15,2)",
+      "REPYM89_AMT": "DEC(15,2)",
+      "REPYM90_AMT": "DEC(15,2)",
+      "REPYM91_AMT": "DEC(15,2)",
+      "REPYM92_AMT": "DEC(15,2)",
+      "REPYM93_AMT": "DEC(15,2)",
+      "REPYM94_AMT": "DEC(15,2)",
+      "REPYM95_AMT": "DEC(15,2)",
+      "REPYM96_AMT": "DEC(15,2)",
+      "REPYM97_AMT": "DEC(15,2)",
+      "REPYM98_AMT": "DEC(15,2)",
+      "REPYM99_AMT": "DEC(15,2)",
+      "REPYM100_AMT": "DEC(15,2)",
+      "REPYM101_AMT": "DEC(15,2)",
+      "REPYM102_AMT": "DEC(15,2)",
+      "REPYM103_AMT": "DEC(15,2)",
+      "REPYM104_AMT": "DEC(15,2)",
+      "REPYM105_AMT": "DEC(15,2)",
+      "REPYM106_AMT": "DEC(15,2)",
+      "REPYM107_AMT": "DEC(15,2)",
+      "REPYM108_AMT": "DEC(15,2)",
+      "REPYM109_AMT": "DEC(15,2)",
+      "REPYM110_AMT": "DEC(15,2)",
+      "REPYM111_AMT": "DEC(15,2)",
+      "REPYM112_AMT": "DEC(15,2)",
+      "REPYM113_AMT": "DEC(15,2)",
+      "REPYM114_AMT": "DEC(15,2)",
+      "REPYM115_AMT": "DEC(15,2)",
+      "REPYM116_AMT": "DEC(15,2)",
+      "REPYM117_AMT": "DEC(15,2)",
+      "REPYM118_AMT": "DEC(15,2)",
+      "REPYM119_AMT": "DEC(15,2)",
+      "REPYM120_AMT": "DEC(15,2)",
+      "REPYM121_AMT": "DEC(15,2)",
+      "REPYM122_AMT": "DEC(15,2)",
+      "REPYM123_AMT": "DEC(15,2)",
+      "REPYM124_AMT": "DEC(15,2)",
+      "REPYM125_AMT": "DEC(15,2)",
+      "REPYM126_AMT": "DEC(15,2)",
+      "REPYM127_AMT": "DEC(15,2)",
+      "REPYM128_AMT": "DEC(15,2)",
+      "REPYM129_AMT": "DEC(15,2)",
+      "REPYM130_AMT": "DEC(15,2)",
+      "REPYM131_AMT": "DEC(15,2)",
+      "REPYM132_AMT": "DEC(15,2)",
+      "REPYM133_AMT": "DEC(15,2)",
+      "REPYM134_AMT": "DEC(15,2)",
+      "REPYM135_AMT": "DEC(15,2)",
+      "REPYM136_AMT": "DEC(15,2)",
+      "REPYM137_AMT": "DEC(15,2)",
+      "REPYM138_AMT": "DEC(15,2)",
+      "REPYM139_AMT": "DEC(15,2)",
+      "REPYM140_AMT": "DEC(15,2)",
+      "REPYM141_AMT": "DEC(15,2)",
+      "REPYM142_AMT": "DEC(15,2)",
+      "REPYM143_AMT": "DEC(15,2)",
+      "REPYM144_AMT": "DEC(15,2)",
+      "REPYM145_AMT": "DEC(15,2)",
+      "REPYM146_AMT": "DEC(15,2)",
+      "REPYM147_AMT": "DEC(15,2)",
+      "REPYM148_AMT": "DEC(15,2)",
+      "REPYM149_AMT": "DEC(15,2)",
+      "REPYM150_AMT": "DEC(15,2)",
+      "REPYM151_AMT": "DEC(15,2)",
+      "REPYM152_AMT": "DEC(15,2)",
+      "REPYM153_AMT": "DEC(15,2)",
+      "REPYM154_AMT": "DEC(15,2)",
+      "REPYM155_AMT": "DEC(15,2)",
+      "REPYM156_AMT": "DEC(15,2)",
+      "REPYM157_AMT": "DEC(15,2)",
+      "REPYM158_AMT": "DEC(15,2)",
+      "REPYM159_AMT": "DEC(15,2)",
+      "REPYM160_AMT": "DEC(15,2)",
+      "REPYM161_AMT": "DEC(15,2)",
+      "REPYM162_AMT": "DEC(15,2)",
+      "REPYM163_AMT": "DEC(15,2)",
+      "REPYM164_AMT": "DEC(15,2)",
+      "REPYM165_AMT": "DEC(15,2)",
+      "REPYM166_AMT": "DEC(15,2)",
+      "REPYM167_AMT": "DEC(15,2)",
+      "REPYM168_AMT": "DEC(15,2)",
+      "REPYM169_AMT": "DEC(15,2)",
+      "REPYM170_AMT": "DEC(15,2)",
+      "REPYM171_AMT": "DEC(15,2)",
+      "REPYM172_AMT": "DEC(15,2)",
+      "REPYM173_AMT": "DEC(15,2)",
+      "REPYM174_AMT": "DEC(15,2)",
+      "REPYM175_AMT": "DEC(15,2)",
+      "REPYM176_AMT": "DEC(15,2)",
+      "REPYM177_AMT": "DEC(15,2)",
+      "REPYM178_AMT": "DEC(15,2)",
+      "REPYM179_AMT": "DEC(15,2)",
+      "REPYM180_AMT": "DEC(15,2)",
+      "REPYM181_AMT": "DEC(15,2)",
+      "REPYM182_AMT": "DEC(15,2)",
+      "REPYM183_AMT": "DEC(15,2)",
+      "REPYM184_AMT": "DEC(15,2)",
+      "REPYM185_AMT": "DEC(15,2)",
+      "REPYM186_AMT": "DEC(15,2)",
+      "REPYM187_AMT": "DEC(15,2)",
+      "REPYM188_AMT": "DEC(15,2)",
+      "REPYM189_AMT": "DEC(15,2)",
+      "REPYM190_AMT": "DEC(15,2)",
+      "REPYM191_AMT": "DEC(15,2)",
+      "REPYM192_AMT": "DEC(15,2)",
+      "REPYM193_AMT": "DEC(15,2)",
+      "REPYM194_AMT": "DEC(15,2)",
+      "REPYM195_AMT": "DEC(15,2)",
+      "REPYM196_AMT": "DEC(15,2)",
+      "REPYM197_AMT": "DEC(15,2)",
+      "REPYM198_AMT": "DEC(15,2)",
+      "REPYM199_AMT": "DEC(15,2)",
+      "REPYM200_AMT": "DEC(15,2)",
+      "REPYM201_AMT": "DEC(15,2)",
+      "REPYM202_AMT": "DEC(15,2)",
+      "REPYM203_AMT": "DEC(15,2)",
+      "REPYM204_AMT": "DEC(15,2)",
+      "REPYM205_AMT": "DEC(15,2)",
+      "REPYM206_AMT": "DEC(15,2)",
+      "REPYM207_AMT": "DEC(15,2)",
+      "REPYM208_AMT": "DEC(15,2)",
+      "REPYM209_AMT": "DEC(15,2)",
+      "REPYM210_AMT": "DEC(15,2)",
+      "REPYM211_AMT": "DEC(15,2)",
+      "REPYM212_AMT": "DEC(15,2)",
+      "REPYM213_AMT": "DEC(15,2)",
+      "REPYM214_AMT": "DEC(15,2)",
+      "REPYM215_AMT": "DEC(15,2)",
+      "REPYM216_AMT": "DEC(15,2)",
+      "REPYM217_AMT": "DEC(15,2)",
+      "REPYM218_AMT": "DEC(15,2)",
+      "REPYM219_AMT": "DEC(15,2)",
+      "REPYM220_AMT": "DEC(15,2)",
+      "REPYM221_AMT": "DEC(15,2)",
+      "REPYM222_AMT": "DEC(15,2)",
+      "REPYM223_AMT": "DEC(15,2)",
+      "REPYM224_AMT": "DEC(15,2)",
+      "REPYM225_AMT": "DEC(15,2)",
+      "REPYM226_AMT": "DEC(15,2)",
+      "REPYM227_AMT": "DEC(15,2)",
+      "REPYM228_AMT": "DEC(15,2)",
+      "REPYM229_AMT": "DEC(15,2)",
+      "REPYM230_AMT": "DEC(15,2)",
+      "REPYM231_AMT": "DEC(15,2)",
+      "REPYM232_AMT": "DEC(15,2)",
+      "REPYM233_AMT": "DEC(15,2)",
+      "REPYM234_AMT": "DEC(15,2)",
+      "REPYM235_AMT": "DEC(15,2)",
+      "REPYM236_AMT": "DEC(15,2)",
+      "REPYM237_AMT": "DEC(15,2)",
+      "REPYM238_AMT": "DEC(15,2)",
+      "REPYM239_AMT": "DEC(15,2)",
+      "REPYM240_AMT": "DEC(15,2)",
+      "REPYM241_AMT": "DEC(15,2)",
+      "REPYM242_AMT": "DEC(15,2)",
+      "REPYM243_AMT": "DEC(15,2)",
+      "REPYM244_AMT": "DEC(15,2)",
+      "REPYM245_AMT": "DEC(15,2)",
+      "REPYM246_AMT": "DEC(15,2)",
+      "REPYM247_AMT": "DEC(15,2)",
+      "REPYM248_AMT": "DEC(15,2)",
+      "REPYM249_AMT": "DEC(15,2)",
+      "REPYM250_AMT": "DEC(15,2)",
+      "REPYM251_AMT": "DEC(15,2)",
+      "REPYM252_AMT": "DEC(15,2)",
+      "REPYM253_AMT": "DEC(15,2)",
+      "REPYM254_AMT": "DEC(15,2)",
+      "REPYM255_AMT": "DEC(15,2)",
+      "REPYM256_AMT": "DEC(15,2)",
+      "REPYM257_AMT": "DEC(15,2)",
+      "REPYM258_AMT": "DEC(15,2)",
+      "REPYM259_AMT": "DEC(15,2)",
+      "REPYM260_AMT": "DEC(15,2)",
+      "REPYM261_AMT": "DEC(15,2)",
+      "REPYM262_AMT": "DEC(15,2)",
+      "REPYM263_AMT": "DEC(15,2)",
+      "REPYM264_AMT": "DEC(15,2)",
+      "REPYM265_AMT": "DEC(15,2)",
+      "REPYM266_AMT": "DEC(15,2)",
+      "REPYM267_AMT": "DEC(15,2)",
+      "REPYM268_AMT": "DEC(15,2)",
+      "REPYM269_AMT": "DEC(15,2)",
+      "REPYM270_AMT": "DEC(15,2)",
+      "REPYM271_AMT": "DEC(15,2)",
+      "REPYM272_AMT": "DEC(15,2)",
+      "REPYM273_AMT": "DEC(15,2)",
+      "REPYM274_AMT": "DEC(15,2)",
+      "REPYM275_AMT": "DEC(15,2)",
+      "REPYM276_AMT": "DEC(15,2)",
+      "REPYM277_AMT": "DEC(15,2)",
+      "REPYM278_AMT": "DEC(15,2)",
+      "REPYM279_AMT": "DEC(15,2)",
+      "REPYM280_AMT": "DEC(15,2)",
+      "REPYM281_AMT": "DEC(15,2)",
+      "REPYM282_AMT": "DEC(15,2)",
+      "REPYM283_AMT": "DEC(15,2)",
+      "REPYM284_AMT": "DEC(15,2)",
+      "REPYM285_AMT": "DEC(15,2)",
+      "REPYM286_AMT": "DEC(15,2)",
+      "REPYM287_AMT": "DEC(15,2)",
+      "REPYM288_AMT": "DEC(15,2)",
+      "REPYM289_AMT": "DEC(15,2)",
+      "REPYM290_AMT": "DEC(15,2)",
+      "REPYM291_AMT": "DEC(15,2)",
+      "REPYM292_AMT": "DEC(15,2)",
+      "REPYM293_AMT": "DEC(15,2)",
+      "REPYM294_AMT": "DEC(15,2)",
+      "REPYM295_AMT": "DEC(15,2)",
+      "REPYM296_AMT": "DEC(15,2)",
+      "REPYM297_AMT": "DEC(15,2)",
+      "REPYM298_AMT": "DEC(15,2)",
+      "REPYM299_AMT": "DEC(15,2)",
+      "REPYM300_AMT": "DEC(15,2)",
+      "REPYM301_AMT": "DEC(15,2)",
+      "REPYM302_AMT": "DEC(15,2)",
+      "REPYM303_AMT": "DEC(15,2)",
+      "REPYM304_AMT": "DEC(15,2)",
+      "REPYM305_AMT": "DEC(15,2)",
+      "REPYM306_AMT": "DEC(15,2)",
+      "REPYM307_AMT": "DEC(15,2)",
+      "REPYM308_AMT": "DEC(15,2)",
+      "REPYM309_AMT": "DEC(15,2)",
+      "REPYM310_AMT": "DEC(15,2)",
+      "REPYM311_AMT": "DEC(15,2)",
+      "REPYM312_AMT": "DEC(15,2)",
+      "REPYM313_AMT": "DEC(15,2)",
+      "REPYM314_AMT": "DEC(15,2)",
+      "REPYM315_AMT": "DEC(15,2)",
+      "REPYM316_AMT": "DEC(15,2)",
+      "REPYM317_AMT": "DEC(15,2)",
+      "REPYM318_AMT": "DEC(15,2)",
+      "REPYM319_AMT": "DEC(15,2)",
+      "REPYM320_AMT": "DEC(15,2)",
+      "REPYM321_AMT": "DEC(15,2)",
+      "REPYM322_AMT": "DEC(15,2)",
+      "REPYM323_AMT": "DEC(15,2)",
+      "REPYM324_AMT": "DEC(15,2)",
+      "REPYM325_AMT": "DEC(15,2)",
+      "REPYM326_AMT": "DEC(15,2)",
+      "REPYM327_AMT": "DEC(15,2)",
+      "REPYM328_AMT": "DEC(15,2)",
+      "REPYM329_AMT": "DEC(15,2)",
+      "REPYM330_AMT": "DEC(15,2)",
+      "REPYM331_AMT": "DEC(15,2)",
+      "REPYM332_AMT": "DEC(15,2)",
+      "REPYM333_AMT": "DEC(15,2)",
+      "REPYM334_AMT": "DEC(15,2)",
+      "REPYM335_AMT": "DEC(15,2)",
+      "REPYM336_AMT": "DEC(15,2)",
+      "REPYM337_AMT": "DEC(15,2)",
+      "REPYM338_AMT": "DEC(15,2)",
+      "REPYM339_AMT": "DEC(15,2)",
+      "REPYM340_AMT": "DEC(15,2)",
+      "REPYM341_AMT": "DEC(15,2)",
+      "REPYM342_AMT": "DEC(15,2)",
+      "REPYM343_AMT": "DEC(15,2)",
+      "REPYM344_AMT": "DEC(15,2)",
+      "REPYM345_AMT": "DEC(15,2)",
+      "REPYM346_AMT": "DEC(15,2)",
+      "REPYM347_AMT": "DEC(15,2)",
+      "REPYM348_AMT": "DEC(15,2)",
+      "REPYM349_AMT": "DEC(15,2)",
+      "REPYM350_AMT": "DEC(15,2)",
+      "REPYM351_AMT": "DEC(15,2)",
+      "REPYM352_AMT": "DEC(15,2)",
+      "REPYM353_AMT": "DEC(15,2)",
+      "REPYM354_AMT": "DEC(15,2)",
+      "REPYM355_AMT": "DEC(15,2)",
+      "REPYM356_AMT": "DEC(15,2)",
+      "REPYM357_AMT": "DEC(15,2)",
+      "REPYM358_AMT": "DEC(15,2)",
+      "REPYM359_AMT": "DEC(15,2)",
+      "REPYM360_AMT": "DEC(15,2)"
+    },
+    "pk": [
+      "LOAN_ID",
+      "OBLIGOR_ID",
+      "LDB_ID",
+      "AR_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "LOAN_ID": "LOAN.LOAN_ID",
+      "OBLIGOR_ID": "OBLIGOR.OBLIGOR_ID",
+      "AR_ID": "AR.AR_ID"
+    },
+    "idx": [
+      "LOAN_ID",
+      "OBLIGOR_ID",
+      "LDB_ID",
+      "SNPST_DT",
+      "AR_ID"
+    ]
+  },
+  "EDWDAG01600_VP.LOAN_EXT_CREDITOR_REGISTER": {
+    "cols": {
+      "AC_NO": "CHAR(20)",
+      "ARF_IDFR": "DEC(15,0)!",
+      "FST_ACT_DT": "DATE",
+      "KUNDE_ID": "VAR(16)!",
+      "IP_IDFR": "DEC(15,0)!",
+      "AC_NO_OCR": "CHAR(20)",
+      "ARF_IDF_OCR": "DEC(15,0)!",
+      "ESTB_DT": "DATE",
+      "DEL_DT": "DATE",
+      "NTC_CODE": "VAR(2)",
+      "EFF_DT": "DATE!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "ARF_IDFR",
+      "KUNDE_ID",
+      "IP_IDFR",
+      "ARF_IDF_OCR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "KUNDE_ID": "KUNDE.KUNDE_ID"
+    },
+    "idx": [
+      "FST_ACT_DT",
+      "KUNDE_ID",
+      "ESTB_DT",
+      "DEL_DT",
+      "EFF_DT"
+    ]
+  },
+  "EDWDAG01600_VP.LOAN_EXT_PAYMENT": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "ACCOUNT_NMBR": "VAR(30)",
+      "REGNO": "CHAR(4)",
+      "DUE_DATE": "DATE",
+      "CUSTOMER_ID": "DEC(15,0)!",
+      "PRINCIPAL_AMT": "DEC(15,2)",
+      "DEBT_BEFORE_INSTLMT": "DEC(15,2)",
+      "DEBT_AFTER_INSTLMT": "DEC(15,2)",
+      "DUE_PYMNT_AMT": "DEC(15,2)",
+      "ADMN_FEE": "DEC(15,2)",
+      "TOTAL_PYMNT": "DEC(15,2)",
+      "PYMNT_AS_OF": "DATE",
+      "CURRENCY": "CHAR(3)",
+      "AMORTIZATION_AMT": "DEC(15,2)",
+      "DEBIT_INTEREST_AMOUNT": "DEC(15,2)",
+      "DEFAULT_INTEREST_AMOUNT": "DEC(15,2)",
+      "OUTSTANDING_AMOUNT": "DEC(15,2)"
+    },
+    "pk": [
+      "LDB_ID",
+      "CUSTOMER_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "CUSTOMER_ID": "CUSTOMER.CUSTOMER_ID"
+    },
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT",
+      "CUSTOMER_ID"
+    ]
+  },
+  "EDWDAG01600_VP.LOAN_FACT": {
+    "cols": {
+      "AC_NO": "CHAR(20)",
+      "ARF_IDFR": "DEC(15,0)!",
+      "FST_ACT_DT": "DATE",
+      "SETL_DT": "DATE",
+      "EST_END_DT": "DATE",
+      "PD_CODE": "VAR(40)",
+      "AC_CCY": "CHAR(3)",
+      "AC_CCY_AMT": "DEC(15,2)",
+      "AGR_MAX": "DEC(15,2)",
+      "AGR_OD": "DEC(15,2)",
+      "AGR_OTSND_DBT": "DEC(15,2)",
+      "PNP_AMT": "DEC(15,2)",
+      "CLC_RMAN_DBT_AMT": "DEC(15,2)",
+      "RMAN_DBT_AMT": "DEC(15,2)",
+      "RMAN_DBT_DT": "DATE",
+      "NXT_SETL_DT": "DATE",
+      "NXT_SETL_AMT": "DEC(15,2)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "PBS_F": "VAR(2)"
+    },
+    "pk": [
+      "ARF_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "FST_ACT_DT",
+      "SETL_DT",
+      "EST_END_DT",
+      "RMAN_DBT_DT",
+      "NXT_SETL_DT"
+    ]
+  },
+  "EDWDAG01600_VP.LOAN_MAIN": {
+    "cols": {
+      "LOAN_ID": "VAR(40)!",
+      "OBLIGOR_ID": "VAR(16)!",
+      "HREG": "VAR(16)",
+      "OUTSTANDING_BALANCE": "DEC(15,2)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "OBLIGOR_RISK_GRP": "VAR(2)",
+      "OBLIGOR_NAME": "VAR(483)",
+      "INCORPORATION_DATE": "DATE",
+      "CUSTOMER_SINCE": "DATE",
+      "OBLIGOR_SEGMENT_CODE": "CHAR(6)",
+      "OBLIGOR_SEGMENT": "VAR(255)",
+      "OBLIGOR_INDUSTRY_CODE": "CHAR(6)",
+      "OBLIGOR_INDUSTRY": "VAR(255)",
+      "OBLIGOR_CUSTOMER_SEGMENT": "VAR(255)",
+      "LOAN_ORIGINAL_AMOUNT": "DEC(15,2)",
+      "MAX_COMMITMENT_OUTSTANDING": "DEC(15,2)",
+      "CLOSING_DATE": "DATE",
+      "MATURITY_DATE": "DATE",
+      "PRINCIPAL_PAYMENT_FREQUENCY": "VAR(255)",
+      "PRINCIPAL_PAYMENT_PERIOD": "INT",
+      "INTEREST_PAYMENT_FREQUENCY": "VAR(255)",
+      "INTEREST_PAYMENT_PERIOD": "CHAR(10)",
+      "INTEREST_FIXED_VARIABLE": "VAR(16)",
+      "INTEREST_RESET_FREQUENCY": "VAR(258)",
+      "NEXT_RESET_DATE": "DATE",
+      "INTERST_INDEX": "VAR(16)",
+      "INTEREST_RATE": "DEC(10,5)",
+      "MARGIN": "DEC(9,5)",
+      "FLOOR_INTEREST_RATE": "DEC(9,5)",
+      "CAP_INTEREST_RATE": "DEC(9,5)",
+      "PRODUCT_CODE": "VAR(50)",
+      "PRODUCT_NAME": "VAR(150)",
+      "CUSTOMER_CONDITON": "VAR(3360)",
+      "PRODUCT_CONDITON": "VAR(3360)",
+      "COLLECTION_METHOD": "VAR(30)",
+      "SEGMENT": "VAR(35)",
+      "AMORTIZATION_SYSTEM": "VAR(255)",
+      "COLLATERAL_ID1": "VAR(40)!",
+      "COLLATERAL_GURANT1": "VAR(10)",
+      "COLLATERAL_ID2": "VAR(40)!",
+      "COLLATERAL_GURANT2": "VAR(10)",
+      "COLLATERAL_ID3": "VAR(40)!",
+      "COLLATERAL_GURANT3": "VAR(10)",
+      "COLLATERAL_ID4": "VAR(40)!",
+      "COLLATERAL_GURANT4": "VAR(10)",
+      "COLLATERAL_ID5": "VAR(40)!",
+      "COLLATERAL_GURANT5": "VAR(10)",
+      "COLLATERAL_ID6": "VAR(40)!",
+      "COLLATERAL_GURANT6": "VAR(10)",
+      "COLLATERAL_ID7": "VAR(40)!",
+      "COLLATERAL_GURANT7": "VAR(10)",
+      "COLLATERAL_ID8": "VAR(40)!",
+      "COLLATERAL_GURANT8": "VAR(10)",
+      "COLLATERAL_ID9": "VAR(40)!",
+      "COLLATERAL_GURANT9": "VAR(10)",
+      "COLLATERAL_ID10": "VAR(40)!",
+      "COLLATERAL_GURANT10": "VAR(10)",
+      "COLLATERAL_ID11": "VAR(40)!",
+      "COLLATERAL_GURANT11": "VAR(10)",
+      "COLLATERAL_ID12": "VAR(40)!",
+      "COLLATERAL_GURANT12": "VAR(10)",
+      "COLLATERAL_ID13": "VAR(40)!",
+      "COLLATERAL_GURANT13": "VAR(10)",
+      "COLLATERAL_ID14": "VAR(40)!",
+      "COLLATERAL_GURANT14": "VAR(10)",
+      "COLLATERAL_ID15": "VAR(40)!",
+      "COLLATERAL_GURANT15": "VAR(10)",
+      "COLLATERAL_ID16": "VAR(40)!",
+      "COLLATERAL_GURANT16": "VAR(10)",
+      "COLLATERAL_ID17": "VAR(40)!",
+      "COLLATERAL_GURANT17": "VAR(10)",
+      "COLLATERAL_ID18": "VAR(40)!",
+      "COLLATERAL_GURANT18": "VAR(10)",
+      "COLLATERAL_ID19": "VAR(40)!",
+      "COLLATERAL_GURANT19": "VAR(10)",
+      "COLLATERAL_ID20": "VAR(40)!",
+      "COLLATERAL_GURANT20": "VAR(10)",
+      "LOAN_PURPOSE": "VAR(255)",
+      "MARKETING_CHANNEL_ORIGINATOR": "VAR(483)",
+      "OBLIGOR_LOCATION_1": "VAR(34)",
+      "OBLIGOR_LOCATION_2": "VAR(34)",
+      "OBLIGOR_LOCATION_3": "VAR(34)",
+      "OBLIGOR_LOCATION_4": "VAR(34)",
+      "OBLIGOR_LOCATION_5": "VAR(34)",
+      "PRINCIPAL_GRACE_TERM_CHG": "DATE",
+      "PRINCIPAL_GRACE_TERM_CHG_END": "DATE",
+      "PRINCIPAL_GRACE_REFINANCED": "DATE",
+      "PRINCIPAL_GRACE_REFINACED_END": "DATE",
+      "ARREARS_DAYS": "SMALLINT",
+      "ARREARS_MONTH": "SMALLINT",
+      "SCORING_RATING_SEGMENT": "CHAR(1)",
+      "LOSS_GIVEN_DEFAULT": "DEC(10,8)",
+      "RATING_CURRENT_PD": "SMALLINT",
+      "PD_FROM_PI": "DEC(7,6)",
+      "AR_ID": "INT!",
+      "IP_ID": "INT!"
+    },
+    "pk": [
+      "LOAN_ID",
+      "OBLIGOR_ID",
+      "LDB_ID",
+      "COLLATERAL_ID1",
+      "COLLATERAL_ID2",
+      "COLLATERAL_ID3",
+      "COLLATERAL_ID4",
+      "COLLATERAL_ID5",
+      "COLLATERAL_ID6",
+      "COLLATERAL_ID7",
+      "COLLATERAL_ID8",
+      "COLLATERAL_ID9",
+      "COLLATERAL_ID10",
+      "COLLATERAL_ID11",
+      "COLLATERAL_ID12",
+      "COLLATERAL_ID13",
+      "COLLATERAL_ID14",
+      "COLLATERAL_ID15",
+      "COLLATERAL_ID16",
+      "COLLATERAL_ID17",
+      "COLLATERAL_ID18",
+      "COLLATERAL_ID19",
+      "COLLATERAL_ID20",
+      "AR_ID",
+      "IP_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "LOAN_ID": "LOAN.LOAN_ID",
+      "OBLIGOR_ID": "OBLIGOR.OBLIGOR_ID",
+      "AR_ID": "AR.AR_ID",
+      "IP_ID": "IP.IP_ID"
+    },
+    "idx": [
+      "LOAN_ID",
+      "OBLIGOR_ID",
+      "LDB_ID",
+      "SNPST_DT",
+      "AR_ID"
+    ]
+  },
+  "EDWDAG01600_VP.LOAN_REPAYMENT": {
+    "cols": {
+      "AC_NO": "CHAR(20)",
+      "ARF_IDFR": "DEC(15,0)!",
+      "STL_IDFR": "DEC(15,0)!",
+      "REP_STRT_DT": "DATE",
+      "REP_END_DT": "DATE",
+      "REP_PRIM_F": "CHAR(1)",
+      "REP_AMT": "DEC(15,2)",
+      "REP_FRQ_CL": "CHAR(5)",
+      "REP_FRQ_NBR": "INT",
+      "REP_DT": "DATE",
+      "REP_EXCP_STRT_DT": "DATE",
+      "REP_EXCP_END_DT": "DATE",
+      "REP_EXCP_PRD_STRT_DT": "DATE",
+      "REP_EXCP_PRD_END_DT": "DATE",
+      "JAN_F": "CHAR(1)",
+      "FEB_F": "CHAR(1)",
+      "MAR_F": "CHAR(1)",
+      "APR_F": "CHAR(1)",
+      "MAY_F": "CHAR(1)",
+      "JUN_F": "CHAR(1)",
+      "JUL_F": "CHAR(1)",
+      "AUG_F": "CHAR(1)",
+      "SEP_F": "CHAR(1)",
+      "OCT_F": "CHAR(1)",
+      "NOV_F": "CHAR(1)",
+      "DEC_F": "CHAR(1)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "ARF_IDFR",
+      "STL_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "REP_STRT_DT",
+      "REP_END_DT",
+      "REP_DT",
+      "REP_EXCP_STRT_DT",
+      "REP_EXCP_END_DT"
+    ]
+  },
+  "EDWDAG01600_VP.MESSAGE_SERVICE": {
+    "cols": {
+      "NTC_DT": "DATE",
+      "SNPST_DT": "DATE!",
+      "LDB_ID": "INT!",
+      "NTC_TP": "VAR(50)",
+      "NTC_CNL": "VAR(20)",
+      "NO_OF_EVENTS": "DEC(15,0)"
+    },
+    "pk": [
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "NTC_DT",
+      "SNPST_DT",
+      "LDB_ID"
+    ]
+  },
+  "EDWDAG01600_VP.MORTGAGE": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "ARF_IDFR": "DEC(15,0)!",
+      "KONTONR": "VAR(40)",
+      "FIRST_EFFECTIVE_DATE": "DATE",
+      "CLT_REGISTRATION_DATE": "DATE",
+      "LIFE_CYCLE_STATUS": "CHAR(5)",
+      "PRODUCT_CODE": "VAR(40)",
+      "PRODUCT_NM": "VAR(255)",
+      "ORG_UNIT": "DEC(15,0)",
+      "ORG_UNIT_NM": "VAR(483)",
+      "PRIMARY_PROVIDER": "DEC(15,0)",
+      "PRIMARY_PROVIDER_NM": "VAR(483)",
+      "IP_TYPE": "VAR(5)",
+      "IDNTN_NO": "VAR(16)",
+      "DIGIT_F": "VAR(2)"
+    },
+    "pk": [
+      "LDB_ID",
+      "ARF_IDFR",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.ORGANISATION": {
+    "cols": {
+      "IP_ID": "INT!",
+      "IP_IDFR": "DEC(15,0)!",
+      "NAME": "VAR(483)",
+      "LCS": "VAR(255)",
+      "STC": "VAR(255)",
+      "CST_AC_F": "CHAR(1)",
+      "CST_SVC_F": "CHAR(1)",
+      "INR_AC_F": "CHAR(1)",
+      "UNIT_NO": "VAR(16)",
+      "CNRL_HREG_NO": "VAR(16)",
+      "HREG_NO": "VAR(16)",
+      "REG_NO": "VAR(16)",
+      "ORG_RGST_NO": "VAR(16)",
+      "MGT_PRN_IP_ID": "INT!",
+      "MGT_PRN_IP_IDFR": "DEC(15,0)!",
+      "MGT_PRN_NAME": "VAR(483)",
+      "AC_PRN_IP_ID": "INT!",
+      "AC_PRN_IP_IDFR": "DEC(15,0)!",
+      "AC_PRN_NAME": "VAR(483)",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "IP_ID",
+      "IP_IDFR",
+      "MGT_PRN_IP_ID",
+      "MGT_PRN_IP_IDFR",
+      "AC_PRN_IP_ID",
+      "AC_PRN_IP_IDFR",
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "IP_ID": "IP.IP_ID",
+      "MGT_PRN_IP_ID": "MGT_PRN.IP_ID",
+      "AC_PRN_IP_ID": "AC_PRN.IP_ID"
+    },
+    "idx": [
+      "IP_ID",
+      "MGT_PRN_IP_ID",
+      "AC_PRN_IP_ID",
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.OVERDRAFT": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "ARF_IDFR": "DEC(15,0)!",
+      "AR_ID": "INT!",
+      "AAID_IDFR": "DEC(15,0)!",
+      "AC_NBR": "CHAR(20)",
+      "OD_AMT": "DEC(15,2)",
+      "OD_STRT_DT": "DATE",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "LDB_ID",
+      "ARF_IDFR",
+      "AR_ID",
+      "AAID_IDFR",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "AR_ID": "AR.AR_ID"
+    },
+    "idx": [
+      "LDB_ID",
+      "AR_ID",
+      "OD_STRT_DT",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.PNSN_AR": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "FI_CTY_CODE": "CHAR(2)",
+      "AR_ID": "INT!",
+      "ARF_IDFR": "VAR(40)!",
+      "POLCYHLR_IP_IDFR": "DEC(15,0)!",
+      "INSD_IP_IDFR": "DEC(15,0)!",
+      "BENF_IP_IDFR": "DEC(15,0)!",
+      "EFF_DT": "DATE!",
+      "END_DT": "DATE",
+      "AR_TP_NM": "VAR(255)",
+      "AR_LCS_NM": "VAR(255)",
+      "AR_SBTP_NAV_NM": "VAR(255)",
+      "SPLR_NM": "VAR(30)",
+      "ALT_USR_NM": "VAR(30)",
+      "SBSRB_TP_CL": "VAR(5)",
+      "SBSRB_TP_NM": "VAR(255)",
+      "EV_TP_CL": "VAR(5)",
+      "EV_TP_NM": "VAR(255)",
+      "TAX_CODE_CL": "VAR(5)",
+      "TAX_CODE_NM": "VAR(255)",
+      "INS_TP_CL": "VAR(5)",
+      "INS_TP_NM": "VAR(255)",
+      "CCNT_OFR_NO": "VAR(30)",
+      "CCNT_ACPT_DT": "DATE",
+      "DSBR_STRT_F": "CHAR(1)",
+      "DSBR_STRT_DT": "DATE",
+      "PLG_F": "CHAR(1)",
+      "TMT_DT": "DATE",
+      "YR_PREM_AMT": "DEC(15,2)",
+      "YR_PREM_AMT_CCY": "CHAR(3)",
+      "SVG_AMT": "DEC(15,2)",
+      "SVG_AMT_CCY": "CHAR(3)",
+      "NON_RCR_PREM_AMT": "DEC(15,2)",
+      "NON_RCR_PRE_AMT_CCY": "CHAR(3)",
+      "NON_RCR_PREM_DT": "DATE",
+      "RATE_PNSN_LMT_F": "CHAR(1)",
+      "PARG_41_DEP_F": "CHAR(1)",
+      "PARG_21_DEP_F": "CHAR(1)",
+      "COMNC_DT": "DATE",
+      "GRP_SCM_NO": "VAR(30)",
+      "CVR_AMT": "DEC(15,2)",
+      "CVR_AMT_CCY": "CHAR(3)",
+      "EXP_DT": "DATE",
+      "YR_PREM_DSBR_AMT": "DEC(15,2)",
+      "YR_DSBR_PREM_AMT_CCY": "CHAR(3)",
+      "SPLR_PREM_AMT": "DEC(15,2)",
+      "SPLR_PREM_AMT_CCY": "CHAR(3)",
+      "IMM_SPLR_PREM_AMT": "DEC(15,2)",
+      "IMM_SPLR_AMT_CCY": "CHAR(3)",
+      "TOT_SPLR_PREM_AMT": "DEC(15,2)",
+      "TOT_SPLR_PREM_AMT_CCY": "CHAR(3)",
+      "PPN_EV_ID": "INT!"
+    },
+    "pk": [
+      "LDB_ID",
+      "AR_ID",
+      "ARF_IDFR",
+      "POLCYHLR_IP_IDFR",
+      "INSD_IP_IDFR",
+      "BENF_IP_IDFR",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "AR_ID": "AR.AR_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT",
+      "AR_ID",
+      "EFF_DT",
+      "END_DT"
+    ]
+  },
+  "EDWDAG01600_VP.POSTER": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "IP_IDFR": "DEC(15,0)!",
+      "POST_DATO": "DATE",
+      "VALOER_DATO": "DATE",
+      "KONTO_BELOEB": "DEC(15,2)",
+      "KONTO_VALUTA": "CHAR(3)",
+      "ORGNL_BELOEB": "DEC(15,2)",
+      "ORGNL_VALUTA": "CHAR(3)",
+      "REGSK_BELOEB": "DEC(15,2)",
+      "REGSK_VALUTA": "CHAR(3)",
+      "FORCERING": "CHAR(1)",
+      "RETROAKTIV": "VAR(2)",
+      "POST_TEKST": "VAR(16000)",
+      "ARKIV_REG_NR": "CHAR(4)",
+      "ARKIV_NR": "CHAR(10)",
+      "REG_DATO": "DATE",
+      "GEBYRFRI": "CHAR(1)",
+      "STATUSTYPE": "VAR(255)",
+      "LEV_SYSTEM": "VAR(70)",
+      "TEKSTSVAR": "VAR(100)",
+      "ARF_IDFR": "DEC(15,0)!",
+      "BETAL_MEDIE": "VAR(255)",
+      "PSSTD_IDFR": "DEC(15,0)!",
+      "RIFS_IDFR_RPT_TXT": "DEC(15,0)!",
+      "HOST_TS": "TIMESTAMP(6)",
+      "WS_ID": "VAR(8)!",
+      "SNPST_DT": "DATE!",
+      "RIFS_IDFR_USES": "DEC(15,0)!"
+    },
+    "pk": [
+      "LDB_ID",
+      "IP_IDFR",
+      "ARF_IDFR",
+      "PSSTD_IDFR",
+      "RIFS_IDFR_RPT_TXT",
+      "WS_ID",
+      "RIFS_IDFR_USES",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "WS_ID": "WS.WS_ID"
+    },
+    "idx": [
+      "LDB_ID",
+      "WS_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.PREV_KS_FORSIK_EXT": {
+    "cols": {
+      "SNPST_DT": "DATE!",
+      "LDB_ID": "SMALLINT!",
+      "ARF_IDFR": "DEC(15,0)!",
+      "AFTALE_NR": "VAR(40)",
+      "MODPOST_ARF_IDFR": "DEC(15,0)!",
+      "MODPOST_KONTONR": "VAR(40)",
+      "AFTALE_START_DATO": "DATE",
+      "AFTALE_STATUS": "VAR(255)",
+      "PRODUKT_KODE": "VAR(50)",
+      "PD_IDFR": "DEC(15,0)!",
+      "PR_DATO": "DATE",
+      "NAVN_DOED": "VAR(35)",
+      "NAVN_INVALID": "VAR(35)",
+      "NAVN_OEVRIGE": "VAR(35)",
+      "BELOEB_DOED": "INT",
+      "BELOEB_INVALID": "INT",
+      "BELOEB_OEVRIGE": "INT",
+      "UDLOEBS_ALDER": "INT",
+      "OPSIG_VARSEL_KUND": "VAR(35)",
+      "OPSIG_VARSEL_PI": "VAR(35)",
+      "FORSIK_GRUPPE_NR": "INT",
+      "FORSIK_TYPE_NR": "INT",
+      "FORSIK_SELSKAB": "VAR(35)",
+      "NEDSKRIV_MAADE": "VAR(35)",
+      "NEDSKRIV_ST_DATO": "DATE",
+      "NEDSKRIV_PERIODE": "VAR(35)",
+      "FAREKLASSE": "INT",
+      "SKATTEKODE": "INT",
+      "ANTAGELSES_DATO": "DATE",
+      "OPSIGELSES_DATO": "DATE",
+      "OPSIGELSES_INIT": "VAR(2)",
+      "PRIM_EJER_CPRNR": "VAR(18)",
+      "PRIM_EJER_IDFR": "DEC(15,0)!",
+      "FORSIKREDE_CPRNR": "VAR(16)",
+      "FORSIKREDE_IDFR": "DEC(15,0)!",
+      "BEGUNSTIGEDE_CPRNR": "VAR(16)",
+      "BEGUNSTIGEDE_IDFR": "DEC(15,0)!",
+      "BELOEB_NAVN_1": "VAR(50)",
+      "BELOEB_1": "DEC(15,2)",
+      "FREKVENS_1": "VAR(255)",
+      "BELOEB_NAVN_2": "VAR(50)",
+      "BELOEB_2": "DEC(15,2)",
+      "FREKVENS_2": "VAR(255)",
+      "BELOEB_NAVN_3": "VAR(50)",
+      "BELOEB_3": "DEC(15,2)",
+      "FREKVENS_3": "VAR(255)",
+      "PRODUKT_NAVN": "VAR(255)",
+      "MODP_KTONR_30": "VAR(40)",
+      "PDELP_VAL_ENC": "CHAR(5)",
+      "PGRP_NAME": "VAR(255)",
+      "UDLOEBS_DATO": "DATE",
+      "EXTERN_BELOEB_1": "DEC(15,2)",
+      "EXTERN_FREKVENS_1": "VAR(35)",
+      "EXTERN_PRODUKT_KODE": "VAR(7)",
+      "AR_ID": "INT!",
+      "PD_ID": "INT!",
+      "GUID_REFR_ITM": "VAR(36)"
+    },
+    "pk": [
+      "LDB_ID",
+      "ARF_IDFR",
+      "MODPOST_ARF_IDFR",
+      "PD_IDFR",
+      "PRIM_EJER_IDFR",
+      "FORSIKREDE_IDFR",
+      "BEGUNSTIGEDE_IDFR",
+      "AR_ID",
+      "PD_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "AR_ID": "AR.AR_ID",
+      "PD_ID": "PD.PD_ID"
+    },
+    "idx": [
+      "SNPST_DT",
+      "LDB_ID",
+      "AR_ID",
+      "PD_ID"
+    ]
+  },
+  "EDWDAG01600_VP.PRODUCT_DEPARTMENT": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "OU_NM": "VAR(483)",
+      "PD_CODE": "VAR(40)",
+      "PD_NM": "VAR(255)",
+      "PD_GRP_NM": "VAR(255)",
+      "PD_TP_NM": "VAR(255)",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "LDB_ID",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.REAL_PROPERTY_IDENTIFICATION": {
+    "cols": {
+      "RI_ID": "INT!",
+      "LDB_ID": "SMALLINT!",
+      "SNPST_DT": "DATE!",
+      "REAL_PTY_ID": "INT!",
+      "PRIM_LOT_PLOT_IND_CL": "CHAR(5)",
+      "BLD_IDNT": "VAR(20)!",
+      "MNCP_AREA_CODE": "VAR(20)",
+      "LOT_NM": "VAR(20)",
+      "LOT_NO": "VAR(20)",
+      "PARCEL_NO": "VAR(20)",
+      "FLAT_NBR": "VAR(20)",
+      "PTY_SHARE": "VAR(20)",
+      "LSE_CTR_NO": "VAR(20)",
+      "LAND_LSE_NO": "VAR(20)",
+      "LAND_LSE_SUB_NO": "VAR(20)",
+      "PLOT_AREA_ID": "INT!",
+      "MNCP_PLOT_AREA_NM": "VAR(100)",
+      "PPN_EV_ID": "INT!"
+    },
+    "pk": [
+      "RI_ID",
+      "LDB_ID",
+      "REAL_PTY_ID",
+      "BLD_IDNT",
+      "PLOT_AREA_ID",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "RI_ID": "RI.RI_ID",
+      "REAL_PTY_ID": "REAL_PTY.REAL_PTY_ID",
+      "PLOT_AREA_ID": "PLOT_AREA.PLOT_AREA_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "RI_ID",
+      "LDB_ID",
+      "SNPST_DT",
+      "REAL_PTY_ID",
+      "PLOT_AREA_ID"
+    ]
+  },
+  "EDWDAG01600_VP.SIKAFT": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "ARF_IDFR": "DEC(15,0)!",
+      "SNPST_DT": "DATE!",
+      "PD_IDFR": "DEC(15,0)!",
+      "PRODUKTTYPE": "VAR(255)",
+      "SIK_NR": "VAR(40)",
+      "SIK_ST_DATO": "DATE",
+      "VALUTA": "CHAR(3)",
+      "AFT_IP_IDFR": "DEC(15,0)!",
+      "AFT_ANSVAR": "VAR(16)",
+      "TIL_IP_IDFR": "DEC(15,0)!",
+      "TIL_FILIAL": "CHAR(7)",
+      "PRODUKTKODE": "VAR(40)",
+      "PRODUKTNAVN": "VAR(255)",
+      "DOKUMENTTYPE": "VAR(35)",
+      "PAALYD_BLB": "DEC(15,2)",
+      "FLG_LAAN_REST": "VAR(2)",
+      "BELAANINGSPCT": "INT",
+      "AKT_VAERDI": "DEC(15,2)",
+      "PAALYD_BLB_VA": "DEC(15,2)",
+      "AKT_VAERDI_VA": "DEC(15,2)",
+      "VALUTA_KURS": "DEC(9,5)"
+    },
+    "pk": [
+      "LDB_ID",
+      "ARF_IDFR",
+      "PD_IDFR",
+      "AFT_IP_IDFR",
+      "TIL_IP_IDFR",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.SIKDKN": {
+    "cols": {
+      "LDB_ID": "SMALLINT!",
+      "ARF_IDFR": "DEC(15,0)!",
+      "SIK_NR": "VAR(40)",
+      "AFTALE_VALUTA": "CHAR(3)",
+      "SNPST_DT": "DATE!",
+      "PD_IDFR": "DEC(15,0)!",
+      "KTO_ARF_IDFR": "DEC(15,0)!",
+      "DAEK_TYPE": "CHAR(40)",
+      "IP_IDFR": "DEC(15,0)!",
+      "CPR_SE": "VAR(32)",
+      "KUNDETYPE": "CHAR(60)",
+      "KONTONR": "VAR(40)",
+      "KONTONR_EX": "VAR(0)",
+      "SYSTEM": "VAR(0)",
+      "MAX_BEL": "DEC(15,2)",
+      "PCR_AF_GLD": "DEC(9,5)",
+      "KUN_BLB_OVER": "DEC(15,2)",
+      "PRIORITET": "SMALLINT",
+      "VALUTA": "VAR(3)",
+      "VALUTA_DKN": "VAR(3)"
+    },
+    "pk": [
+      "LDB_ID",
+      "ARF_IDFR",
+      "PD_IDFR",
+      "KTO_ARF_IDFR",
+      "IP_IDFR",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.SIKSTL": {
+    "cols": {
+      "ARF_IDFR": "DEC(15,0)!",
+      "LDB_ID": "SMALLINT!",
+      "SIK_NR": "VAR(40)",
+      "VALUTA": "CHAR(3)",
+      "STILL_TYPE": "VAR(28)",
+      "IP_IDFR": "DEC(15,0)!",
+      "CPR_SE": "VAR(16)",
+      "KUNDETYPE": "VAR(34)",
+      "SNPST_DT": "DATE!"
+    },
+    "pk": [
+      "ARF_IDFR",
+      "LDB_ID",
+      "IP_IDFR",
+      "SNPST_DT"
+    ],
+    "idx": [
+      "LDB_ID",
+      "SNPST_DT"
+    ]
+  },
+  "EDWDAG01600_VP.UNUSED_COLLATERAL": {
+    "cols": {
+      "CLT_AR_ID": "INT!",
+      "CLT_KS_ID": "DEC(15,0)!",
+      "LDB_ID": "SMALLINT!",
+      "CLT_AR_TP_CL": "CHAR(5)",
+      "CLT_END_DT": "DATE",
+      "CLT_BSN_ID": "DEC(15,0)!",
+      "IP_CLT_F": "INT",
+      "CLT_OWN_IP_ID": "INT!",
+      "CLT_OWN_KS_ID": "DEC(15,0)!",
+      "EXP_OWN_IP_ID": "INT!",
+      "EXP_OWN_KS_ID": "DEC(15,0)!",
+      "RI_ID": "INT!",
+      "RI_KS_ID": "DEC(15,0)!",
+      "RI_USG_TP_CL": "CHAR(5)",
+      "RI_WGHT": "DEC(3,0)",
+      "CLT_RI_TP_DSC": "VAR(35)",
+      "DPST_KS_ID": "DEC(15,0)!",
+      "ISIN_CODE": "VAR(12)",
+      "DOC_HRCT_PCT": "DEC(9,5)",
+      "UNUSED_CLT_RDCD_VAL": "DEC(15,2)",
+      "UNUSED_CLT_RDCD_VAL_MSR": "DEC(15,2)",
+      "UNUSED_CLT_RDCD_VAL_CCY": "CHAR(3)",
+      "UNUSED_CLT_RDCD_RATE": "DEC(15,7)",
+      "UNUSED_CLT_AMT_MSR": "DEC(15,2)",
+      "USED_CLT_MAX_MSR": "DEC(15,2)",
+      "TOTAL_USED_RI_AMT_MSR": "DEC(15,2)",
+      "SNPST_DT": "DATE!",
+      "INSERT_NR": "DEC(15,0)",
+      "RI_VAL_TP_CL": "CHAR(5)",
+      "UNUSED_RI_AMT_MSR": "DEC(15,2)",
+      "RI_SPLT_IND": "CHAR(3)",
+      "SCNRIE": "INT",
+      "CRY": "CHAR(2)",
+      "PPN_EV_ID": "INT!"
+    },
+    "pk": [
+      "CLT_AR_ID",
+      "CLT_KS_ID",
+      "LDB_ID",
+      "CLT_BSN_ID",
+      "CLT_OWN_IP_ID",
+      "CLT_OWN_KS_ID",
+      "EXP_OWN_IP_ID",
+      "EXP_OWN_KS_ID",
+      "RI_ID",
+      "RI_KS_ID",
+      "DPST_KS_ID",
+      "PPN_EV_ID",
+      "SNPST_DT"
+    ],
+    "fk": {
+      "CLT_AR_ID": "CLT_AR.CLT_AR_ID",
+      "CLT_KS_ID": "CLT_KS.CLT_KS_ID",
+      "CLT_BSN_ID": "CLT_BSN.CLT_BSN_ID",
+      "CLT_OWN_IP_ID": "CLT_OWN.IP_ID",
+      "CLT_OWN_KS_ID": "CLT_OWN_KS.CLT_OWN_KS_ID",
+      "EXP_OWN_IP_ID": "EXP_OWN.IP_ID",
+      "EXP_OWN_KS_ID": "EXP_OWN_KS.EXP_OWN_KS_ID",
+      "RI_ID": "RI.RI_ID",
+      "RI_KS_ID": "RI_KS.RI_KS_ID",
+      "DPST_KS_ID": "DPST_KS.DPST_KS_ID",
+      "PPN_EV_ID": "PPN_EV.PPN_EV_ID"
+    },
+    "idx": [
+      "CLT_AR_ID",
+      "CLT_KS_ID",
+      "LDB_ID",
+      "CLT_END_DT",
+      "CLT_BSN_ID"
+    ]
+  }
+}

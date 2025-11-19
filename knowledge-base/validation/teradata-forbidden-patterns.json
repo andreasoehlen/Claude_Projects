@@ -1,0 +1,242 @@
+{
+  "purpose": "PREVENTION ONLY: Patterns that MUST NEVER appear in Teradata queries",
+  "rule": "Before generating ANY query, scan for these forbidden patterns",
+  "FORBIDDEN_PATTERNS": {
+    "F1_window_functions_in_subqueries": {
+      "priority": "CRITICAL",
+      "error": "3706",
+      "NEVER": "Window funcs in subqueries",
+      "forbidden_pattern": "SELECT * FROM (SELECT ROW_NUMBER() OVER (...) AS rn FROM t) WHERE rn = 1",
+      "instead": "Use QUALIFY",
+      "detection_pattern": "SELECT.*FROM.*\\(SELECT.*(ROW_NUMBER|RANK|DENSE_RANK)\\(\\).*OVER",
+      "prevention_strategy": "Check for window functions before wrapping in subquery",
+      "error_taxonomy_ref": "error_taxonomy.json:syntax_errors:window_functions_in_subquery",
+      "correction_ref": "query_correction_patterns.json:error_3706_window_function_in_subquery"
+    },
+    "F2_missing_column_aliases": {
+      "priority": "CRITICAL",
+      "error": "3706",
+      "NEVER": "Calc cols without AS alias in CTEs",
+      "rule": "EVERY expression must have AS alias_name",
+      "detection_pattern": "WITH.*AS.*\\(SELECT.*(\\+|\\-|\\*|\\/|CASE|CAST|CONCAT).*FROM.*\\)(?!.*AS)",
+      "prevention_strategy": "Add AS alias to all expressions in CTE SELECT",
+      "error_taxonomy_ref": "error_taxonomy.json:syntax_errors:missing_column_alias",
+      "correction_ref": "query_correction_patterns.json:error_3706_missing_column_alias"
+    },
+    "F3_reserved_words_as_aliases": {
+      "priority": "HIGH",
+      "error": "3707",
+      "NEVER": "Reserved words as aliases",
+      "reserved_list": "method, type, value, date, time, year, month, day, user, group, order, table, rank, row, current, session, position, key, index",
+      "rule": "Append _nm, _val, _type or use different words",
+      "detection_pattern": "AS (method|type|value|date|time|year|month|day|user|group|order|table|rank|row)",
+      "prevention_strategy": "Check alias against reserved word list",
+      "error_taxonomy_ref": "error_taxonomy.json:syntax_errors:reserved_word_as_alias",
+      "correction_ref": "query_correction_patterns.json:error_3707_reserved_word_alias"
+    },
+    "F4_extract_non_standard_parts": {
+      "priority": "HIGH",
+      "error": "3707",
+      "NEVER": "EXTRACT with DOW/QUARTER/WEEK",
+      "allowed_only": "EXTRACT(YEAR|MONTH|DAY|HOUR|MINUTE|SECOND FROM col)",
+      "detection_pattern": "EXTRACT\\((DOW|QUARTER|WEEK|DAYOFWEEK|DAYOFYEAR)\\s+FROM",
+      "prevention_strategy": "Only use standard EXTRACT parts",
+      "error_taxonomy_ref": "error_taxonomy.json:syntax_errors:invalid_extract_part",
+      "correction_ref": "error_taxonomy.json:syntax_errors:invalid_extract_part"
+    },
+    "F5_recursive_or_nested_with": {
+      "priority": "CRITICAL",
+      "error": "6926",
+      "NEVER": "WITH RECURSIVE or nested WITH",
+      "only_allowed": "WITH cte1 AS (...), cte2 AS (...) SELECT...",
+      "detection_pattern": "(WITH\\s+RECURSIVE)|(WITH.*AS.*\\(.*WITH.*AS)",
+      "prevention_strategy": "Use flat comma-separated CTEs only",
+      "error_taxonomy_ref": "error_taxonomy.json:syntax_errors:recursive_or_nested_with",
+      "correction_ref": "query_correction_patterns.json:error_6926_recursive_or_nested_with"
+    },
+    "F6_self_referencing_cte": {
+      "priority": "CRITICAL",
+      "error": "6920",
+      "NEVER": "CTE referencing itself",
+      "rule": "Use multiple CTEs with different names",
+      "detection_pattern": "WITH (\\w+) AS.*FROM.*\\1",
+      "prevention_strategy": "Multi-step logic requires multiple CTEs",
+      "error_taxonomy_ref": "error_taxonomy.json:syntax_errors:self_referencing_cte",
+      "correction_ref": "error_taxonomy.json:syntax_errors:self_referencing_cte"
+    },
+    "F7_union_order_by_names": {
+      "priority": "HIGH",
+      "error": "3848",
+      "NEVER": "Col names in ORDER BY after UNION",
+      "only_allowed": "ORDER BY 1, 2, 3 (position integers only)",
+      "detection_pattern": "UNION.*ORDER\\s+BY\\s+[a-zA-Z_]",
+      "prevention_strategy": "Always use position integers after set operations",
+      "error_taxonomy_ref": "error_taxonomy.json:syntax_errors:union_order_by_names",
+      "correction_ref": "query_correction_patterns.json:error_3848_union_order_by_names"
+    },
+    "F8_union_without_from": {
+      "priority": "MEDIUM",
+      "error": "3888",
+      "NEVER": "SELECT without FROM in UNION",
+      "rule": "EVERY SELECT must have FROM",
+      "detection_pattern": "SELECT.*UNION.*SELECT(?!.*FROM)",
+      "prevention_strategy": "Add FROM clause to all SELECT statements",
+      "error_taxonomy_ref": "error_taxonomy.json:syntax_errors:union_without_from",
+      "correction_ref": "error_taxonomy.json:syntax_errors:union_without_from"
+    },
+    "F9_missing_group_by_columns": {
+      "priority": "CRITICAL",
+      "error": "3504",
+      "NEVER": "Non-aggregated cols not in GROUP BY",
+      "rule": "EVERY non-aggregated SELECT col MUST be in GROUP BY",
+      "detection_pattern": "Manual check: SELECT cols not in GROUP BY and not aggregated",
+      "prevention_strategy": "Verify every SELECT col is aggregated or in GROUP BY",
+      "error_taxonomy_ref": "error_taxonomy.json:logical_errors:missing_group_by_columns",
+      "correction_ref": "query_correction_patterns.json:error_3504_missing_group_by"
+    },
+    "F10_improper_join_scope": {
+      "priority": "HIGH",
+      "error": "3782",
+      "NEVER": "Cols outside scope in JOIN ON",
+      "rule": "All cols in JOIN ON must exist in tables being joined",
+      "detection_pattern": "Manual check: JOIN ON references tables not in current join",
+      "prevention_strategy": "Use explicit table aliases, verify cols exist",
+      "error_taxonomy_ref": "error_taxonomy.json:performance_errors:improper_join_scope",
+      "correction_ref": "query_correction_patterns.json:error_3807_column_not_found"
+    },
+    "F11_smart_quotes_special_chars": {
+      "priority": "MEDIUM",
+      "error": "6705",
+      "NEVER": "Smart quotes or non-ASCII chars",
+      "rule": "ASCII only, straight quotes",
+      "detection_pattern": "Non-ASCII character scan",
+      "prevention_strategy": "Plain text only, no rich text formatting",
+      "error_taxonomy_ref": "error_taxonomy.json:syntax_errors:smart_quotes_special_chars",
+      "correction_ref": "error_taxonomy.json:syntax_errors:smart_quotes_special_chars"
+    },
+    "F12_unverified_table_reference": {
+      "priority": "CRITICAL",
+      "error": "3807",
+      "NEVER": "Reference table without verifying exists",
+      "rule": "ALWAYS verify table exists in Databases/*.json",
+      "detection_pattern": "Manual: check all FROM/JOIN tables in schema files",
+      "prevention_strategy": "Verify table in Databases/*.json before use",
+      "error_taxonomy_ref": "error_taxonomy.json:schema_errors:table_not_found",
+      "correction_ref": "query_correction_patterns.json:error_3807_table_not_found"
+    },
+    "F13_unverified_column_reference": {
+      "priority": "CRITICAL",
+      "error": "3807",
+      "NEVER": "Reference col without verifying exists",
+      "rule": "ALWAYS verify col exists in table schema",
+      "detection_pattern": "Manual: check all SELECT/WHERE/JOIN cols in schema",
+      "prevention_strategy": "Verify col in Databases/*.json:table:cols before use",
+      "error_taxonomy_ref": "error_taxonomy.json:schema_errors:column_not_found",
+      "correction_ref": "query_correction_patterns.json:error_3807_column_not_found"
+    },
+    "F14_unverified_join_columns": {
+      "priority": "CRITICAL",
+      "error": "3807",
+      "NEVER": "Write JOIN ON without verifying both cols exist",
+      "rule": "Verify both join cols exist in respective tables",
+      "detection_pattern": "Manual: check both sides of JOIN ON in schemas",
+      "prevention_strategy": "Verify both cols exist, check common_join_patterns.json",
+      "error_taxonomy_ref": "error_taxonomy.json:schema_errors:unverified_join_columns",
+      "correction_ref": "query_correction_patterns.json:error_3807_column_not_found",
+      "refer_to": "common_join_patterns.json"
+    },
+    "F15_nested_aggregates": {
+      "priority": "CRITICAL",
+      "error": "3568",
+      "NEVER": "Nest aggregate functions inside other aggregates",
+      "forbidden_pattern": "SUM(AVG(col)), MAX(COUNT(*)), etc.",
+      "instead": "Use CTEs to calculate aggregates in stages",
+      "detection_pattern": "(SUM|AVG|MAX|MIN|COUNT)\\s*\\(\\s*(SUM|AVG|MAX|MIN|COUNT)",
+      "prevention_strategy": "Multi-stage aggregation requires multiple CTEs",
+      "error_taxonomy_ref": "error_taxonomy.json:syntax_errors:nested_aggregates",
+      "correction_ref": "query_correction_patterns.json:error_3568_nested_aggregates"
+    },
+    "F16_distinct_in_window_functions": {
+      "priority": "HIGH",
+      "error": "3706",
+      "NEVER": "Use DISTINCT inside window functions",
+      "forbidden_pattern": "COUNT(DISTINCT col) OVER (...)",
+      "instead": "Pre-aggregate with GROUP BY, then window function",
+      "detection_pattern": "(COUNT|SUM|AVG)\\s*\\(\\s*DISTINCT.*\\)\\s*OVER",
+      "prevention_strategy": "Use CTE with GROUP BY first, then apply window function",
+      "error_taxonomy_ref": "error_taxonomy.json:syntax_errors:distinct_in_window_functions",
+      "correction_ref": "query_correction_patterns.json:error_3706_distinct_in_window_functions"
+    },
+    "F17_limit_keyword": {
+      "priority": "HIGH",
+      "error": "3706",
+      "NEVER": "Use LIMIT keyword (not supported in Teradata)",
+      "forbidden_pattern": "SELECT ... LIMIT n",
+      "instead": "Use TOP n at start of SELECT or SAMPLE",
+      "detection_pattern": "LIMIT\\s+\\d+",
+      "prevention_strategy": "Replace LIMIT n with TOP n in SELECT clause",
+      "error_taxonomy_ref": "error_taxonomy.json:syntax_errors:limit_keyword",
+      "correction_ref": "query_correction_patterns.json:error_3706_limit_keyword"
+    },
+    "F18_string_operators_on_non_char": {
+      "priority": "MEDIUM",
+      "error": "3544",
+      "NEVER": "Use LIKE/CONTAINS on non-character columns",
+      "forbidden_pattern": "WHERE numeric_col LIKE '%123%'",
+      "instead": "CAST to CHAR or use numeric comparison",
+      "detection_pattern": "Manual: verify data types for LIKE/CONTAINS operands",
+      "prevention_strategy": "Check column data type in schema before using string operators",
+      "error_taxonomy_ref": "error_taxonomy.json:syntax_errors:string_operators_on_non_char",
+      "correction_ref": "query_correction_patterns.json:error_3544_string_operators_on_non_char"
+    },
+    "F19_top_with_sample": {
+      "priority": "MEDIUM",
+      "error": "6916",
+      "NEVER": "Use TOP and SAMPLE together",
+      "forbidden_pattern": "SELECT TOP 10 ... SAMPLE 100",
+      "instead": "Use either TOP or SAMPLE, not both",
+      "detection_pattern": "TOP\\s+\\d+.*SAMPLE|SAMPLE.*TOP\\s+\\d+",
+      "prevention_strategy": "Choose TOP for specific row count, SAMPLE for percentage",
+      "error_taxonomy_ref": "error_taxonomy.json:syntax_errors:top_with_sample",
+      "correction_ref": "query_correction_patterns.json:error_6916_top_with_sample"
+    },
+    "F20_single_pipe_concatenation": {
+      "priority": "MEDIUM",
+      "error": "3707",
+      "NEVER": "Use single pipe | for concatenation",
+      "forbidden_pattern": "col1 | col2",
+      "instead": "Use double pipe || for string concatenation",
+      "detection_pattern": "[a-zA-Z0-9_)]\\s*\\|\\s*[a-zA-Z0-9_(](?!\\|)",
+      "prevention_strategy": "Always use || for concatenation, never single |",
+      "error_taxonomy_ref": "error_taxonomy.json:syntax_errors:single_pipe_concatenation",
+      "correction_ref": "query_correction_patterns.json:error_3707_single_pipe_concatenation"
+    }
+  },
+  "PRE_GENERATION_CHECKLIST": {
+    "scan_for": [
+      "ROW_NUMBER/RANK in subquery → Use QUALIFY",
+      "Calc cols without AS alias → Add AS name",
+      "Reserved words as aliases → Rename",
+      "EXTRACT(DOW/QUARTER/WEEK) → Use YEAR/MONTH/DAY",
+      "WITH RECURSIVE/nested → Use comma-separated CTEs",
+      "CTE self-reference → Split into multiple CTEs",
+      "UNION ORDER BY col_name → Use ORDER BY 1, 2",
+      "SELECT without FROM → Add FROM clause",
+      "Non-aggregated not in GROUP BY → Add to GROUP BY",
+      "Smart quotes → Use ASCII only",
+      "Nested aggregates (SUM(AVG)) → Use multi-stage CTEs",
+      "DISTINCT in window functions → Pre-aggregate first",
+      "LIMIT keyword → Use TOP n instead",
+      "LIKE/CONTAINS on numeric → CAST or use numeric ops",
+      "TOP with SAMPLE → Choose one only",
+      "Single pipe | → Use double pipe ||"
+    ],
+    "MANDATORY_VERIFICATION": [
+      "✓ ALL tables verified in Databases/*.json",
+      "✓ ALL cols verified in table schemas",
+      "✓ ALL JOIN cols verified in both tables",
+      "✓ Data types compatible for joins/operations"
+    ]
+  },
+  "HARD_STOP_RULE": "If query contains ANY forbidden pattern, STOP and redesign using sql_chunks.json"
+}
