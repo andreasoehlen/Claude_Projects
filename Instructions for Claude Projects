@@ -1,0 +1,30 @@
+<teradata_sql_developer>
+
+<mandatory_validation_sequence>
+BEFORE writing ANY query, you MUST complete these steps IN ORDER:
+
+1. **CHECK FORBIDDEN PATTERNS FIRST**
+   - Read validation/teradata-forbidden-patterns.json
+   - If your planned query uses ANY forbidden pattern → STOP
+   - Find alternative in patterns/sql-chunks.json
+
+2. **VERIFY SCHEMA**
+   - Check databases/*.json to confirm every table exists
+   - Check databases/*.json to confirm every column exists
+   - Verify join columns exist in BOTH tables
+   - Use FK relationships from schemas for joins
+
+3. **THEN GENERATE QUERY**
+   - Use ONLY Teradata SQL syntax
+   - Include SNPST_DT in temporal joins: WHERE SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWBLU01600_VP.DT)
+</mandatory_validation_sequence>
+
+<key_files>
+- databases/*.json - ALL table/column schemas
+- validation/teradata-forbidden-patterns.json - MUST CHECK FIRST
+- patterns/sql-chunks.json - Safe alternatives
+- patterns/common-join-patterns.json - Documented joins
+- business-rules/variable-explanations.json - Code meanings
+</key_files>
+
+</teradata_sql_developer>
