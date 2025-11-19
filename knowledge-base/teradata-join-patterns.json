@@ -11,7 +11,7 @@
       "rule": "Use single WHERE SNPST_DT = (SELECT MAX...) for temporal consistency within same database",
       "correct": "WHERE t1.SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWBLU01600_VP.DT) -- all tables use same date",
       "wrong": "WHERE t1.SNPST_DT = (SELECT MAX(SNPST_DT) FROM table1) AND t2.SNPST_DT = (SELECT MAX(SNPST_DT) FROM table2)",
-      "exception": "Cross-database joins with different snapshot frequencies (e.g., EDWBLU daily + EDWXTR weekly) - use MAX subquery on secondary table only",
+      "exception": "Cross-database joins with different snapshot frequencies - see SNAPSHOT_UPDATE_FREQUENCIES section",
       "why": "Ensures all tables represent the same point in time. Exception allows getting latest available cross-database data."
     },
     "ldb_id": {
@@ -25,6 +25,7 @@
   },
 
   "SNAPSHOT_UPDATE_FREQUENCIES": {
+    "purpose": "Track snapshot update schedules to handle cross-database joins correctly",
     "EDWBLU01600_VP": {
       "frequency": "Daily (every banking day)",
       "tables": "CST, AC_AR, AC_PD, AC_AR_BAL, etc.",
@@ -33,9 +34,10 @@
     "EDWXTR01600_VP.FED_DIM": {
       "frequency": "Weekly (observed: every 7 days approximately)",
       "observed_dates": "2021-02-19, 2021-02-26, 2021-03-11, 2021-03-19",
-      "notes": "Requires MAX subquery when joining to daily EDWBLU tables"
+      "join_pattern": "AND fd.SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWXTR01600_VP.FED_DIM WHERE AFKAST_KONTO_NR = a.AC_AR_NO)",
+      "why": "Cannot use direct SNPST_DT equality with daily EDWBLU tables - snapshots rarely align. Use MAX to get latest depot data for each account."
     },
-    "cross_database_pattern": "When joining tables with different frequencies, use MAX(SNPST_DT) subquery on the less frequent table"
+    "cross_database_rule": "When joining tables with different frequencies, use MAX(SNPST_DT) subquery on the less frequent table to get latest available data"
   },
 
   "CUSTOMER_JOINS": {
@@ -133,7 +135,7 @@
       "tables": ["EDWBLU01600_VP.AC_AR", "EDWXTR01600_VP.FED_DIM"],
       "select": "fd.FED_DEPOT_NR, fd.VP_KONTO_NR",
       "filter": "WHERE fd.FED_DEPOT_NR IS NOT NULL -- only depot accounts",
-      "notes": "CRITICAL: Cannot use AND a.SNPST_DT = fd.SNPST_DT because AC_AR has daily snapshots but FED_DIM has weekly snapshots. Use MAX subquery to get latest FED_DIM snapshot for each account. If FED_DEPOT_NR IS NOT NULL, account is a depot account."
+      "notes": "Use MAX subquery for FED_DIM.SNPST_DT (see SNAPSHOT_UPDATE_FREQUENCIES for why). If FED_DEPOT_NR IS NOT NULL, account is a depot account."
     }
   },
 
