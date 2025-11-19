@@ -105,6 +105,14 @@
       "description": "FEDAFT self-join for depot with multiple roles",
       "sql": "FROM EDWXTR01600_VP.FEDAFT t1\nINNER JOIN EDWXTR01600_VP.FEDAFT t2\n  ON t1.FED_DEPOT_NR = t2.FED_DEPOT_NR\n  AND t1.SNPST_DT = t2.SNPST_DT\n  AND t1.PRIMAER_EJER_MAR = 'J'",
       "notes": "Self-join needed because each role is separate row. Get primary owner, admin dept, home dept in one row"
+    },
+    "account_to_depot_cross_database": {
+      "description": "Join EDWBLU accounts to EDWXTR depot data (cross-database with snapshot mismatch)",
+      "sql": "LEFT JOIN EDWXTR01600_VP.FED_DIM fd\n  ON a.AC_AR_NO = fd.AFKAST_KONTO_NR\n  AND a.LDB_ID = fd.LDB_ID\n  AND fd.SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWXTR01600_VP.FED_DIM WHERE AFKAST_KONTO_NR = a.AC_AR_NO)",
+      "tables": ["EDWBLU01600_VP.AC_AR", "EDWXTR01600_VP.FED_DIM"],
+      "select": "fd.FED_DEPOT_NR, fd.VP_KONTO_NR",
+      "filter": "WHERE fd.FED_DEPOT_NR IS NOT NULL -- only depot accounts",
+      "notes": "CRITICAL: Cannot use AND a.SNPST_DT = fd.SNPST_DT because AC_AR has daily snapshots but FED_DIM has weekly snapshots. Use MAX subquery to get latest FED_DIM snapshot for each account. If FED_DEPOT_NR IS NOT NULL, account is a depot account."
     }
   },
 

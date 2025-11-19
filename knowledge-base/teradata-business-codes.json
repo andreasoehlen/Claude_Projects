@@ -248,8 +248,9 @@
       "gdlr006": "DLR guarantee",
       "eksung1": "Child savings",
       "eand002": "Co-op housing",
+      "igka001": "Garant account (NOT Garanti - use this for garant filters)",
       "ikli013": "Investment client product",
-      "sql_example": "WHERE BSN_ID IN ('gdlr006', 'eksung1', 'eand002')"
+      "sql_example": "WHERE BSN_ID IN ('gdlr006', 'eksung1', 'eand002', 'igka001')"
     },
     "SSA_CD": {
       "description": "Sub-Sub-Account Code (product type)",
