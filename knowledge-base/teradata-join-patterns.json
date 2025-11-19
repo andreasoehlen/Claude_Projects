@@ -1,0 +1,187 @@
+{
+  "purpose": "Reference for joining Teradata tables with non-obvious details and discovered patterns",
+
+  "CRITICAL_JOIN_RULES": {
+    "snapshot_date": {
+      "rule": "ALWAYS include SNPST_DT in join condition for temporal tables",
+      "example": "JOIN t2 ON t1.some_id = t2.some_id AND t1.SNPST_DT = t2.SNPST_DT",
+      "why": "Without this, you get cartesian product across all snapshots"
+    },
+    "ldb_id": {
+      "rule": "Include LDB_ID in join when both tables have it; filter LDB_ID = 1600 for operational data",
+      "example": "JOIN t2 ON t1.IP_ID = t2.IP_ID AND t1.LDB_ID = t2.LDB_ID WHERE t1.LDB_ID = 1600"
+    },
+    "left_join_with_filter": {
+      "rule": "When filtering optional table columns, use OR IS NULL to prevent row elimination",
+      "example": "LEFT JOIN t2 ON ... WHERE (t2.GRP_ID = '1835260' OR t2.IP_ID IS NULL)"
+    }
+  },
+
+  "CUSTOMER_JOINS": {
+    "customer_to_account": {
+      "join": "CST.IP_ID = AC_AR.PRIM_OWN_ID AND CST.SNPST_DT = AC_AR.SNPST_DT",
+      "tables": ["EDWBLU01600_VP.CST", "EDWBLU01600_VP.AC_AR"],
+      "notes": "Use PRIM_OWN_ID for primary owner. For multi-party accounts, use AC_AR_X_IP bridge table"
+    },
+    "customer_to_employee": {
+      "join": "CST.RSPL_EMP_ID = RSPL_EMP.IP_ID AND CST.SNPST_DT = RSPL_EMP.SNPST_DT",
+      "tables": ["EDWBLU01600_VP.CST", "EDWBLU01600_VP.RSPL_EMP"],
+      "select": "RSPL_EMP.NM AS KUNDEANSVAR",
+      "notes": "Responsible employee - use LEFT JOIN (not all customers have one)"
+    },
+    "customer_to_department": {
+      "join": "CST.RSPL_OU_ID = RSPL_OU.IP_ID AND CST.SNPST_DT = RSPL_OU.SNPST_DT",
+      "tables": ["EDWBLU01600_VP.CST", "EDWBLU01600_VP.RSPL_OU"],
+      "select": "RSPL_OU.NM AS AFDELING",
+      "notes": "Responsible department - use LEFT JOIN"
+    },
+    "customer_to_address": {
+      "join": "CST.PRIM_ADR_ID = ADR.ADR_ID AND CST.SNPST_DT = ADR.SNPST_DT",
+      "tables": ["EDWBLU01600_VP.CST", "EDWBLU01600_VP.ADR"],
+      "select": "ADR.PST_ADR_NM_1, ADR.PST_ADR_NM_2, ADR.PST_ADR_NM_3, ADR.PST_ADR_NM_4, ADR.PSTCD, ADR.POSTAL_NM",
+      "notes": "Primary address - fields 1-4 contain multi-line address"
+    },
+    "customer_to_rating": {
+      "join": "CST.IP_ID = CST_X_RATING.IP_ID AND CST.SNPST_DT = CST_X_RATING.SNPST_DT AND (CST_X_RATING.GRP_ID = '1835260' OR CST_X_RATING.IP_ID IS NULL)\nLEFT JOIN EDWBLU01600_VP.RATING ON CST_X_RATING.RATING_ID = RATING.RATING_ID AND CST.SNPST_DT = RATING.SNPST_DT",
+      "tables": ["EDWBLU01600_VP.CST", "EDWBLU01600_VP.CST_X_RATING", "EDWBLU01600_VP.RATING"],
+      "select": "RATING.RATING_SCL_VAL AS RISIKOVURDERING",
+      "notes": "GRP_ID = '1835260' for Risk rating, '2707716' for AHV. OR clause prevents NULL elimination"
+    },
+    "customer_to_electronic_address": {
+      "join": "CST.IP_ID = ELC_ADR.IP_ID AND CST.SNPST_DT = ELC_ADR.SNPST_DT AND ELC_ADR.ELC_ADR_TP_CL IN ('lgem_', 'lgmb_', 'lgph_')",
+      "tables": ["EDWBLU01600_VP.CST", "EDWBLU01600_VP.ELC_ADR"],
+      "select": "ELC_ADR.EMAIL_ADR, ELC_ADR.ELC_ADR_NO",
+      "notes": "lgem_ = email, lgmb_ = mobile, lgph_ = phone"
+    }
+  },
+
+  "ACCOUNT_JOINS": {
+    "account_to_product": {
+      "join": "AC_AR.PD_ID = AC_PD.PD_ID AND AC_AR.SNPST_DT = AC_PD.SNPST_DT",
+      "tables": ["EDWBLU01600_VP.AC_AR", "EDWBLU01600_VP.AC_PD"],
+      "notes": "Product details for accounts"
+    },
+    "account_to_balance": {
+      "join": "AC_AR.AR_ID = AC_AR_BAL.AR_ID AND AC_AR.SNPST_DT = AC_AR_BAL.SNPST_DT",
+      "tables": ["EDWBLU01600_VP.AC_AR", "EDWBLU01600_VP.AC_AR_BAL"],
+      "select": "AC_AR_BAL.EOD_BAL_AMT, AC_AR_BAL.CR_EOD_BAL_AMT, AC_AR_BAL.DB_EOD_BAL_AMT, AC_AR_BAL.RISK_AMT",
+      "notes": "1:1 relationship - one balance per account per snapshot"
+    },
+    "account_to_interested_parties": {
+      "join": "AC_AR.AR_ID = AC_AR_X_IP.AR_ID AND AC_AR.SNPST_DT = AC_AR_X_IP.SNPST_DT\nJOIN EDWBLU01600_VP.CST ON AC_AR_X_IP.IP_ID = CST.IP_ID AND AC_AR_X_IP.SNPST_DT = CST.SNPST_DT",
+      "tables": ["EDWBLU01600_VP.AC_AR", "EDWBLU01600_VP.AC_AR_X_IP", "EDWBLU01600_VP.CST"],
+      "filter": "AC_AR_X_IP.AC_AR_X_IP_TP_CL IN ('prow_', 'ownr_') -- primary/co-owners",
+      "notes": "Use for multi-party accounts (joint accounts, guarantors). Filter AC_AR_X_IP_TP_CL for relationship type"
+    },
+    "account_to_overdraft": {
+      "join": "CST.IP_ID = AC_AR_OD_INF_DLY.PRIM_OWN_ID AND CST.LDB_ID = AC_AR_OD_INF_DLY.LDB_ID AND CST.SNPST_DT = AC_AR_OD_INF_DLY.SNPST_DT",
+      "tables": ["EDWBLU01600_VP.CST", "EDWBLU01600_VP.AC_AR_OD_INF_DLY"],
+      "filter": "WHERE CST.LDB_ID = 1600 AND AC_AR_OD_INF_DLY.OD_ORIG_AMT < 0",
+      "select": "SUM(CASE WHEN OD_ORIG_AMT < 0 THEN OD_ORIG_AMT ELSE 0 END) AS TOTAL_OVERDRAFT",
+      "notes": "CRITICAL: Use PRIM_OWN_ID (NOT AC_AR_X_IP) to avoid double-counting. Always filter LDB_ID = 1600. Use OD_ORIG_AMT not OD_AMT"
+    }
+  },
+
+  "COMPLETE_CUSTOMER_VIEW": {
+    "customer_account_product_balance_employee_dept": {
+      "description": "Full customer view with all relationships",
+      "sql": "FROM EDWBLU01600_VP.CST t1\nLEFT JOIN EDWBLU01600_VP.AC_AR t2\n  ON t1.IP_ID = t2.PRIM_OWN_ID AND t1.SNPST_DT = t2.SNPST_DT\nLEFT JOIN EDWBLU01600_VP.AC_PD t3\n  ON t2.PD_ID = t3.PD_ID AND t1.SNPST_DT = t3.SNPST_DT\nLEFT JOIN EDWBLU01600_VP.AC_AR_BAL t4\n  ON t2.AR_ID = t4.AR_ID AND t1.SNPST_DT = t4.SNPST_DT\nLEFT JOIN EDWBLU01600_VP.RSPL_EMP t5\n  ON t1.RSPL_EMP_ID = t5.IP_ID AND t1.SNPST_DT = t5.SNPST_DT\nLEFT JOIN EDWBLU01600_VP.RSPL_OU t6\n  ON t1.RSPL_OU_ID = t6.IP_ID AND t1.SNPST_DT = t6.SNPST_DT",
+      "notes": "Use as starting point for comprehensive customer reports"
+    }
+  },
+
+  "SPECIAL_PATTERNS": {
+    "customer_group_exclusion": {
+      "description": "Exclude customers in specific groups (test accounts, internal)",
+      "sql": "LEFT JOIN EDWBLU01600_VP.CST_X_CST_GRP t_grp\n  ON t1.IP_ID = t_grp.IP_ID AND t1.SNPST_DT = t_grp.SNPST_DT\nWHERE t_grp.GRP_ID IS NULL OR t_grp.GRP_ID = 1",
+      "notes": "LEFT JOIN with NULL check for 'NOT IN group' pattern"
+    },
+    "spd_ar_to_customer": {
+      "description": "Bridge from SPD_AR to CST (complex multi-column join)",
+      "sql": "JOIN EDWClt01600_VP.SPD_AR_X_IP sx ON s.AR_ID = sx.SPD_AR_ID AND s.SNPST_DT = sx.SNPST_DT\nJOIN EDWBLU01600_VP.CST c ON sx.LDB_ID = c.LDB_ID AND sx.SNPST_DT = c.SNPST_DT AND sx.CST_ID = c.CST_ID",
+      "notes": "Must use all 3 columns (LDB_ID, SNPST_DT, CST_ID). AR_ID maps to SPD_AR_ID in bridge table"
+    },
+    "securities_depot_self_join": {
+      "description": "FEDAFT self-join for depot with multiple roles",
+      "sql": "FROM EDWXTR01600_VP.FEDAFT t1\nINNER JOIN EDWXTR01600_VP.FEDAFT t2\n  ON t1.FED_DEPOT_NR = t2.FED_DEPOT_NR\n  AND t1.SNPST_DT = t2.SNPST_DT\n  AND t1.PRIMAER_EJER_MAR = 'J'",
+      "notes": "Self-join needed because each role is separate row. Get primary owner, admin dept, home dept in one row"
+    }
+  },
+
+  "TEMPORAL_FILTERS": {
+    "current_snapshot": {
+      "sql": "WHERE t1.SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWBLU01600_VP.DT)",
+      "use": "Most recent data snapshot"
+    },
+    "previous_bank_date": {
+      "sql": "WHERE t1.SNPST_DT = (SELECT MAX(PREV_BNK_DT) FROM EDWBLU01600_VP.DT)",
+      "use": "T-1 reporting (previous banking day)"
+    },
+    "month_end_snapshot": {
+      "sql": "WHERE t1.SNPST_DT = (SELECT MAX(PREV_BNK_MNTH_END_DT) FROM EDWBLU01600_VP.DT)",
+      "use": "Monthly reports"
+    }
+  },
+
+  "COMMON_FILTERS": {
+    "active_accounts_only": {
+      "sql": "WHERE AC_AR.AR_LCS_TP_CL = 'actv_'",
+      "use": "Exclude closed/settled accounts"
+    },
+    "external_products_only": {
+      "sql": "WHERE AC_PD.EXT_PD_F = 'Y'",
+      "use": "Exclude internal/system products"
+    },
+    "primary_owners_only": {
+      "sql": "WHERE AC_AR_X_IP.AC_AR_X_IP_TP_CL IN ('prow_', 'ownr_')",
+      "use": "Get primary and co-owners only"
+    },
+    "business_vs_private": {
+      "business": "WHERE CST.LGL_CMPNC_ST_TP_CL = ''",
+      "private": "WHERE CST.LGL_CMPNC_ST_TP_CL <> ''",
+      "use": "Segment by customer type"
+    }
+  },
+
+  "AGGREGATION_PATTERNS": {
+    "customer_balance_totals": {
+      "sql": "SELECT CST.DRVD_CST_IDENTN_NO,\n  SUM(AC_AR_BAL.RISK_AMT) AS TOTAL_RISK,\n  SUM(AC_AR_BAL.CR_EOD_BAL_AMT) AS TOTAL_DEPOSITS,\n  SUM(AC_AR_BAL.DB_EOD_BAL_AMT) AS TOTAL_DEBIT\nFROM EDWBLU01600_VP.CST\nLEFT JOIN EDWBLU01600_VP.AC_AR ON CST.IP_ID = AC_AR.PRIM_OWN_ID AND CST.SNPST_DT = AC_AR.SNPST_DT\nLEFT JOIN EDWBLU01600_VP.AC_AR_BAL ON AC_AR.AR_ID = AC_AR_BAL.AR_ID AND CST.SNPST_DT = AC_AR_BAL.SNPST_DT\nGROUP BY CST.DRVD_CST_IDENTN_NO",
+      "use": "Customer-level financial summary"
+    },
+    "calendar_days_in_overdraft": {
+      "description": "Count actual calendar days (including weekends/holidays) in overdraft",
+      "sql": "WITH DAILY_BAL AS (\n  SELECT \n    group_id, snapshot_dt, balance,\n    CASE \n      WHEN LEAD(snapshot_dt) OVER (PARTITION BY group_id ORDER BY snapshot_dt) IS NOT NULL \n      THEN LEAD(snapshot_dt) OVER (PARTITION BY group_id ORDER BY snapshot_dt) - snapshot_dt\n      ELSE end_date - snapshot_dt + 1\n    END AS DAYS_COVERED\n  FROM balances\n)\nSELECT group_id,\n  SUM(CASE WHEN balance < 0 THEN DAYS_COVERED ELSE 0 END) AS overdraft_calendar_days\nFROM DAILY_BAL\nGROUP BY group_id",
+      "notes": "Each snapshot balance is carried forward through non-banking days (weekends/holidays) until next snapshot"
+    }
+  },
+
+  "ADVANCED_PATTERNS": {
+    "qualify_deduplication": {
+      "description": "Get first/last occurrence per group using QUALIFY",
+      "sql": "SELECT AR_ID, CASH_FLOW_DATE\nFROM EDWBLU01600_VP.AC_AR_LOAN_CASH_FLOW\nQUALIFY ROW_NUMBER() OVER (PARTITION BY AR_ID ORDER BY CASH_FLOW_DATE ASC) = 1",
+      "notes": "QUALIFY is Teradata-specific and more efficient than subquery with ROW_NUMBER"
+    },
+    "multiple_ctes": {
+      "description": "Break complex query into readable steps",
+      "sql": "WITH first_cte AS (\n  SELECT AR_ID, CASH_FLOW_DATE\n  FROM EDWBLU01600_VP.AC_AR_LOAN_CASH_FLOW\n  WHERE SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWBLU01600_VP.DT)\n),\nsecond_cte AS (\n  SELECT DISTINCT AR_ID\n  FROM first_cte\n)\nSELECT r.AR_ID, r.CASH_FLOW_DATE\nFROM first_cte r\nLEFT JOIN second_cte e ON r.AR_ID = e.AR_ID",
+      "notes": "Use comma separation at same level, NEVER nest WITH clauses"
+    }
+  },
+
+  "COLUMN_NAME_VARIATIONS": {
+    "ip_id_variations": {
+      "CST": "IP_ID",
+      "AC_AR": "PRIM_OWN_ID (for customer)",
+      "RSPL_EMP": "IP_ID",
+      "RSPL_OU": "IP_ID",
+      "AC_AR_OD_INF_DLY": "PRIM_OWN_ID",
+      "notes": "IP_ID has different column names in different tables - check this reference"
+    },
+    "ar_id_variations": {
+      "AC_AR": "AR_ID",
+      "SPD_AR": "AR_ID",
+      "SPD_AR_X_IP": "SPD_AR_ID (maps to SPD_AR.AR_ID)",
+      "notes": "Bridge tables may rename FK columns"
+    }
+  }
+}

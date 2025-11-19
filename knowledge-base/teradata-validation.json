@@ -1,0 +1,135 @@
+{
+  "purpose": "Validation rules for Teradata SQL generation - check BEFORE and AFTER generating queries",
+
+  "CRITICAL_LIMITATIONS": {
+    "NO_RECURSIVE_CTE": {
+      "error": "6926",
+      "never_use": ["WITH RECURSIVE", "Nested WITH clauses", "CTEs that reference themselves"],
+      "use_instead": "WITH cte1 AS (...), cte2 AS (...) SELECT... (comma-separated at same level)"
+    },
+    "NO_WINDOW_FUNCTIONS_IN_SUBQUERIES": {
+      "error": "3706",
+      "never_use": "SELECT * FROM (SELECT ROW_NUMBER() OVER (...) AS rn FROM t) WHERE rn = 1",
+      "use_instead": "SELECT * FROM t QUALIFY ROW_NUMBER() OVER (...) = 1"
+    },
+    "LDB_ID_MUST_FILTER_FIRST": {
+      "critical": true,
+      "rule": "ALWAYS filter WHERE LDB_ID = 1600 BEFORE using QUALIFY for operational account data",
+      "why": "Prevents silent data loss when customers exist in multiple LDB_IDs (1 and 1600)",
+      "wrong": "WHERE c.SNPST_DT = max_date QUALIFY ROW_NUMBER() OVER (PARTITION BY c.IP_ID ORDER BY c.LDB_ID DESC) = 1",
+      "correct": "WHERE c.SNPST_DT = max_date AND c.LDB_ID = 1600 QUALIFY ROW_NUMBER() OVER (PARTITION BY c.IP_ID ORDER BY c.LDB_ID DESC) = 1"
+    }
+  },
+
+  "FORBIDDEN_PATTERNS": {
+    "window_functions_in_subquery": {
+      "error": "3706",
+      "detect": "ROW_NUMBER|RANK|DENSE_RANK inside subquery in WHERE/HAVING/FROM",
+      "fix": "Use QUALIFY clause instead"
+    },
+    "missing_column_alias": {
+      "error": "3706",
+      "rule": "ALL expressions in CTEs/subqueries MUST have AS alias",
+      "wrong": "WITH t AS (SELECT col1 + col2 FROM table)",
+      "correct": "WITH t AS (SELECT col1 + col2 AS total FROM table)"
+    },
+    "reserved_word_alias": {
+      "error": "3707",
+      "never_use": ["method", "type", "value", "date", "time", "year", "month", "day", "user", "group", "order", "table", "rank", "row", "current", "session", "position", "key", "index"],
+      "fix": "Append _nm, _val, _type or use different word"
+    },
+    "extract_non_standard": {
+      "error": "3707",
+      "never_use": "EXTRACT(DOW|QUARTER|WEEK FROM ...)",
+      "only_allowed": "EXTRACT(YEAR|MONTH|DAY|HOUR|MINUTE|SECOND FROM ...)"
+    },
+    "nested_aggregates": {
+      "error": "3568",
+      "never_use": "SUM(AVG(col)), MAX(COUNT(*)), etc.",
+      "fix": "Use multi-stage CTEs"
+    },
+    "distinct_in_window_function": {
+      "error": "3706",
+      "never_use": "COUNT(DISTINCT col) OVER (...)",
+      "fix": "Pre-aggregate with GROUP BY, then apply window function"
+    },
+    "limit_keyword": {
+      "error": "3706",
+      "never_use": "LIMIT n",
+      "use_instead": "TOP n in SELECT clause"
+    },
+    "union_order_by_names": {
+      "error": "3848",
+      "rule": "After UNION, ORDER BY must use position integers, not column names",
+      "wrong": "SELECT a, b FROM t1 UNION SELECT c, d FROM t2 ORDER BY a",
+      "correct": "SELECT a, b FROM t1 UNION SELECT c, d FROM t2 ORDER BY 1"
+    },
+    "missing_group_by": {
+      "error": "3504",
+      "rule": "ALL non-aggregated SELECT columns MUST be in GROUP BY",
+      "wrong": "SELECT cust_id, product, SUM(amt) FROM t GROUP BY cust_id",
+      "correct": "SELECT cust_id, product, SUM(amt) FROM t GROUP BY cust_id, product"
+    },
+    "single_pipe_concat": {
+      "error": "3707",
+      "never_use": "col1 | col2",
+      "use_instead": "col1 || col2 (double pipe for concatenation)"
+    }
+  },
+
+  "MANDATORY_PATTERNS": {
+    "snapshot_date_join": {
+      "rule": "ALL joins between temporal tables MUST include AND t1.SNPST_DT = t2.SNPST_DT",
+      "why": "Without this, you get cartesian product across all snapshots",
+      "example": "JOIN table2 t2 ON t1.some_id = t2.some_id AND t1.SNPST_DT = t2.SNPST_DT"
+    },
+    "current_snapshot_filter": {
+      "rule": "For current data, filter: WHERE t1.SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWBLU01600_VP.DT)",
+      "alternatives": {
+        "previous_day": "WHERE t1.SNPST_DT = (SELECT MAX(PREV_BNK_DT) FROM EDWBLU01600_VP.DT)",
+        "month_end": "WHERE t1.SNPST_DT = (SELECT MAX(PREV_BNK_MNTH_END_DT) FROM EDWBLU01600_VP.DT)"
+      }
+    }
+  },
+
+  "VALIDATION_CHECKLIST": {
+    "before_generation": [
+      "Verify all tables exist in schema files",
+      "Verify all columns exist in their tables",
+      "Check join columns exist in both tables",
+      "Plan temporal joins (SNPST_DT required?)"
+    ],
+    "after_generation": [
+      "No window functions in subqueries (use QUALIFY)",
+      "All expressions have AS aliases in CTEs",
+      "No reserved words as aliases",
+      "All temporal joins include SNPST_DT",
+      "All non-aggregated columns in GROUP BY",
+      "ORDER BY after UNION uses positions (1, 2, 3)",
+      "LDB_ID = 1600 filtered before QUALIFY for operational data"
+    ]
+  },
+
+  "COMMON_ERRORS": {
+    "3807": {
+      "meaning": "Table or column not found",
+      "fix": "Verify table/column names in schema files before using"
+    },
+    "3706": {
+      "meaning": "Syntax error - usually window functions in subquery or missing alias",
+      "fix": "Use QUALIFY or add AS aliases to all expressions"
+    },
+    "3504": {
+      "meaning": "Column not in GROUP BY",
+      "fix": "Add all non-aggregated SELECT columns to GROUP BY clause"
+    },
+    "6926": {
+      "meaning": "Recursive or nested WITH clause",
+      "fix": "Use flat comma-separated CTEs: WITH cte1 AS (...), cte2 AS (...)"
+    },
+    "3848": {
+      "meaning": "Invalid ORDER BY after UNION",
+      "fix": "Use position integers: ORDER BY 1, 2 instead of column names"
+    }
+  }
+}
