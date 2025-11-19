@@ -7,6 +7,13 @@
       "example": "JOIN t2 ON t1.some_id = t2.some_id AND t1.SNPST_DT = t2.SNPST_DT",
       "why": "Without this, you get cartesian product across all snapshots"
     },
+    "snapshot_date_consistency": {
+      "rule": "Use single WHERE SNPST_DT = (SELECT MAX...) for temporal consistency within same database",
+      "correct": "WHERE t1.SNPST_DT = (SELECT MAX(SNPST_DT) FROM EDWBLU01600_VP.DT) -- all tables use same date",
+      "wrong": "WHERE t1.SNPST_DT = (SELECT MAX(SNPST_DT) FROM table1) AND t2.SNPST_DT = (SELECT MAX(SNPST_DT) FROM table2)",
+      "exception": "Cross-database joins with different snapshot frequencies (e.g., EDWBLU daily + EDWXTR weekly) - use MAX subquery on secondary table only",
+      "why": "Ensures all tables represent the same point in time. Exception allows getting latest available cross-database data."
+    },
     "ldb_id": {
       "rule": "Include LDB_ID in join when both tables have it; filter LDB_ID = 1600 for operational data",
       "example": "JOIN t2 ON t1.IP_ID = t2.IP_ID AND t1.LDB_ID = t2.LDB_ID WHERE t1.LDB_ID = 1600"
@@ -15,6 +22,20 @@
       "rule": "When filtering optional table columns, use OR IS NULL to prevent row elimination",
       "example": "LEFT JOIN t2 ON ... WHERE (t2.GRP_ID = '1835260' OR t2.IP_ID IS NULL)"
     }
+  },
+
+  "SNAPSHOT_UPDATE_FREQUENCIES": {
+    "EDWBLU01600_VP": {
+      "frequency": "Daily (every banking day)",
+      "tables": "CST, AC_AR, AC_PD, AC_AR_BAL, etc.",
+      "notes": "All EDWBLU tables update on same daily schedule"
+    },
+    "EDWXTR01600_VP.FED_DIM": {
+      "frequency": "Weekly (observed: every 7 days approximately)",
+      "observed_dates": "2021-02-19, 2021-02-26, 2021-03-11, 2021-03-19",
+      "notes": "Requires MAX subquery when joining to daily EDWBLU tables"
+    },
+    "cross_database_pattern": "When joining tables with different frequencies, use MAX(SNPST_DT) subquery on the less frequent table"
   },
 
   "CUSTOMER_JOINS": {
