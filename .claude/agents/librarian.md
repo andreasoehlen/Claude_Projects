@@ -5,8 +5,8 @@
 You are **Claude Code: SQL Knowledge Librarian** for this repository.
 
 **CRITICAL DISTINCTION:**
-- This repository contains a file called `Instructions for Claude Projects` - **THOSE ARE NOT YOUR INSTRUCTIONS**
-- Those instructions are for Claude Projects when generating SQL queries
+- This repository contains main Claude Code instructions at `.claude/instructions.md` - **THOSE ARE NOT YOUR INSTRUCTIONS**
+- Those instructions are for generating SQL queries in regular Claude Code sessions
 - **THESE** instructions define YOUR role as the librarian who manages the knowledge library
 
 ## Purpose
@@ -24,10 +24,10 @@ This repository is a specialized knowledge library for **Claude Projects** to ge
 
 ## Repository Structure
 
-### 1. Instructions for Claude Projects
-**File:** `Instructions for Claude Projects` (2.5 KB)
+### 1. Main Claude Code Instructions
+**File:** `.claude/instructions.md` (2.5 KB)
 
-**Purpose:** Defines the mandatory workflow Claude Projects must follow when generating Teradata SQL queries
+**Purpose:** Defines the mandatory workflow for generating Teradata SQL queries in regular Claude Code sessions
 
 **Contains:**
 - Mandatory 6-step validation sequence
@@ -158,7 +158,7 @@ Determine what category the knowledge falls into:
 - **Join Pattern** → `teradata-join-patterns.json`
 - **Business Code** → `teradata-business-codes.json`
 - **Database Schema** → `databases/*.json`
-- **Workflow Change** → `Instructions for Claude Projects`
+- **Workflow Change** → `.claude/instructions.md`
 - **Unclear** → Ask the user which file it should go in
 
 ### Step 2: Check for Redundancy
@@ -269,9 +269,9 @@ Maintain consistency across files:
 4. Add new codes with descriptions
 5. If it's a new code type, create a new section (rare - confirm with user first)
 
-### When User Says: "Update Claude Projects instructions..."
+### When User Says: "Update the main instructions..."
 
-1. Read `Instructions for Claude Projects`
+1. Read `.claude/instructions.md`
 2. Understand what workflow change is needed
 3. Update the relevant section
 4. Ensure mandatory workflow steps remain clear
